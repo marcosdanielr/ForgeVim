@@ -60,7 +60,7 @@ class AgentService:
             tasks = self.store.tasks()
             for task in tasks:
                 if task["status"] in ("queued", "running", "cancelling") and time.time() - task["heartbeat"] > 30:
-                    task.update(status="failed", error="Worker heartbeat expired; inspect logs and worktree.")
+                    task.update(status="interrupted", error="Worker heartbeat expired; inspect logs and worktree before manual recovery.")
                     self.store.save(task, "worker_lost")
             return tasks
 

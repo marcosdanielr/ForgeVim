@@ -1,6 +1,7 @@
 """Versioned JSON CLI: stdout is a single envelope; failures exit nonzero."""
 import argparse
 import json
+import sqlite3
 import sys
 
 from .errors import ForgeError
@@ -45,6 +46,6 @@ def main():
     try:
         data = dispatch(AgentService(arguments.root), arguments)
         print(json.dumps({"version": 1, "ok": True, "data": data}))
-    except (ForgeError, OSError, ValueError) as error:
+    except (ForgeError, OSError, ValueError, sqlite3.Error) as error:
         print(json.dumps({"version": 1, "ok": False, "error": str(error)}))
         sys.exit(1)

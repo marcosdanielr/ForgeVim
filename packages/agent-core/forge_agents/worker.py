@@ -47,14 +47,17 @@ def run(root, task_id):
                     task["command"], cwd=task["worktree"], stdin=input_stream,
                     stdout=output, stderr=output, start_new_session=True,
                 )
+            last_heartbeat = 0.0
             while process.poll() is None:
                 if (directory / "cancel").exists():
                     terminate(process)
                     break
-                with store.locked():
-                    current = store.get(task_id)
-                    current.update(heartbeat=time.time())
-                    store.save(current)
+                if time.monotonic() - last_heartbeat >= 1:
+                    with store.locked():
+                        current = store.get(task_id)
+                        current.update(heartbeat=time.time())
+                        store.save(current)
+                    last_heartbeat = time.monotonic()
                 time.sleep(0.2)
         with store.locked():
             current = store.get(task_id)

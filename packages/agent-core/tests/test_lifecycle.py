@@ -161,6 +161,15 @@ class LifecycleTests(unittest.TestCase):
         with self.assertRaises(ForgeError):
             self.service.accept(task["id"], hashlib.sha256(b"").hexdigest())
 
+    def test_lost_worker_cannot_be_reviewed_as_finished(self):
+        task = self.ready()
+        current = self.service.store.get(task["id"])
+        current.update(status="running", heartbeat=time.time() - 60)
+        self.service.store.save(current)
+        self.assertEqual(self.service.tasks()[0]["status"], "interrupted")
+        with self.assertRaisesRegex(ForgeError, "finish before review"):
+            self.service.review(task["id"])
+
     def test_cli_envelope_and_error_exit(self):
         environment = dict(os.environ, PYTHONPATH=str(Path(__file__).resolve().parents[1]), PYTHONDONTWRITEBYTECODE="1")
         result = subprocess.run([sys.executable, "-m", "forge_agents", "--root", str(self.root), "list"],
