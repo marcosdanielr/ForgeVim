@@ -4,7 +4,7 @@
 
 Native Neovim configuration, VS Code-inspired shortcuts with leader alternatives,
 plugin/theme/language pickers, LSP completion, opt-in Copilot, Conform formatting,
-DAP profiles, file/project search and replace, concurrent Codex tasks, persistent
+DAP profiles, file/project search and replace, concurrent Codex/Claude/Gemini tasks with optional editor notifications, persistent
 logs/events, cancellation, and snapshot-bound whole-patch review.
 
 ## Next iterations

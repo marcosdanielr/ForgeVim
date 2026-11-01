@@ -39,8 +39,11 @@ the worktree and logs for recovery. Review is whole-patch in this release.
 
 This is not a sandbox: an agent process runs with the user's permissions subject
 to its provider's sandbox. Repository instructions and installed plugins are code.
-Only Codex is bundled as an agent provider initially; its sandbox is explicitly
-`workspace-write`. A trusted local command provider exists for integrations/tests.
+Codex, Claude Code, and Gemini are bundled CLI providers. Codex explicitly uses
+`workspace-write`; Claude uses `acceptEdits` and Gemini `auto_edit`, preserving
+non-edit permission checks. A trusted local command provider supports tests.
+Provider login uses the official CLI in a Neovim terminal. Notifications poll only
+while user-started or user-inspected tasks run; no permanent daemon is introduced.
 
 ## Mobile boundary
 
@@ -66,3 +69,6 @@ expose the local CLI over a network or infer mobile readiness from JSON support.
 - [blink.cmp](https://github.com/Saghen/blink.cmp): completion and LSP capabilities.
 
 Upstream dependencies retain their own licenses. No third-party source is vendored.
+
+Domain contracts: [business rules](business-rules.md), [requirements](requirements.md),
+and [provider connections](providers.md).
