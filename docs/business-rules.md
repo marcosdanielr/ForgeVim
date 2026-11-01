@@ -85,3 +85,17 @@ BR-GIT-03: accepted agent output remains uncommitted until the user reviews and
 stages it through their chosen Git interface.
 BR-GIT-04: the file tree is optional and opened on demand. Destructive file actions
 use the upstream confirmation flow. Owners: features.git and plugins.git.
+
+## Optional language rules
+
+BR-LANG-01: every profile is disabled by default for a new user. An installed
+executable alone never enables its LSP. Owner: languages.selection.
+BR-LANG-02: installing tools requires an explicit profile action. SDK/runtime
+installation is separate, visible, and never applied to every distribution user.
+BR-LANG-03: disabling preserves downloaded tools and project files. Restart
+refreshes active language/plugin state.
+BR-LANG-04: FlutterTools alone owns Dart LSP and DAP integration; never start a
+second dartls for the same profile. DevTools and widget guides stay opt-in.
+BR-LANG-05: personal SDK paths affect Forge and its children only. Never rewrite
+global shell profiles from language selection. Evidence: native profile smoke,
+plugin integration, machine setup record, and docs/languages.md.

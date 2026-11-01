@@ -21,6 +21,7 @@ e agentes concorrentes sob revisão humana. Status descreve entrega, não inten�
 | FR-12 | Fronteira versionada independente de transporte para futuro mobile. | CLI JSON implementada; app/gateway planejados |
 | FR-17 | Ações configuráveis para definição, referências, hover, assinatura, tipos e diagnósticos via LSP. | Implementado; registro e Pyright real |
 | FR-18 | Adicionar, substituir, inspecionar e restaurar atalhos por menu com persistência, conflitos e proteção de comandos nativos. | Implementado; smoke de atalhos |
+| FR-19 | Perfis desabilitados por padrão, com ativação/instalação/desativação/requisitos/caminhos guiados. Flutter/Dart inclui LSP, formato, DAP, dispositivos e hot reload. | Implementado; smoke e guia de linguagens |
 | FR-13 | Conversa contínua, prompts interativos de permissão, dependências e aceite por hunk. | Planejado; fora do aceite inicial |
 | FR-14 | Notificações opcionais/persistentes, sem polling no startup. | Implementado; smoke de notificações |
 | FR-15 | Selecionar Codex, Claude Code ou Gemini e abrir login oficial. | Adapters implementados; inferência real não testada |

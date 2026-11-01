@@ -34,8 +34,11 @@ function M.options()
       c = { "clang_format" },
       cpp = { "clang_format" },
     },
-    format_on_save = function()
-      if require("forge.core.config").options.format_on_save then
+    format_on_save = function(bufnr)
+      if
+        require("forge.core.config").options.format_on_save
+        and require("forge.languages.selection").filetype_enabled(vim.bo[bufnr].filetype)
+      then
         return { timeout_ms = 1000, lsp_format = "fallback" }
       end
     end,

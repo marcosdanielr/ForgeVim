@@ -13,6 +13,42 @@ end
 
 return {
   {
+    command = "ForgeFlutterCommands",
+    label = "Flutter command menu",
+    keys = { "<leader>Dm" },
+    run = feature("features.flutter", "command", "FlutterCommands"),
+  },
+  {
+    command = "ForgeFlutterRun",
+    label = "Flutter run / debug",
+    keys = { "<leader>Dr" },
+    run = feature("features.flutter", "command", "FlutterRun"),
+  },
+  {
+    command = "ForgeFlutterReload",
+    label = "Flutter hot reload",
+    keys = { "<leader>Dh" },
+    run = feature("features.flutter", "command", "FlutterReload"),
+  },
+  {
+    command = "ForgeFlutterRestart",
+    label = "Flutter hot restart",
+    keys = { "<leader>DR" },
+    run = feature("features.flutter", "command", "FlutterRestart"),
+  },
+  {
+    command = "ForgeFlutterDevices",
+    label = "Choose Flutter device",
+    keys = { "<leader>Dd" },
+    run = feature("features.flutter", "command", "FlutterDevices"),
+  },
+  {
+    command = "ForgeFlutterOutline",
+    label = "Flutter widget outline",
+    keys = { "<leader>Do" },
+    run = feature("features.flutter", "command", "FlutterOutlineToggle"),
+  },
+  {
     command = "ForgeLazygit",
     label = "Open lazygit terminal",
     keys = { "<leader>gL" },

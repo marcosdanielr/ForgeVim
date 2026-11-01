@@ -26,14 +26,19 @@ function M.setup()
     ts_ls = {},
     astro = {},
     html = {},
+    cssls = {},
+    clangd = {},
     phpactor = {},
-    dartls = { cmd = { "flutter", "analysis-server", "--lsp" } },
   }
   for name, options in pairs(servers) do
     options.capabilities = capabilities
     vim.lsp.config(name, options)
     local command = vim.lsp.config[name].cmd
-    if type(command) == "table" and vim.fn.executable(command[1]) == 1 then
+    if
+      require("forge.languages.selection").server_enabled(name)
+      and type(command) == "table"
+      and vim.fn.executable(command[1]) == 1
+    then
       vim.lsp.enable(name)
     end
   end

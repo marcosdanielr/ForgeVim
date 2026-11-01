@@ -75,3 +75,15 @@ Código, skills e instruções de contribuição permanecem em inglês.
 | BR-GIT-02 | Resultado do merge permanece editável. Escolher ours, theirs ou base afeta somente o conflito selecionado. |
 | BR-GIT-03 | Resultado aceito de agente fica sem commit até revisão e stage do usuário. |
 | BR-GIT-04 | Árvore é opcional e abre sob demanda. Ações destrutivas usam confirmação do plugin. |
+
+## Linguagens opcionais
+
+BR-LANG-01: todo perfil inicia desabilitado para novo usuário. Binário instalado
+sozinho não ativa servidor. Responsável: languages.selection.
+BR-LANG-02: ferramentas exigem ação explícita; SDK é separado e nunca instalado
+para todos os usuários da distribuição.
+BR-LANG-03: desativar preserva ferramentas e arquivos. Reinício atualiza estado.
+BR-LANG-04: FlutterTools é único responsável por Dart LSP/DAP; nunca duplicar
+dartls. DevTools e guias são opt-in.
+BR-LANG-05: caminhos pessoais afetam somente Forge e processos filhos; não
+reescreva perfil global do shell. Provas: smoke de perfis e registro da máquina.

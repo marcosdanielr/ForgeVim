@@ -13,6 +13,13 @@ local function exercise()
   local state = require("forge.core.state")
   state.write({ plugins = {}, theme = "habamax" })
   assert(state.read().theme == "habamax")
+  local selection = require("forge.languages.selection")
+  assert(not selection.enabled("python"), "Language profile enabled without opt-in")
+  selection.set("python", true)
+  assert(selection.server_enabled("pyright"))
+  assert(selection.filetype_enabled("python"))
+  selection.set("python", false)
+  assert(not selection.server_enabled("pyright"))
   local shortcuts = require("forge.features.shortcuts")
   local selected
   for _, action in ipairs(require("forge.core.actions")) do

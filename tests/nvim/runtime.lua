@@ -1,4 +1,6 @@
 local function exercise()
+  require("forge.languages.selection").set("python", true)
+  require("forge.languages.selection").set("lua", true)
   require("lazy").load({ plugins = { "nvim-lspconfig", "conform.nvim", "nvim-dap" } })
   vim.cmd.edit(vim.env.FORGE_RUNTIME_PROJECT .. "/fixture.py")
   assert(

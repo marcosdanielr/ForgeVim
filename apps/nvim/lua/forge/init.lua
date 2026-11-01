@@ -7,6 +7,7 @@ function M.setup(directory)
   M.directory = directory
   M.root = vim.fs.dirname(vim.fs.dirname(directory))
   require("forge.core.config").setup()
+  require("forge.core.environment").apply()
   require("forge.core.options").setup()
   require("forge.core.commands").setup()
   require("forge.core.keymaps").setup()

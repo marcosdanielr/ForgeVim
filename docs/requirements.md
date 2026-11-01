@@ -25,6 +25,7 @@ roadmap intent. Business constraints are in [business rules](https://github.com/
 | FR-16 | Offer on-demand file tree, stage/hunk/commit UI and three-way conflict resolution while preserving Git hooks and explicit user decisions. | Implemented plugin integration | Neogit/Diffview/nvim-tree smoke |
 | FR-17 | Configurable definition, references, hover, signature, type and diagnostic actions, backed by the active LSP. | Implemented | Action registry and real Pyright smoke |
 | FR-18 | Add, replace, inspect and reset shortcuts from a searchable menu, persisting changes without Lua edits. Protect native single-key/window commands and detect mapping conflicts. | Implemented | Native shortcut customization/reset smoke |
+| FR-19 | Default language profiles are disabled; guided enable/install/disable/requirements/SDK-path actions make language setup explicit. Flutter/Dart includes LSP, formatting, SDK DAP, devices and hot reload. | Implemented | Profile smoke and language guide |
 | FR-13 | Interactive agent follow-ups, approval prompts, dependencies, and hunk-level acceptance. | Planned | Not included in acceptance for initial release |
 
 ## Non-functional requirements

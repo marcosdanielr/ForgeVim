@@ -74,3 +74,8 @@ Upstream dependencies retain their own licenses. No third-party source is vendor
 
 Domain contracts: [business rules](business-rules.md), [requirements](requirements.md),
 and [provider connections](providers.md).
+
+Language profiles are explicit opt-in. An installed server alone never starts
+without an enabled profile and matching filetype. FlutterTools is the sole owner
+of Dart LSP/DAP. SDK prerequisites and per-editor PATH choices are documented in
+[language setup](languages.md), with a separate owner-machine preset.

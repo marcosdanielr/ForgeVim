@@ -72,7 +72,7 @@ legacy LSP setup, and absolute debugger paths are replaced with focused modules,
 native Neovim LSP APIs, and Mason executables.
 
 Main LSPs: lua_ls, gopls, rust_analyzer, pyright, ts_ls, astro, html, phpactor,
-and dartls (Flutter SDK). Conform includes the original language formatter
+and optional FlutterTools-managed dartls (Flutter SDK). Conform includes the original language formatter
 inventory. Web formatters use prettierd **or** prettier; Python keeps the isort
 then Black pipeline. Missing formatter tools remain visible in `:ConformInfo`.
 
@@ -80,7 +80,7 @@ DAP profiles cover Python/debugpy, Go/Delve, JS/TS/vscode-js-debug,
 PHP/Xdebug, and Rust/C/C++/codelldb. Compile native programs before selecting their
 binary. TypeScript may need project compilation and source maps or a custom
 runtime. PHP requires Xdebug configured to port 9003. Python respects VIRTUAL_ENV.
-Dart debug and C/C++ LSP are not configured in this release.
+Flutter/Dart uses FlutterTools for LSP and SDK DAP; C/C++ has an optional clangd profile.
 
 `:ForgeDebugLoadLaunch` explicitly loads a trusted `.vscode/launch.json`.
 Project launch files can execute programs; they are not automatically loaded.
@@ -195,3 +195,8 @@ Space c s for signature help, and `gl` for line diagnostics. `]d`/`[d` navigate
 diagnostics. Space f s searches document symbols. All are named actions in
 `:ForgeKeymaps`, so their normal-mode shortcuts can be replaced without Lua edits.
 These actions require an active server supporting the relevant LSP capability.
+
+Language profiles are off by default for new users. Use `:ForgeLanguages` to enable,
+install, disable, inspect SDK requirements, or add SDK bin paths. The complete
+[language setup guide](docs/languages.md) explains every profile and debugger.
+The owner machine preset is separate from distribution defaults.
