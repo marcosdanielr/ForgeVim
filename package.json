@@ -1,0 +1,28 @@
+{
+  "name": "forge-nvim",
+  "private": true,
+  "workspaces": [
+    "apps/web"
+  ],
+  "scripts": {
+    "dev": "npm run dev --workspace @forge/web",
+    "build": "npm run build --workspace @forge/web",
+    "check": "npm run check --workspace @forge/web",
+    "lint": "eslint apps/web",
+    "format": "prettier --write apps/web package.json eslint.config.mjs .prettierrc.mjs",
+    "format:check": "prettier --check apps/web package.json eslint.config.mjs .prettierrc.mjs"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.14.0",
+    "eslint-plugin-astro": "^1.5.0",
+    "eslint-plugin-simple-import-sort": "^12.1.1",
+    "prettier": "^3.6.2",
+    "prettier-plugin-astro": "^0.14.1",
+    "prettier-plugin-tailwindcss": "^0.7.1",
+    "typescript-eslint": "^8.46.0"
+  },
+  "overrides": {
+    "minimatch": "^11.0.1"
+  }
+}

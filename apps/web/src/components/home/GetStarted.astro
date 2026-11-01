@@ -1,0 +1,36 @@
+---
+import ButtonLink from '@/components/ui/ButtonLink.astro';
+import CodeBlock from '@/components/ui/CodeBlock.astro';
+import { pageLocale } from '@/lib/i18n';
+import { site } from '@/lib/site';
+const { t, path } = pageLocale(Astro.url.pathname);
+---
+
+<section class="get-started page-shell" id="install">
+  <div>
+    <p class="eyebrow">{t('install.eyebrow')}</p><h2>
+      {t('install.title')}<br />{t('install.subtitle')}
+    </h2><p>
+      {t('install.isolated')}<br />{t('install.requirements')}
+    </p><ButtonLink href={path('/docs/')} variant="text" icon="arrow"
+      >{t('install.guide')}</ButtonLink
+    >
+  </div>
+  <div>
+    <CodeBlock code={site.install} label={t('install.label')} /><p
+      class="mt-4 font-mono text-[11px] text-ink-muted"
+    >
+      {t('install.private')}
+    </p>
+  </div>
+</section>
+<section class="support-section page-shell">
+  <p>{t('support.independent')}<br /><strong>{t('support.intent')}</strong></p><div>
+    <span>{t('support.help')}</span><ButtonLink
+      href={site.coffee}
+      variant="secondary"
+      icon="coffee"
+      external>Buy Me a Coffee</ButtonLink
+    >
+  </div>
+</section>

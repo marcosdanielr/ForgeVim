@@ -1,0 +1,81 @@
+---
+import '@fontsource-variable/manrope';
+import '@fontsource/ibm-plex-mono/400.css';
+import '@fontsource/ibm-plex-mono/500.css';
+import '@/styles/global.css';
+
+import Footer from '@/components/layout/Footer.astro';
+import Header from '@/components/layout/Header.astro';
+import { pageLocale } from '@/lib/i18n';
+import { site } from '@/lib/site';
+interface Props {
+  title?: string;
+  description?: string;
+}
+const { locale } = pageLocale(Astro.url.pathname);
+const {
+  title = locale === 'pt'
+    ? 'Forge.nvim — Neovim, no seu ritmo.'
+    : 'Forge.nvim — Neovim, your rhythm.',
+  description = locale === 'pt'
+    ? 'Seu Neovim, com mais alcance. Debug, busca e agentes em paralelo, com cada alteração sob sua revisão.'
+    : site.description,
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang={locale === 'pt' ? 'pt-BR' : 'en'}>
+  <head>
+    <script is:inline>
+      (() => {
+        let language = null;
+        try {
+          language = localStorage.getItem('forge-locale');
+        } catch {
+          /* Browser language remains available. */
+        }
+        const isPortuguesePage =
+          location.pathname === '/pt' || location.pathname.startsWith('/pt/');
+        if (
+          !isPortuguesePage &&
+          (language === 'pt' || (!language && navigator.language.toLowerCase().startsWith('pt')))
+        ) {
+          location.replace('/pt' + location.pathname + location.search + location.hash);
+        }
+        let theme = 'system';
+        try {
+          theme = localStorage.getItem('forge-theme') || 'system';
+        } catch {
+          /* Storage may be disabled; follow the system theme. */
+        }
+        document.documentElement.dataset.theme =
+          theme === 'dark' ||
+          (theme !== 'light' && matchMedia('(prefers-color-scheme: dark)').matches)
+            ? 'dark'
+            : 'light';
+      })();
+    </script>
+    <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title><meta name="description" content={description} /><meta
+      name="theme-color"
+      content="#f4f4ee"
+    />
+    <link rel="icon" type="image/svg+xml" href="/brand/forge-mark.svg" /><link
+      rel="canonical"
+      href={new URL(Astro.url.pathname, Astro.site)}
+    />
+    <meta property="og:title" content={title} /><meta
+      property="og:description"
+      content={description}
+    /><meta property="og:type" content="website" />
+    <meta property="og:image" content={new URL('/brand/forge-social.svg', Astro.site)} />
+  </head>
+  <body>
+    <a href="#main" class="skip-link"
+      >{locale === 'pt' ? 'Pular para conteúdo' : 'Skip to content'}</a
+    ><Header /><slot /><Footer />
+    <script>
+      import '@/scripts/site';
+    </script>
+  </body>
+</html>

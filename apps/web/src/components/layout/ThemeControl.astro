@@ -1,0 +1,33 @@
+---
+import { pageLocale } from '@/lib/i18n';
+const { t } = pageLocale(Astro.url.pathname);
+---
+
+<details class="theme-control">
+  <summary aria-label={t('theme.choose')}>
+    <svg
+      width="17"
+      height="17"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.5"
+      aria-hidden="true"
+      ><circle cx="12" cy="12" r="4"></circle><path
+        d="M12 1v3m0 16v3M1 12h3m16 0h3M4.2 4.2l2.1 2.1m11.4 11.4 2.1 2.1m0-15.6-2.1 2.1M6.3 17.7l-2.1 2.1"
+      ></path></svg
+    >
+    <span data-theme-label>{t('theme.auto')}</span>
+  </summary>
+  <div class="theme-options" role="group" aria-label={t('theme.label')}>
+    <button type="button" data-theme-choice="system" aria-pressed="true"
+      >{t('theme.follow')} <span>{t('theme.system')}</span></button
+    >
+    <button type="button" data-theme-choice="light" aria-pressed="false"
+      >{t('theme.light')} <span>Light</span></button
+    >
+    <button type="button" data-theme-choice="dark" aria-pressed="false"
+      >{t('theme.dark')} <span>Dark</span></button
+    >
+  </div>
+</details>

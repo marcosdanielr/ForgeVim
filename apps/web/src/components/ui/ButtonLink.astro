@@ -1,0 +1,21 @@
+---
+import Icon, { type IconName } from '@/components/ui/Icon.astro';
+import { cn } from '@/utils/cn';
+interface Props {
+  href: string;
+  variant?: 'primary' | 'secondary' | 'text';
+  icon?: IconName;
+  class?: string;
+  external?: boolean;
+}
+const { href, variant = 'primary', icon, class: className, external = false } = Astro.props;
+---
+
+<a
+  href={href}
+  target={external ? '_blank' : undefined}
+  rel={external ? 'noopener noreferrer' : undefined}
+  class={cn('button', `button-${variant}`, className)}
+>
+  <slot />{icon && <Icon name={icon} />}
+</a>

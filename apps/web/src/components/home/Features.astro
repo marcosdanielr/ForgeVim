@@ -1,0 +1,63 @@
+---
+import Icon from '@/components/ui/Icon.astro';
+import { pageLocale } from '@/lib/i18n';
+const { t, path } = pageLocale(Astro.url.pathname);
+const features = [
+  {
+    number: '02',
+    title: t('features.debugTitle'),
+    body: t('features.debugBody'),
+    tag: t('features.debugTag'),
+    shortcut: 'F5',
+    href: '/docs/languages/',
+  },
+  {
+    number: '03',
+    title: t('features.searchTitle'),
+    body: t('features.searchBody'),
+    tag: t('features.searchTag'),
+    shortcut: 'Ctrl P',
+    href: '/docs/keymaps/',
+  },
+  {
+    number: '04',
+    title: t('features.customTitle'),
+    body: t('features.customBody'),
+    tag: t('features.customTag'),
+    shortcut: ':Forge',
+    href: '/docs/configuration/',
+  },
+];
+---
+
+<section class="features-section page-shell">
+  <div class="features-intro">
+    <p class="eyebrow">{t('features.eyebrow')}</p><h2>
+      {t('features.title')}<br />{t('features.subtitle')}
+    </h2>
+  </div>
+  {
+    features.map((feature) => (
+      <article class="feature-row">
+        <>
+          <span class="feature-number">{feature.number}</span>
+          <div>
+            <>
+              <p class="eyebrow">{feature.tag}</p>
+              <h3>{feature.title}</h3>
+            </>
+          </div>
+          <div class="feature-detail">
+            <>
+              <p>{feature.body}</p>
+              <a href={path(feature.href)}>
+                {t('features.docs')} <Icon name="arrow" class="size-4" />
+              </a>
+            </>
+          </div>
+          <kbd>{feature.shortcut}</kbd>
+        </>
+      </article>
+    ))
+  }
+</section>

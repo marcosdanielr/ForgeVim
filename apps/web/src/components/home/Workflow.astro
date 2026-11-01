@@ -1,0 +1,77 @@
+---
+import Icon from '@/components/ui/Icon.astro';
+import { pageLocale } from '@/lib/i18n';
+const { t, path } = pageLocale(Astro.url.pathname);
+const tasks = [
+  {
+    id: '01',
+    title: t('workflow.task1'),
+    branch: 'forge/search',
+    state: t('workflow.running'),
+    complete: false,
+  },
+  {
+    id: '02',
+    title: t('workflow.task2'),
+    branch: 'forge/tests',
+    state: t('workflow.ready'),
+    complete: true,
+  },
+  {
+    id: '03',
+    title: t('workflow.task3'),
+    branch: 'forge/format',
+    state: t('workflow.running'),
+    complete: false,
+  },
+];
+---
+
+<section class="workflow-section" id="workflow">
+  <div class="page-shell">
+    <div class="section-topline">
+      <span class="eyebrow">{t('workflow.eyebrow')}</span><span
+        class="font-mono text-xs text-white/45">{t('workflow.reference')}</span
+      >
+    </div>
+    <div class="workflow-heading">
+      <h2>{t('workflow.title')}<br /><span>{t('workflow.subtitle')}</span></h2><p>
+        {t('workflow.body')}
+      </p>
+    </div>
+    <div class="agent-lanes" aria-label={t('workflow.lanes')}>
+      {
+        tasks.map((task) => (
+          <div class="agent-lane">
+            <>
+              <span class="lane-number">{task.id}</span>
+              <div>
+                <>
+                  <h3>{task.title}</h3>
+                  <p>
+                    <Icon name="branch" class="size-3.5" />
+                    {task.branch}
+                  </p>
+                </>
+              </div>
+              <span class:list={['task-state', { complete: task.complete }]}>
+                <span class="status-dot" />
+                {task.state}
+              </span>
+            </>
+          </div>
+        ))
+      }
+    </div>
+    <div class="workflow-footnote">
+      <p>{t('workflow.example')}</p><div>
+        <span>{t('workflow.step1')}</span><span>{t('workflow.step2')}</span><span
+          >{t('workflow.step3')}</span
+        >
+      </div>
+    </div>
+    <a href={path('/docs/agents/')} class="workflow-link"
+      >{t('workflow.link')} <Icon name="arrow" /></a
+    >
+  </div>
+</section>

@@ -1,0 +1,61 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import type { DocPage } from '@/lib/docs';
+import { getDocs } from '@/lib/docs';
+import { pageLocale } from '@/lib/i18n';
+interface Props {
+  page: DocPage;
+}
+const { page } = Astro.props;
+const { locale, t, path } = pageLocale(Astro.url.pathname);
+const docs = getDocs(locale);
+const index = docs.findIndex((entry) => entry.slug === page.slug);
+const previous = docs[index - 1];
+const next = docs[index + 1];
+---
+
+<BaseLayout title={`${page.title} — Forge.nvim docs`} description={page.description}>
+  <main id="main" class="page-shell docs-grid">
+    <aside class="docs-sidebar" aria-label={t('docs.nav')}>
+      <p class="eyebrow">{t('docs.eyebrow')}</p><label class="sr-only" for="docs-search"
+        >{t('docs.searchLabel')}</label
+      ><input
+        id="docs-search"
+        type="search"
+        placeholder={t('docs.searchPlaceholder')}
+        class="docs-search"
+        data-doc-search
+      />
+      <nav class="docs-nav">
+        {
+          docs.map((entry) => (
+            <a
+              href={path(entry.slug ? `/docs/${entry.slug}/` : '/docs/')}
+              aria-current={entry.slug === page.slug ? 'page' : undefined}
+              data-doc-link
+            >
+              {entry.navigationTitle}
+            </a>
+          ))
+        }
+      </nav>
+      <p class="mt-4 text-xs text-ink-muted" aria-live="polite" data-doc-search-status></p>
+    </aside>
+    <article class="doc-article">
+      <p class="eyebrow">{t('docs.version')}</p><h1>{page.title}</h1><p class="doc-description">
+        {page.description}
+      </p><slot />
+      <nav class="doc-pagination" aria-label={t('docs.pagination')}>
+        <span
+          >{
+            previous && (
+              <a href={path(previous.slug ? `/docs/${previous.slug}/` : '/docs/')}>
+                ← {previous.title}
+              </a>
+            )
+          }</span
+        ><span>{next && <a href={path(`/docs/${next.slug}/`)}>{next.title} →</a>}</span>
+      </nav>
+    </article>
+  </main>
+</BaseLayout>

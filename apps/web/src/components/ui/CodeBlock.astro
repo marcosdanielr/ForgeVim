@@ -1,0 +1,26 @@
+---
+import Icon from '@/components/ui/Icon.astro';
+import { pageLocale } from '@/lib/i18n';
+interface Props {
+  code: string;
+  label?: string;
+}
+const { t } = pageLocale(Astro.url.pathname);
+const { code, label = 'Terminal' } = Astro.props;
+---
+
+<div class="code-block" data-copy-block>
+  <div
+    class="flex items-center justify-between border-b border-white/10 px-5 py-3 font-mono text-xs text-white/50"
+  >
+    <span>{label}</span><button
+      type="button"
+      class="copy-button"
+      data-copy={code}
+      aria-label={t('copy.label')}
+      ><Icon name="copy" /><span data-copy-label>{t('copy.action')}</span></button
+    >
+  </div>
+  <pre><code>{code}</code></pre>
+  <span class="sr-only" role="status" aria-live="polite" data-copy-status></span>
+</div>

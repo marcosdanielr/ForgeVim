@@ -1,0 +1,17 @@
+---
+import type { GetStaticPaths } from 'astro';
+
+import DocContent from '@/components/docs/DocContent.astro';
+import DocsLayout from '@/layouts/DocsLayout.astro';
+import { type DocPage, getDocs } from '@/lib/docs';
+export const getStaticPaths = (() =>
+  getDocs('en')
+    .filter((page) => page.slug !== '')
+    .map((page) => ({ params: { slug: page.slug }, props: { page } }))) satisfies GetStaticPaths;
+interface Props {
+  page: DocPage;
+}
+const { page } = Astro.props;
+---
+
+<DocsLayout page={page}><DocContent page={page} /></DocsLayout>

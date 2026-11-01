@@ -1,0 +1,22 @@
+---
+import { localeFromPath, localePath } from '@/lib/i18n';
+const locale = localeFromPath(Astro.url.pathname);
+---
+
+<nav class="language-control" aria-label={locale === 'pt' ? 'Idioma' : 'Language'}>
+  <a
+    href={localePath(Astro.url.pathname, 'en')}
+    lang="en"
+    hreflang="en"
+    aria-current={locale === 'en' ? 'true' : undefined}
+    data-locale-choice="en">EN</a
+  >
+  <span aria-hidden="true">/</span>
+  <a
+    href={localePath(Astro.url.pathname, 'pt')}
+    lang="pt-BR"
+    hreflang="pt-BR"
+    aria-current={locale === 'pt' ? 'true' : undefined}
+    data-locale-choice="pt">PT</a
+  >
+</nav>

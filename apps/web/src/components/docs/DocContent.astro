@@ -1,0 +1,33 @@
+---
+import DocSections from '@/components/docs/DocSections.astro';
+import type { DocPage } from '@/lib/docs';
+import { localeFromPath } from '@/lib/i18n';
+
+import BusinessRules from '../../../../../docs/business-rules.md';
+import Languages from '../../../../../docs/languages.md';
+import BusinessRulesPt from '../../../../../docs/pt/business-rules.md';
+import LanguagesPt from '../../../../../docs/pt/languages.md';
+import RequirementsPt from '../../../../../docs/pt/requirements.md';
+import Requirements from '../../../../../docs/requirements.md';
+interface Props {
+  page: DocPage;
+}
+const { page } = Astro.props;
+const locale = localeFromPath(Astro.url.pathname);
+const sources = {
+  'business-rules': locale === 'pt' ? BusinessRulesPt : BusinessRules,
+  languages: locale === 'pt' ? LanguagesPt : Languages,
+  requirements: locale === 'pt' ? RequirementsPt : Requirements,
+};
+const Source = page.source ? sources[page.source] : undefined;
+---
+
+{
+  Source ? (
+    <div class="markdown-content">
+      <Source />
+    </div>
+  ) : (
+    <DocSections sections={page.sections} />
+  )
+}

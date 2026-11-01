@@ -1,0 +1,41 @@
+---
+import EditorDemo from '@/components/home/EditorDemo.astro';
+import ButtonLink from '@/components/ui/ButtonLink.astro';
+import { pageLocale } from '@/lib/i18n';
+import { site } from '@/lib/site';
+const { t, path } = pageLocale(Astro.url.pathname);
+---
+
+<section class="hero page-shell">
+  <div class="hero-copy">
+    <p class="eyebrow"><span class="status-dot"></span> {t('hero.eyebrow')}</p>
+    <h1>Neovim.<br /><span>{t('hero.rhythm')}</span></h1>
+    <p class="hero-description">
+      {t('hero.body')}
+      <strong>{t('hero.review')}</strong>
+    </p>
+    <div class="flex flex-wrap items-center gap-3">
+      <ButtonLink href={path('/docs/')} icon="arrow">{t('hero.prepare')}</ButtonLink><ButtonLink
+        href={site.github}
+        variant="text"
+        icon="github"
+        external>{t('hero.source')}</ButtonLink
+      >
+    </div>
+    <p class="hero-note">{t('hero.note')}</p>
+  </div>
+  <div class="hero-product">
+    <div class="product-caption">
+      <span>{t('hero.caption')}</span><span>{t('hero.explore')}</span>
+    </div><EditorDemo /><p class="demo-disclaimer">
+      {t('hero.demo')}
+    </p>
+  </div>
+</section>
+<div class="compatibility-strip">
+  <div class="page-shell flex flex-wrap items-center justify-between gap-5">
+    <span>{t('hero.native')}</span><p>
+      hjkl <span>/</span> :commands <span>/</span> buffers <span>/</span> registers <span>/</span> motions
+    </p>
+  </div>
+</div>

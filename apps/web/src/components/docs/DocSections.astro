@@ -1,0 +1,50 @@
+---
+import CodeBlock from '@/components/ui/CodeBlock.astro';
+import type { DocSection } from '@/lib/docs';
+interface Props {
+  sections: readonly DocSection[];
+}
+const { sections } = Astro.props;
+---
+
+{
+  sections.map((section) => (
+    <section class="doc-section">
+      <h2>{section.title}</h2>
+      {section.paragraphs?.map((paragraph) => (
+        <p>{paragraph}</p>
+      ))}
+      {section.bullets && (
+        <ul>
+          {section.bullets.map((bullet) => (
+            <li>{bullet}</li>
+          ))}
+        </ul>
+      )}
+      {section.code && <CodeBlock code={section.code} />}
+      {section.table && (
+        <div class="doc-table-wrapper">
+          <table class="doc-table">
+            <thead>
+              <tr>
+                {section.table.headers.map((header) => (
+                  <th scope="col">{header}</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {section.table.rows.map((row) => (
+                <tr>
+                  {row.map((cell) => (
+                    <td>{cell}</td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+      {section.note && <aside class="doc-note">{section.note}</aside>}
+    </section>
+  ))
+}

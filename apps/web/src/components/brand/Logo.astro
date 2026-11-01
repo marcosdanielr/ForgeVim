@@ -1,0 +1,22 @@
+---
+import { cn } from '@/utils/cn';
+interface Props {
+  compact?: boolean;
+  class?: string;
+}
+const { compact = false, class: className } = Astro.props;
+---
+
+<span class={cn('inline-flex items-center gap-3', className)}>
+  <svg width="34" height="34" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+    <path d="M8 40V8h32v8H18v8h17v8H18v8H8Z" fill="currentColor"></path>
+    <path d="m29 40 11-11v11H29Z" fill="currentColor"></path>
+  </svg>
+  {
+    !compact && (
+      <span class="text-[1.25rem] font-extrabold tracking-[-0.06em]">
+        forge<span class="font-medium opacity-50">.nvim</span>
+      </span>
+    )
+  }
+</span>
