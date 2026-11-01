@@ -1,0 +1,12 @@
+#!/bin/sh
+# Launch Neovim directly; Python is reserved for agent orchestration.
+set -eu
+forge_directory=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
+forge_nvim=${FORGE_NVIM:-nvim}
+if ! command -v "$forge_nvim" >/dev/null 2>&1; then
+  echo "Neovim >= 0.11 is required. Install it or set FORGE_NVIM." >&2
+  exit 1
+fi
+export NVIM_APPNAME=forge.nvim
+export FORGE_ROOT="$forge_directory"
+exec "$forge_nvim" -u "$forge_directory/apps/nvim/init.lua" "$@"
