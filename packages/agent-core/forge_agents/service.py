@@ -8,7 +8,7 @@ import time
 import uuid
 from pathlib import Path
 
-from . import git, providers
+from . import git, policy, providers
 from .errors import ForgeError
 from .store import Store
 
@@ -20,8 +20,7 @@ class AgentService:
         self.store = Store(self.root / ".forge")
 
     def start(self, prompt, provider="codex", custom=None):
-        if not prompt.strip():
-            raise ForgeError("Task prompt cannot be empty.")
+        policy.require_prompt(prompt)
         arguments = providers.command(provider, custom)
         with self.store.locked():
             git.ensure_clean(self.root)
@@ -59,7 +58,7 @@ class AgentService:
         with self.store.locked():
             tasks = self.store.tasks()
             for task in tasks:
-                if task["status"] in ("queued", "running", "cancelling") and time.time() - task["heartbeat"] > 30:
+                if task["status"] in policy.ACTIVE_STATUSES and time.time() - task["heartbeat"] > policy.HEARTBEAT_TIMEOUT_SECONDS:
                     task.update(status="interrupted", error="Worker heartbeat expired; inspect logs and worktree before manual recovery.")
                     self.store.save(task, "worker_lost")
             return tasks
@@ -67,8 +66,7 @@ class AgentService:
     def review(self, task_id):
         with self.store.locked():
             task = self.store.get(task_id)
-            if task["status"] not in ("ready", "failed", "reviewing"):
-                raise ForgeError("Task must finish before review.")
+            policy.require_finished(task["status"])
             patch = git.snapshot(task)
             digest = hashlib.sha256(patch).hexdigest()
             (Path(task["directory"]) / "review.patch").write_bytes(patch)
@@ -79,8 +77,7 @@ class AgentService:
     def accept(self, task_id, digest):
         with self.store.locked():
             task = self.store.get(task_id)
-            if task["status"] != "reviewing" or not digest or digest != task["review_hash"]:
-                raise ForgeError("Review this task and pass its current snapshot hash before accepting.")
+            policy.require_review(task["status"], task["review_hash"], digest)
             patch = (Path(task["directory"]) / "review.patch").read_bytes()
             if hashlib.sha256(patch).hexdigest() != digest or hashlib.sha256(git.snapshot(task)).hexdigest() != digest:
                 raise ForgeError("Agent changes changed after review. Review again.")
@@ -95,16 +92,14 @@ class AgentService:
     def reject(self, task_id):
         with self.store.locked():
             task = self.store.get(task_id)
-            if task["status"] not in ("ready", "failed", "reviewing"):
-                raise ForgeError("Only a finished task can be rejected.")
+            policy.require_rejectable(task["status"])
             task.update(status="rejected")
             return self.store.save(task, "rejected")
 
     def cancel(self, task_id):
         with self.store.locked():
             task = self.store.get(task_id)
-            if task["status"] not in ("queued", "running", "cancelling"):
-                raise ForgeError("Task is not running.")
+            policy.require_cancellable(task["status"])
             (Path(task["directory"]) / "cancel").touch()
             task.update(status="cancelling")
             return self.store.save(task, "cancel_requested")
