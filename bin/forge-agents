@@ -1,0 +1,9 @@
+#!/usr/bin/env python3
+"""Run the agent core directly from a checkout; installation is optional."""
+import sys
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "packages/agent-core"))
+from forge_agents.cli import main
+
+main()
