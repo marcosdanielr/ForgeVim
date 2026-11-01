@@ -14,7 +14,7 @@ def parser():
     commands = result.add_subparsers(dest="action", required=True)
     start = commands.add_parser("start")
     start.add_argument("--prompt", required=True)
-    start.add_argument("--provider", choices=["codex", "command"], default="codex")
+    start.add_argument("--provider", choices=["codex", "claude", "gemini", "command"], default="codex")
     start.add_argument("--command-json", help="Trusted local executable argument array; prompt is stdin")
     commands.add_parser("list")
     for action in ("review", "reject", "cancel", "logs"):
