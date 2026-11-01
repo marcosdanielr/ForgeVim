@@ -12,7 +12,7 @@ transport and presentation do not redefine them.
 | BR-AG-02 | A task starts from committed HEAD only when the source is clean. It gets its own branch/worktree. | AgentService.start; git.ensure_clean | dirty-source and concurrent-task tests |
 | BR-AG-03 | Only ready, failed, or reviewing tasks can be reviewed. Failed output is partial output. Running, cancelling, queued, cancelled, interrupted, accepted, and rejected tasks cannot. | policy.require_finished | live-task and lost-worker tests |
 | BR-AG-04 | Acceptance requires the currently reviewed SHA-256 snapshot hash. It is a one-time whole-patch operation. | policy.require_review; AgentService.accept | wrong-hash, changed-patch, tampered-patch, duplicate-accept tests |
-| BR-AG-05 | The worktree patch and frozen bytes must still match the reviewed hash. Target HEAD must match the task base and target Git status must be clean. Git must accept the patch without conflicts. | AgentService.accept; git.apply | binary/new-file, dirty-target, changed-HEAD tests |
+| BR-AG-05 | The worktree patch and frozen bytes must still match the reviewed hash. Target HEAD must match the HEAD captured during review and target Git status must be clean. Git must accept the patch without conflicts. | AgentService.accept; git.apply | binary/new-file, dirty-target, changed-HEAD tests |
 | BR-AG-06 | Apply the reviewed changes without committing or pushing. Include new files, binary files, deletions, and agent commits relative to the original base. | git.snapshot; git.apply | committed/binary and untracked/deletion tests |
 | BR-AG-07 | Rejection is a completed-task decision and preserves branch, worktree, and logs. It does not undo source changes. | policy.require_rejectable; AgentService.reject | rejection preservation test |
 | BR-AG-08 | Cancellation requests go through a task-local marker. Only the worker owning the provider process group signals it. No recovered PID is killed. | policy.require_cancellable; worker.terminate | cancellation test |
@@ -25,8 +25,8 @@ rejected. queued/running -> cancelling -> cancelled. Expired active work becomes
 interrupted. A still-live worker may refresh its heartbeat and report its final
 state later; a stale heartbeat alone never proves provider termination.
 
-Accepting one task dirties the source checkout. After committing it, sibling tasks
-have an old base and must be rerun. Automatic rebase and partial/hunk application
+Accepting one task dirties the source checkout. After committing it, review sibling tasks again against the current target.
+Independent patches can apply unchanged; incompatible patches stay blocked. Automatic rebase and partial/hunk application
 are deliberately absent. Rejected output remains recoverable.
 
 Worktree isolation is not a security sandbox. The Codex adapter requests

@@ -104,6 +104,29 @@ class LifecycleTests(unittest.TestCase):
         with self.assertRaisesRegex(ForgeError, "HEAD changed"):
             self.service.accept(task["id"], review["hash"])
 
+    def test_independent_concurrent_results_can_be_integrated_in_sequence(self):
+        first = self.ready("from pathlib import Path; Path('first.txt').write_text('first')")
+        second = self.ready("from pathlib import Path; Path('second.txt').write_text('second')")
+        review = self.service.review(first["id"])
+        self.service.accept(first["id"], review["hash"])
+        git.run(self.root, "add", ".")
+        git.run(self.root, "commit", "-m", "feat: accept first result")
+        review = self.service.review(second["id"])
+        self.assertNotEqual(review["task"]["review_head"], second["base"])
+        self.service.accept(second["id"], review["hash"])
+        self.assertEqual((self.root / "first.txt").read_text(), "first")
+        self.assertEqual((self.root / "second.txt").read_text(), "second")
+
+    def test_conflicting_result_is_blocked_even_after_new_review(self):
+        task = self.ready()
+        (self.root / "sample.txt").write_text("user version\n")
+        git.run(self.root, "add", ".")
+        git.run(self.root, "commit", "-m", "feat: change target before review")
+        review = self.service.review(task["id"])
+        with self.assertRaises(ForgeError):
+            self.service.accept(task["id"], review["hash"])
+        self.assertEqual((self.root / "sample.txt").read_text(), "user version\n")
+
     def test_reject_preserves_worktree(self):
         task = self.ready()
         self.service.reject(task["id"])

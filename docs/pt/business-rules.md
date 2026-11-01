@@ -12,7 +12,7 @@ juntos; UI e transporte não redefinem decisões do domínio.
 | BR-AG-02 | Iniciar exige checkout limpo. Cada tarefa parte do HEAD commitado, em branch e worktree próprios. | AgentService.start; testes de origem suja e concorrência |
 | BR-AG-03 | Somente ready, failed e reviewing permitem revisão. Falhas podem conter resultado parcial. Tarefas ativas ou interrompidas não são consideradas concluídas. | policy.require_finished; regressões de tarefa ativa/worker perdido |
 | BR-AG-04 | Aceite exige o SHA-256 do snapshot atualmente revisado. Aplica o patch inteiro uma única vez. | policy.require_review; testes de hash incorreto e aceite duplicado |
-| BR-AG-05 | Worktree e bytes congelados precisam manter o hash. Destino limpo, HEAD igual à base e git apply --check sem conflito são obrigatórios. | AgentService.accept; testes de destino alterado, base alterada e patch adulterado |
+| BR-AG-05 | Worktree e bytes congelados precisam manter o hash. Destino limpo, HEAD igual ao capturado na revisão e git apply --check sem conflito são obrigatórios. | AgentService.accept; testes de destino alterado, base alterada e patch adulterado |
 | BR-AG-06 | Aplicar inclui arquivos novos, binários, exclusões e commits do agente relativos à base. Nunca faz commit ou push. | git.snapshot; git.apply; testes de binário/novo/exclusão |
 | BR-AG-07 | Rejeição é decisão sobre tarefa concluída. Preserva branch, worktree e logs; não desfaz alterações da origem. | policy.require_rejectable; teste de preservação |
 | BR-AG-08 | Cancelamento usa marcador local. Somente o worker dono sinaliza seu grupo de processos. Nunca mata PID recuperado sem verificar identidade. | worker.terminate; teste de cancelamento |
@@ -27,8 +27,8 @@ Cancelamento passa por cancelling e cancelled. Heartbeat expirado produz
 interrupted. Um worker ainda vivo pode atualizar seu heartbeat e informar seu
 resultado final posteriormente. Não revise trabalho interrompido como concluído.
 
-Aceitar suja o checkout. Após commitar um resultado, refaça tarefas cuja base ficou
-antiga. Rebase automático e aceite por hunk não existem nesta versão. Fechar o
+Aceitar suja o checkout. Após commitar um resultado, revise tarefas irmãs contra o destino atual.
+Patches independentes podem aplicar sem mudanças; patches incompatíveis continuam bloqueados. Rebase automático e aceite por hunk não existem nesta versão. Fechar o
 editor encerra notificações, mas não os workers.
 
 Worktrees isolam alterações, não permissões. Codex usa workspace-write; Claude

@@ -33,9 +33,11 @@ Each agent starts from the current committed HEAD in a separate branch/worktree.
 The source checkout must be clean, preventing silent omission of unsaved Git work.
 A completed task produces a frozen binary-capable patch including new files and
 agent commits relative to its original base. Review returns its SHA-256 hash.
-Accept requires that exact hash, an unchanged clean target at the original HEAD,
+Accept requires that exact hash, an unchanged clean target at the HEAD captured during review,
 and `git apply --check`. Changes are applied without committing. Rejection keeps
-the worktree and logs for recovery. Review is whole-patch in this release.
+the worktree and logs for recovery. Review is whole-patch in this release. Independent sibling patches can be reviewed
+and applied after another result is committed, provided Git validates the unchanged
+patch against the current target. Overlapping incompatible changes stay blocked.
 
 This is not a sandbox: an agent process runs with the user's permissions subject
 to its provider's sandbox. Repository instructions and installed plugins are code.

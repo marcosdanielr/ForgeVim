@@ -32,7 +32,7 @@ Each bundled provider uses its own CLI authentication and model settings. Forge 
 requests workspace-write sandbox and non-interactive approval behavior.
 
 Tasks contain id, prompt, provider, root, worktree, branch, base, directory,
-status, created_at, heartbeat, and optional review_hash, exit_code, finished_at,
+status, created_at, heartbeat, and optional review_hash, review_head, exit_code, finished_at,
 and error. Internal executable arguments are local-only metadata. Future remote
 transports must project a safe public task view and must not expose local paths,
 commands, prompts, or logs without explicit authorization.
@@ -46,3 +46,7 @@ patch encoding. `patch` is display text; application uses the frozen bytes.
 An event has sequence, task_id, kind, timestamp (Unix seconds), and data. Use the
 last sequence as the next cursor. Raw provider JSONL is retained in logs, not
 normalized into these lifecycle events. No network transport is implemented.
+
+`review_head` binds acceptance to the target HEAD observed during review. A new
+review may target a later clean commit without rebasing the agent worktree, but
+the unchanged patch must still pass Git conflict checks.

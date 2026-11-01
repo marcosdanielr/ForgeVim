@@ -101,9 +101,10 @@ confirmation, `r` rejects, and `q` closes without deciding. Acceptance applies t
 entire reviewed patch and never commits it. Rejection preserves worktree/logs.
 
 A SHA-256 hash binds acceptance to the reviewed snapshot. The core rejects stale
-patches, modified targets, changed HEADs, and Git conflicts. It includes new and
+patches, modified targets, target HEAD changes after review, and Git conflicts. It includes new and
 binary files and agent commits relative to the original base. After accepting
-and committing one task, tasks based on the old HEAD must be rerun. There is no
+and committing one task, review each sibling result against the current target.
+Independent patches can apply unchanged; conflicting patches remain blocked. There is no
 automatic rebase, interactive conversation, hunk acceptance, or task DAG yet.
 
 Use `:ForgeNotifications` (Space u n) to enable/disable completion notifications.

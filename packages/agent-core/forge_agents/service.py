@@ -70,7 +70,7 @@ class AgentService:
             patch = git.snapshot(task)
             digest = hashlib.sha256(patch).hexdigest()
             (Path(task["directory"]) / "review.patch").write_bytes(patch)
-            task.update(status="reviewing", review_hash=digest)
+            task.update(status="reviewing", review_hash=digest, review_head=git.head(self.root))
             self.store.save(task, "reviewed")
             return {"task": task, "hash": digest, "patch": patch.decode("utf-8", "replace")}
 
@@ -82,8 +82,8 @@ class AgentService:
             if hashlib.sha256(patch).hexdigest() != digest or hashlib.sha256(git.snapshot(task)).hexdigest() != digest:
                 raise ForgeError("Agent changes changed after review. Review again.")
             git.ensure_clean(self.root)
-            if git.head(self.root) != task["base"]:
-                raise ForgeError("Target HEAD changed. Re-run the task from the current checkout.")
+            if git.head(self.root) != task.get("review_head", task["base"]):
+                raise ForgeError("Target HEAD changed since review. Review the patch again.")
             if patch:
                 git.apply(self.root, patch)
             task.update(status="accepted")
