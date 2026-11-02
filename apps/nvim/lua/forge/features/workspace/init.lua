@@ -37,12 +37,15 @@ function M.open()
       desc = action.label,
     })
   end
-  vim.keymap.set("n", "<CR>", function()
+  local function activate()
     local command = vim.b[buffer].forge_workspace_rows[tostring(vim.api.nvim_win_get_cursor(0)[1])]
     if command then
       vim.cmd(command)
     end
-  end, { buffer = buffer, desc = "Open workspace action" })
+  end
+  for _, key in ipairs({ "<CR>", "<2-LeftMouse>" }) do
+    vim.keymap.set("n", key, activate, { buffer = buffer, desc = "Open workspace action" })
+  end
   vim.keymap.set("n", "R", refresh, { buffer = buffer, desc = "Refresh project status" })
   vim.api.nvim_win_set_cursor(window, { first_row or 1, 2 })
   local group = vim.api.nvim_create_augroup("ForgeWorkspaceBuffer" .. buffer, { clear = true })

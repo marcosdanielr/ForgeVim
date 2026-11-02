@@ -13,6 +13,11 @@ local function exercise()
   local original_number = vim.wo.number
   local workspace = require("forge.features.workspace").open()
   assert(vim.bo.filetype == "forge-workspace")
+  vim.api.nvim_win_set_cursor(0, { 2, 0 })
+  local mouse_action = vim.fn.maparg("<2-LeftMouse>", "n", false, true).callback
+  assert(type(mouse_action) == "function", "Workspace mouse action missing")
+  mouse_action()
+  assert(vim.bo.filetype == "forge-workspace", "Workspace heading triggered an action")
   assert(
     vim.wait(5000, function()
       local text = table.concat(vim.api.nvim_buf_get_lines(workspace, 0, -1, false), "\n")
