@@ -260,7 +260,7 @@ export const docsEn: readonly DocPage[] = [
         title: 'New terminals, pane toggles and replacement',
         paragraphs: [
           'Leader o t toggles the active terminal. Alt Enter or Leader o T creates another shell; Leader o s splits and Leader o o lists sessions. New, Split and List are also clickable in the terminal header. Ctrl Space/Ctrl @ is a legacy-terminal toggle outside insert mode; insert completion is preserved.',
-          'Leader p a toggles Agents, Leader p c toggles chat, Leader p l toggles logs, and Ctrl B toggles Explorer. These actions also work while a Forge terminal is focused. Hiding a terminal keeps its process running.',
+          'Leader p a toggles Agents, Leader p c toggles chat, Leader p l toggles logs, and Ctrl B toggles Explorer. Inside a CLI chat or terminal, press Esc twice before using Leader shortcuts. Spaces and text are sent to the CLI unchanged while typing. Modified window and terminal shortcuts remain available. Hiding a terminal keeps its process running.',
           'Replacement previews show Apply all. Review matches, then click it or press Leader f A. Opening preview never edits files. Git staging and commits remain explicit Neogit actions; conflict-side choices remain explicit Diffview actions.',
         ],
       },

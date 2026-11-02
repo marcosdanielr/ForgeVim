@@ -263,7 +263,7 @@ export const docsPt: readonly DocPage[] = [
         title: 'Novos terminais, painéis e substituição',
         paragraphs: [
           'Leader o t mostra ou oculta o terminal atual. Alt Enter ou Leader o T cria outro shell; Leader o s divide e Leader o o lista as sessões. New, Split e List também ficam clicáveis no cabeçalho. Ctrl Space/Ctrl @ alterna o terminal fora do modo de inserção; o autocomplete em inserção é preservado.',
-          'Leader p a alterna Agentes, Leader p c alterna chat, Leader p l alterna logs e Ctrl B alterna Explorer. Esses atalhos também funcionam com o foco dentro de um terminal do Forge. Ocultar mantém o processo rodando.',
+          'Leader p a alterna Agentes, Leader p c alterna chat, Leader p l alterna logs e Ctrl B alterna Explorer. Dentro do chat ou terminal, pressione Esc duas vezes antes de usar atalhos Leader. Durante a digitação, espaços e texto chegam intactos à CLI. Atalhos modificados de janela e terminal continuam disponíveis. Ocultar mantém o processo rodando.',
           'A prévia de substituição mostra Apply all. Revise os resultados e clique nessa ação ou pressione Leader f A. Abrir a prévia não altera arquivos. Stage e commit continuam como ações explícitas no Neogit; escolher um lado do conflito continua explícito no Diffview.',
         ],
       },
