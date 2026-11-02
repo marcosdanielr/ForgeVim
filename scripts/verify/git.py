@@ -5,7 +5,7 @@ import subprocess
 import tempfile
 from pathlib import Path
 
-root = Path(__file__).resolve().parent.parent
+root = Path(__file__).resolve().parents[2]
 with tempfile.TemporaryDirectory(prefix="forge-merge-") as temporary:
     project = Path(temporary)
     def git(*arguments, check=True):

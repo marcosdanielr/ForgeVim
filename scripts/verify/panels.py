@@ -8,7 +8,7 @@ import sys
 import tempfile
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parent.parent
+ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "packages/agent-core"))
 from forge_agents import git
 from forge_agents.service import AgentService

@@ -17,7 +17,7 @@ def main():
     arguments = parser.parse_args()
     if not 1 <= arguments.samples <= 30:
         parser.error("samples must be between 1 and 30")
-    root = Path(__file__).resolve().parent.parent
+    root = Path(__file__).resolve().parents[2]
     environment = dict(os.environ, FORGE_NVIM=arguments.nvim)
     command = [str(root / "bin/forge"), "--headless", "+qa"]
     subprocess.run(command, env=environment, cwd=root, check=True, capture_output=True, timeout=60)

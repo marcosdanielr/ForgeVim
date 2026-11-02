@@ -4,7 +4,7 @@ import os
 import subprocess
 from pathlib import Path
 
-root = Path(__file__).resolve().parent.parent
+root = Path(__file__).resolve().parents[2]
 environment = dict(os.environ, FORGE_PLUGIN_SMOKE=str(root / "tests/nvim/plugins.lua"))
 environment.pop("FORGE_OFFLINE", None)
 subprocess.run([str(root / "bin/forge"), "--headless", "-c",

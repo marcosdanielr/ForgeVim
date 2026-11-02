@@ -5,7 +5,6 @@ const reference = process.env.VERCEL_GIT_COMMIT_REF;
 const previous = process.env.VERCEL_GIT_PREVIOUS_SHA;
 const inputs = [
   'apps/web',
-  'docs/languages.md',
   'package.json',
   'pnpm-lock.yaml',
   'pnpm-workspace.yaml',
@@ -13,7 +12,7 @@ const inputs = [
   '.nvmrc',
   '.node-version',
   'vercel.json',
-  'scripts/ignore-web-build.mjs',
+  'scripts/deploy/ignore-build.mjs',
 ];
 
 function decide() {

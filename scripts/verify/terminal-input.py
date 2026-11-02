@@ -13,7 +13,7 @@ import termios
 import time
 from pathlib import Path
 
-root = Path(__file__).resolve().parent.parent
+root = Path(__file__).resolve().parents[2]
 parser = argparse.ArgumentParser()
 parser.add_argument("--nvim", default="nvim")
 arguments = parser.parse_args()

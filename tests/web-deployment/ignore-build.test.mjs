@@ -5,7 +5,7 @@ import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
 import { afterEach, beforeEach, test } from 'node:test';
 
-const script = resolve('scripts/ignore-web-build.mjs');
+const script = resolve('scripts/deploy/ignore-build.mjs');
 let directory;
 let initial;
 function git(...args) {
@@ -51,7 +51,7 @@ test('website changes build across multiple commits since the last deployment', 
   assert.equal(decision(), 1);
 });
 test('imported language docs and workspace inputs trigger builds', () => {
-  for (const path of ['docs/languages.md', 'pnpm-lock.yaml', 'vercel.json']) {
+  for (const path of ['apps/web/src/content/docs/en/languages.mdx', 'pnpm-lock.yaml', 'vercel.json']) {
     const previous = git('rev-parse', 'HEAD');
     commit(path);
     assert.equal(decision(previous), 1);
