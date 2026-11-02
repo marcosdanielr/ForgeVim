@@ -1,0 +1,87 @@
+{
+  "system": "Darwin",
+  "architecture": "arm64",
+  "mode": "headless_panels_and_real_child_ptys",
+  "logical_cpus": 8,
+  "results": [
+    {
+      "window_seconds": 6.22,
+      "cpu_percent_one_core": 0.0,
+      "cpu_seconds": 0.0,
+      "median_rss_mib": 18.94,
+      "sampled_peak_rss_mib": 21.45,
+      "median_footprint_mib": 13.45,
+      "sampled_peak_footprint_mib": 13.63,
+      "median_footprint_by_role_mib": {
+        "neovim": 13.45,
+        "forge_python": 0.0,
+        "fixture_providers": 0.0,
+        "shells_and_helpers": 0.0
+      },
+      "median_processes": 1.0,
+      "median_rss_by_role_mib": {
+        "neovim": 18.94,
+        "forge_python": 0.0,
+        "fixture_providers": 0.0,
+        "shells_and_helpers": 0.0
+      },
+      "scenario": "editor"
+    },
+    {
+      "window_seconds": 6.17,
+      "cpu_percent_one_core": 0.0,
+      "cpu_seconds": 0.0,
+      "median_rss_mib": 17.05,
+      "sampled_peak_rss_mib": 45.52,
+      "median_footprint_mib": 38.13,
+      "sampled_peak_footprint_mib": 38.16,
+      "median_footprint_by_role_mib": {
+        "neovim": 13.33,
+        "forge_python": 0,
+        "fixture_providers": 0,
+        "shells_and_helpers": 24.8
+      },
+      "median_processes": 5,
+      "median_rss_by_role_mib": {
+        "neovim": 8.92,
+        "forge_python": 0,
+        "fixture_providers": 0,
+        "shells_and_helpers": 8.12
+      },
+      "scenario": "terminals"
+    },
+    {
+      "window_seconds": 6.3,
+      "cpu_percent_one_core": 2.6,
+      "cpu_seconds": 0.164,
+      "median_rss_mib": 117.22,
+      "sampled_peak_rss_mib": 122.56,
+      "median_footprint_mib": 74.27,
+      "sampled_peak_footprint_mib": 74.49,
+      "median_footprint_by_role_mib": {
+        "neovim": 13.2,
+        "forge_python": 40.54,
+        "fixture_providers": 20.52,
+        "shells_and_helpers": 0.0
+      },
+      "median_processes": 9.0,
+      "median_rss_by_role_mib": {
+        "neovim": 14.2,
+        "forge_python": 69.68,
+        "fixture_providers": 33.28,
+        "shells_and_helpers": 0.0
+      },
+      "scenario": "agents"
+    }
+  ],
+  "limits": [
+    "CPU uses macOS process accounting converted with the Mach timebase, percent of one core including reaped child CPU.",
+    "RSS can double-count shared pages. Footprint is macOS charged process memory, not universal unique RAM; peaks are sampled.",
+    "Agents are four real local Python sleep fixtures, not authenticated model CLIs.",
+    "Terminal-app/UI rendering, language profiles, LSPs, debug adapters, and inference are excluded."
+  ],
+  "measured_on": "2026-11-02",
+  "neovim": "0.12.6",
+  "python": "3.13.18",
+  "workload": "idle after warmup; real PTYs, local sleeping provider fixtures, default language profiles disabled"
+}
