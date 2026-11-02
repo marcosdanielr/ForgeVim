@@ -31,3 +31,12 @@ external account connection or domain is configured.
 References: [Vercel Git configuration](https://vercel.com/docs/project-configuration/git-configuration),
 [ignored build command](https://vercel.com/docs/project-configuration/vercel-json#ignorecommand),
 and [Corepack](https://vercel.com/docs/builds/configure-a-build#corepack).
+
+## Recovering an output-directory failure
+
+If Astro completes but Vercel reports STATIC_BUILD_NO_OUT_DIR, verify the project
+root before changing Astro's output. This monorepo uses the repository root
+(the dashboard shows `.`; the API stores `rootDirectory: null`) and
+`apps/web/dist` as the output directory. The ignored-build script also runs from
+that root. Do not set the project root to `apps/web` with the root-level
+configuration. Redeploy after correcting project settings.

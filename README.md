@@ -279,13 +279,16 @@ message UI or an autonomous multi-agent plan/DAG.
 
 ## Search and replace
 
-Leader f r opens project search in a floating Telescope picker; Leader f R targets
-the current file. Type a query, use F2 to set replacement text, and inspect the
-before/after preview. Ctrl R replaces one occurrence; Ctrl A replaces all after
-confirmation. F3 toggles case matching, F4 whole words, F5 regex search, and F6
-file/project scope. Replacement text is literal; capture expansion is not provided.
-Unsaved buffers and changed search results are protected. Refine searches with
-more than 2000 matching lines before Replace all.
+Leader f r opens project search; Leader f R targets the current file. The floating
+dialog keeps **Find**, **Replace with**, search options, results, and actions visible.
+Use Tab to move between fields. Select an occurrence, then click **Replace one** or
+**Replace all**. Keyboard users can Tab to Actions, use Left/Right, and press Enter.
+Replace all asks for confirmation; Cancel is selected initially. Ctrl R and Ctrl A
+remain optional one/all shortcuts. F3 toggles case matching, F4 whole words, F5
+regex search, and F6 file/project scope. Replacement text is literal; capture
+expansion is not provided. Unsaved buffers and changed search results are protected.
+Refine searches with more than 2000 occurrences before Replace all. Esc leaves
+Insert mode; a further Esc closes the dialog.
 
 ## Performance checks
 
@@ -329,7 +332,7 @@ For a transport-independent fallback, use Leader o t. In terminal mode, Tab stil
 belongs to the shell. A real-PTY test verifies NUL and Alt Enter input plus multiple
 live shells and Agents hide/show.
 
-The Telescope replacement picker exposes one/all actions with a preview. Direct grug-far commands remain available as an advanced alternative.
+The replacement dialog exposes visible one/all buttons with a preview. Direct grug-far commands remain available as an advanced alternative.
 
 ForgeVim retains the `forge` command and the `forge.nvim` XDG profile name for compatibility. Existing personal plugins, logins, settings, installer metadata, and SSD checkout paths remain valid after the repository rename.
 

@@ -101,4 +101,17 @@ clocks. Shared event-driven status updates retain the active-task polling fallba
 
 ## Reader experience and replacement workflow
 
-The reader site uses Astro MDX collections and genuine Neovim UI captures. Screenshots show an example workspace and a local command-provider task, not authenticated model inference. Browser verification uses the internal browser. The editor checks cover separate theme identity and syntax colors, responsive dashboard wordmarks, individual byte-range replacement, repeated matches on one line, UTF-8, paths with spaces, stale results, unsaved buffers, and the installed Telescope picker. Copilot configuration is present but provider authentication and live completion are not verified by these checks.
+The reader site uses Astro MDX collections and genuine Neovim UI captures. Screenshots show an example workspace and a local command-provider task, not authenticated model inference. Browser verification uses the internal browser. The editor checks cover separate theme identity and syntax colors, responsive dashboard wordmarks, individual byte-range replacement, repeated matches on one line, UTF-8, paths with spaces, stale results, unsaved buffers, and the native replacement dialog. Copilot configuration is present but provider authentication and live completion are not verified by these checks.
+
+## Replacement focus regression and deployment recovery
+
+The original separate replacement popup triggered Telescope's BufLeave cleanup,
+closing the search picker during editing. The multi-field native dialog removes
+that lifecycle conflict. The TUI regression exercises real terminal keyboard and
+SGR mouse input: field switching, text entry, repeated individual replacements,
+all-action cancellation and confirmation, UTF-8, and resize preservation.
+Installed-plugin integration also covers repeated matches on one line.
+
+The Vercel project previously used apps/web as its root while the checked-in
+configuration expects the repository root. Project settings were aligned with
+vercel.json and the rebuilt production deployment reached Ready.

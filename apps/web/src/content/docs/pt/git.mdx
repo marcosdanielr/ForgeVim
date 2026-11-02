@@ -36,28 +36,36 @@ Edite o resultado diretamente quando precisar combinar os lados. Salve, revise e
 
 ## Buscar e substituir
 
-1. Abra `Leader f r` para buscar no projeto ou `Leader f R` para o arquivo atual.
-2. Digite o texto no campo do Telescope. Os resultados aparecem sem alterar arquivos.
-3. Pressione **F2** para informar a substituição. Enter confirma o campo; Esc cancela.
-4. Selecione um resultado com as setas ou Ctrl J/K. A prévia mostra antes e depois.
-5. **Ctrl R** substitui uma ocorrência. **Ctrl A** substitui todas, após confirmação.
+1. Pressione **Leader f r** para o projeto, ou **Leader f R** para o arquivo atual.
+2. Digite em **Find**. Os resultados aparecem sem alterar arquivos.
+3. Pressione **Tab** e digite o novo texto em **Replace with**. Os dois campos ficam visíveis.
+4. Selecione uma ocorrência com o mouse, ou use Tab para chegar aos resultados e navegue com as setas.
+5. Clique em **Replace one** para alterar aquela ocorrência. Clique em **Replace all** e confirme para alterar todos os resultados.
 
-| Tecla          | Opção                                  |
-| -------------- | -------------------------------------- |
-| F3             | Diferenciar maiúsculas/minúsculas (Aa) |
-| F4             | Palavra inteira                        |
-| F5             | Busca literal ou expressão regular     |
-| F6             | Arquivo atual ou projeto               |
-| Enter          | Abrir o arquivo do resultado           |
-| Esc duas vezes | Fechar a busca                         |
+Prefere teclado? Use Tab até **Actions**, selecione o botão com Esquerda/Direita e
+pressione Enter. **Cancel** começa selecionado na confirmação; Enter sozinho não
+substitui tudo.
 
-A substituição é texto literal: `$1` não expande grupos de captura. Campo vazio
-remove a ocorrência selecionada. Arquivos com edições não salvas e resultados
-que mudaram desde a busca são bloqueados. Se houver mais de 2000 linhas de
-resultado, refine a busca antes de substituir tudo.
+| Tecla                | Ação                                     |
+| -------------------- | ---------------------------------------- |
+| Tab / Shift Tab      | Alternar campos, resultados e botões     |
+| Ctrl R               | Substituir uma ocorrência                |
+| Ctrl A               | Pedir substituição de todas              |
+| F2                   | Focar Replace with                       |
+| F3                   | Alternar maiúsculas/minúsculas (Aa)      |
+| F4                   | Alternar palavra inteira                 |
+| F5                   | Alternar busca por regex                 |
+| F6                   | Alternar escopo arquivo/projeto          |
+| Enter nos resultados | Abrir o arquivo selecionado              |
+| Esc                  | Sair da digitação; novamente para fechar |
+
+As opções também aceitam clique. A substituição usa texto literal: `$1` não
+expande grupos. Deixe o novo texto vazio para remover a ocorrência. Arquivos com
+edições não salvas e resultados alterados após a busca são bloqueados. Com mais
+de 2000 ocorrências, refine a busca antes de substituir tudo.
 
 <ProductShot
   src="/screenshots/search.png"
-  alt="Janela real de busca e substituição com Telescope."
-  caption="Prévia real: resultados à esquerda, alteração selecionada à direita."
+  alt="Janela real do ForgeVim com Find, Replace with, resultados, prévia e botões."
+  caption="Os dois campos e as ações individuais e completas ficam sempre visíveis."
 />

@@ -36,28 +36,36 @@ Edit the result directly to combine both sides. Save, review, and stage only res
 
 ## Find and replace
 
-1. Open `Leader f r` for the project, or `Leader f R` for the current file.
-2. Type your query in Telescope. Results appear without changing files.
-3. Press **F2** to enter replacement text. Enter saves the field; Esc cancels.
-4. Select a result with the arrows or Ctrl J/K. The preview shows before and after.
-5. **Ctrl R** replaces one occurrence. **Ctrl A** replaces all, after confirmation.
+1. Press **Leader f r** for the project, or **Leader f R** for the current file.
+2. Type in **Find**. Results appear without changing files.
+3. Press **Tab** and type the new text in **Replace with**. Both fields stay visible.
+4. Select an occurrence in the results using the mouse, or Tab to results and use the arrows.
+5. Click **Replace one** to change that occurrence. Click **Replace all**, then confirm, to change every result.
 
-| Key       | Option                               |
-| --------- | ------------------------------------ |
-| F3        | Match case (Aa)                      |
-| F4        | Whole word                           |
-| F5        | Literal or regular-expression search |
-| F6        | Current file or project              |
-| Enter     | Open the result file                 |
-| Esc twice | Close search                         |
+Prefer the keyboard? Tab to **Actions**, select a button with Left/Right, and
+press Enter. **Cancel** is initially selected in the confirmation, so Enter alone
+does not replace everything.
 
-Replacement text is literal: `$1` does not expand capture groups. An empty
-replacement deletes the selected match. Files with unsaved edits and results
-that changed after searching are blocked. With more than 2000 matching lines,
-refine the query before replacing all.
+| Key              | Action                                    |
+| ---------------- | ----------------------------------------- |
+| Tab / Shift Tab  | Move between fields, results, and buttons |
+| Ctrl R           | Replace one occurrence                    |
+| Ctrl A           | Ask to replace all                        |
+| F2               | Focus Replace with                        |
+| F3               | Toggle match case (Aa)                    |
+| F4               | Toggle whole word                         |
+| F5               | Toggle regex search                       |
+| F6               | Toggle file/project scope                 |
+| Enter in results | Open the selected file                    |
+| Esc              | Leave typing; press again to close        |
+
+The options are also clickable. Replacement text is literal: `$1` does not
+expand capture groups. An empty replacement deletes the selected match. Files
+with unsaved edits and results that changed after searching are blocked. With
+more than 2000 occurrences, refine the query before replacing all.
 
 <ProductShot
   src="/screenshots/search.png"
-  alt="Actual Telescope search and replacement window."
-  caption="Actual preview: results on the left, selected change on the right."
+  alt="Actual ForgeVim replacement dialog with Find, Replace with, results, preview, and buttons."
+  caption="Both fields and the one/all actions remain visible while you work."
 />

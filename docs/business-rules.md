@@ -115,7 +115,7 @@ plugin integration, machine setup record, and docs/languages.md.
 - **BR-AG-16**: Hiding chat keeps its owned process live while the editor is open. CLI output and logs remain separate from control JSON; ending an editor session does not imply reattachment later.
 - **BR-ED-14**: Hiding a terminal panel preserves its jobs, buffers, scrollback, and split group. Only explicit job termination or the editor terminal lifecycle can stop it.
 - **BR-ED-15**: Explorer h/l collapses/opens; j/k remains native. Ctrl H/J/K/L stays configurable across normal and Forge terminal modes. Plain source-buffer motions and insert controls remain intact.
-- **BR-ED-16**: Search/replacement scope, match-case, whole-word, and regex are visible options. Opening preview never modifies files; replacement requires an explicit one/all action in the Telescope picker.
+- **BR-ED-16**: Search/replacement scope, match-case, whole-word, and regex are visible options. Opening preview never modifies files; replacement requires an explicit one/all action in the replacement dialog.
 - **BR-ED-17**: Existing modified buffers remain available while panels and buffers switch. Startup may add panels around explicit files but must not replace file contents or stdin.
 - **BR-ED-18**: Visible task status comes from persisted real tasks. The UI must not fabricate agent roles, progress, test results, model activity, or system metrics.
 
@@ -183,7 +183,7 @@ real Dart language-server test.
   are distinct from hide/show. Ctrl Space/Ctrl @ provides a legacy NUL fallback
   outside insert mode; insert completion remains unchanged. Terminal headers expose
   New/Split/List with real session counts. Shell jobs survive hiding and switching.
-- **BR-ED-28**: Search preview never changes files. Replace one applies exactly one occurrence, including repeated matches on one line. Replace all requires confirmation and complete search results. Unsaved buffers, changed source lines, and non-writable files block application. Regex applies to search; replacement text is literal.
+- **BR-ED-28**: Find, replacement, options, and actions remain visible in one dialog. Changing fields must preserve the search session. Mouse and keyboard share the same actions. Replace-all confirmation initially selects Cancel. Search preview never changes files. Replace one applies exactly one occurrence, including repeated matches on one line. Replace all requires confirmation and complete search results. Unsaved buffers, changed source lines, and non-writable files block application. Regex applies to search; replacement text is literal.
 
 Owners: `scripts/installer`, `install.sh`, `features/terminal`,
 `features/search/preview`, and the named action registry.
