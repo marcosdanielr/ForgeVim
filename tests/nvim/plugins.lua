@@ -203,7 +203,7 @@ local function exercise()
   )
   vim.fn.delete(fixture)
   local search_file = vim.fn.tempname() .. " space.txt"
-  vim.fn.writefile({ "needle needle" }, search_file)
+  vim.fn.writefile({ "needle needle", "other needle" }, search_file)
   local form = {
     root = vim.fs.dirname(search_file),
     file = search_file,
@@ -213,34 +213,41 @@ local function exercise()
     match_case = false,
     regex = false,
   }
-  local picker = require("forge.features.search.form").preview(form)
+  local dialog = require("forge.features.search.form").preview(form)
   assert(
     vim.wait(5000, function()
-      return form.ready and #form.rows == 1
+      return form.ready and #form.rows == 3
     end),
-    "Telescope replacement did not find results"
+    "Replacement dialog did not list each occurrence"
   )
   assert(vim.fn.readfile(search_file)[1] == "needle needle", "Opening search changed source")
+  local prompt = dialog.windows.search.buffer
+  local replacement = dialog.windows.replacement.buffer
+  dialog:focus("replacement")
+  vim.wait(100)
+  assert(
+    vim.api.nvim_get_current_buf() == replacement and vim.api.nvim_buf_is_valid(prompt),
+    "Changing fields closed search"
+  )
   require("forge.features.search.picker").apply(false)
+  assert(vim.wait(5000, function()
+    return form.ready and #form.rows == 2
+  end))
+  assert(vim.fn.readfile(search_file)[1] == "done needle", "Replace one changed wrong occurrence")
+  dialog:apply(true)
+  assert(dialog.confirming, "Replace all skipped confirmation")
+  dialog:activate(2)
+  assert(vim.fn.readfile(search_file)[1] == "done needle", "Cancel changed source")
+  dialog:apply(true)
+  dialog:activate(1)
+  assert(vim.wait(5000, function()
+    return form.ready and #form.rows == 0
+  end))
   assert(
-    vim.wait(5000, function()
-      return form.ready and vim.fn.readfile(search_file)[1] == "done needle"
-    end),
-    "Picker Replace one failed"
+    table.concat(vim.fn.readfile(search_file), "\n") == "done done\nother done",
+    "Replace all missed an occurrence"
   )
-  local confirm = vim.fn.confirm
-  vim.fn.confirm = function()
-    return 2
-  end
-  require("forge.features.search.picker").apply(true)
-  vim.fn.confirm = confirm
-  assert(
-    vim.wait(5000, function()
-      return vim.fn.readfile(search_file)[1] == "done done"
-    end),
-    "Picker Replace all failed"
-  )
-  require("telescope.actions").close(picker.prompt_bufnr)
+  dialog:close()
   vim.fn.delete(search_file)
   assert(#errors == 0, table.concat(errors, "\n"))
 end

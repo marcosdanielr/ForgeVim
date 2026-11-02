@@ -10,6 +10,7 @@ smoke:
 	$(PYTHON) scripts/verify/panels.py --nvim $(NVIM)
 	$(PYTHON) scripts/verify/keymaps.py --nvim $(NVIM)
 	$(PYTHON) scripts/verify/terminal-input.py --nvim $(NVIM)
+	$(PYTHON) scripts/verify/replace-input.py --nvim $(NVIM)
 format:
 	stylua apps/nvim tests scripts/installer/plugins.lua scripts/setup/language-tools.lua
 format-check:

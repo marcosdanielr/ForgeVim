@@ -38,7 +38,10 @@ function M.apply(records, replacement, all)
   local count = 0
   for _, file in pairs(files) do
     table.sort(file.records, function(left, right)
-      return left.lnum > right.lnum
+      if left.lnum ~= right.lnum then
+        return left.lnum > right.lnum
+      end
+      return left.matches[1].start > right.matches[1].start
     end)
     local changed = false
     for _, record in ipairs(file.records) do

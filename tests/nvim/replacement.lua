@@ -41,6 +41,24 @@ return function()
     vim.fn.readfile(first)[1] == "á done done" and vim.fn.readfile(second)[1] == "done",
     "Replace all missed matches"
   )
+  vim.fn.writefile({ "á needle needle" }, first)
+  vim.fn.writefile({ "NEEDLE" }, second)
+  local occurrences = {}
+  for _, record in ipairs(records()) do
+    for _, match in ipairs(record.matches) do
+      occurrences[#occurrences + 1] = {
+        filename = record.filename,
+        lnum = record.lnum,
+        text = record.text,
+        matches = { match },
+      }
+    end
+  end
+  assert(replace(occurrences, "different length", true) == 3)
+  assert(
+    vim.fn.readfile(first)[1] == "á different length different length",
+    "Per-occurrence Replace all used shifted byte offsets"
+  )
   vim.fn.writefile({ "needle original" }, first)
   local stale = records()
   vim.fn.writefile({ "changed externally and preserved" }, first)
