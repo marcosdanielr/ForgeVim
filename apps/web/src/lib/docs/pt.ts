@@ -16,6 +16,14 @@ export const docsPt: readonly DocPage[] = [
         ],
       },
       {
+        title: 'Instale uma vez, abra qualquer projeto',
+        paragraphs: [
+          'bash install.sh valida Neovim 0.11+, Git, ripgrep e Python 3.9+, instala os plugins selecionados e cria o comando forge. Sua configuração atual do Neovim e seus ajustes pessoais são preservados. Node.js, SDKs de linguagem e login de IA continuam opcionais.',
+          'Use bash install.sh --local para executar direto do checkout no SSD externo. A instalação gerenciada usa um runtime enxuto e não instala dependências da página web. forge --doctor verifica requisitos; forge --update atualiza a instalação gerenciada limpa; forge --uninstall remove o launcher e preserva seus dados.',
+          'Enquanto o repositório for privado, é necessário autenticar o acesso ao GitHub. Links curl anônimos do raw GitHub não funcionam. O instalador mostra como ajustar o PATH sem editar seu perfil do shell.',
+        ],
+      },
+      {
         title: 'Antes de começar',
         bullets: [
           'macOS ou Linux com Neovim 0.11 ou superior.',
@@ -27,9 +35,9 @@ export const docsPt: readonly DocPage[] = [
       },
       {
         title: 'Instalação isolada',
-        code: 'git clone https://github.com/marcosdanielr/forge.nvim.git\ncd forge.nvim\n./bin/forge',
+        code: 'gh repo clone marcosdanielr/forge.nvim\ncd forge.nvim\nbash install.sh\nforge .',
         paragraphs: [
-          'O launcher define NVIM_APPNAME=forge.nvim. Plugins, estado e configuração ficam separados do seu ~/.config/nvim. A primeira execução instala o gerenciador e os plugins; as próximas usam os arquivos locais.',
+          'O instalador prepara os plugins selecionados e cria ~/.local/bin/forge. Adicione ~/.local/bin ao PATH quando necessário. O launcher define NVIM_APPNAME=forge.nvim. Plugins, estado e configuração ficam separados do seu ~/.config/nvim. A primeira execução instala o gerenciador e os plugins; as próximas usam os arquivos locais.',
         ],
       },
       {
@@ -252,6 +260,14 @@ export const docsPt: readonly DocPage[] = [
         ],
       },
       {
+        title: 'Novos terminais, painéis e substituição',
+        paragraphs: [
+          'Leader o t mostra ou oculta o terminal atual. Alt Enter ou Leader o T cria outro shell; Leader o s divide e Leader o o lista as sessões. New, Split e List também ficam clicáveis no cabeçalho. Ctrl Space/Ctrl @ alterna o terminal fora do modo de inserção; o autocomplete em inserção é preservado.',
+          'Leader p a alterna Agentes, Leader p c alterna chat, Leader p l alterna logs e Ctrl B alterna Explorer. Esses atalhos também funcionam com o foco dentro de um terminal do Forge. Ocultar mantém o processo rodando.',
+          'A prévia de substituição mostra Apply all. Revise os resultados e clique nessa ação ou pressione Leader f A. Abrir a prévia não altera arquivos. Stage e commit continuam como ações explícitas no Neogit; escolher um lado do conflito continua explícito no Diffview.',
+        ],
+      },
+      {
         title: 'Atualizações reproduzíveis',
         paragraphs: [
           'O projeto inclui lazy-lock.json. Na primeira execução, o Forge copia esse lock para o estado local; atualizações feitas por :Lazy não alteram o checkout da distribuição.',
@@ -303,7 +319,7 @@ export const docsPt: readonly DocPage[] = [
         title: 'Buscar e substituir com opções visíveis',
         paragraphs: [
           'Ctrl Shift H ou Leader f r abre busca e substituição no projeto. Leader f R limita ao arquivo atual. Preencha Search e Replace, escolha File ou Project e ajuste Match case, Whole word e Regex.',
-          'Pressione p para pré-visualizar. Isso não altera arquivos. Revise os resultados e use as ações visíveis do grug-far; g? mostra ajuda. Com as teclas padrão, vírgula seguida de r aplica a substituição.',
+          'Pressione p para pré-visualizar. Isso não altera arquivos. Revise os resultados e use Apply all no cabeçalho ou Leader f A; g? mostra ajuda. Com as teclas padrão, vírgula seguida de r aplica a substituição.',
         ],
         code: ':ForgeReplace\n:ForgeBufferReplace',
       },

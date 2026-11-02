@@ -28,9 +28,9 @@ export const docsEn: readonly DocPage[] = [
       {
         title: 'An isolated installation',
         paragraphs: [
-          'The launcher sets NVIM_APPNAME=forge.nvim. Plugins, state, and personal settings are separate from ~/.config/nvim. First launch installs the plugin manager and enabled plugins. Following launches use local files.',
+          'The installer prepares selected plugins and creates ~/.local/bin/forge. Add ~/.local/bin to PATH when needed. The launcher sets NVIM_APPNAME=forge.nvim. Plugins, state, and personal settings are separate from ~/.config/nvim. First launch installs the plugin manager and enabled plugins. Following launches use local files.',
         ],
-        code: 'git clone https://github.com/marcosdanielr/forge.nvim.git\ncd forge.nvim\n./bin/forge',
+        code: 'gh repo clone marcosdanielr/forge.nvim\ncd forge.nvim\nbash install.sh\nforge .',
       },
       {
         title: 'Your first steps',
@@ -254,6 +254,14 @@ export const docsEn: readonly DocPage[] = [
           'Focus a split with Ctrl H/J/K/L. Ctrl Shift Left/Right changes its width; Ctrl Shift Up/Down changes its height. Leader w h/l/k/j provides the same actions; Leader w = balances windows. Mouse resizing remains available.',
           'Leader defaults to Space. :ForgeLeader or Settings saves a different key; restart applies it. Leader Leader opens commands. Tab/Shift Tab cycles buffers in normal mode, matching VIMarcos, while terminal Tab completion remains available.',
           'Find files with Leader f f, search project text with Leader f g, and search the current buffer with Leader f b. :ForgeKeymaps changes these keys. :ForgeDiagnosticDisplay selects inline, expanded current-line, or quiet error messages.',
+        ],
+      },
+      {
+        title: 'New terminals, pane toggles and replacement',
+        paragraphs: [
+          'Leader o t toggles the active terminal. Alt Enter or Leader o T creates another shell; Leader o s splits and Leader o o lists sessions. New, Split and List are also clickable in the terminal header. Ctrl Space/Ctrl @ is a legacy-terminal toggle outside insert mode; insert completion is preserved.',
+          'Leader p a toggles Agents, Leader p c toggles chat, Leader p l toggles logs, and Ctrl B toggles Explorer. These actions also work while a Forge terminal is focused. Hiding a terminal keeps its process running.',
+          'Replacement previews show Apply all. Review matches, then click it or press Leader f A. Opening preview never edits files. Git staging and commits remain explicit Neogit actions; conflict-side choices remain explicit Diffview actions.',
         ],
       },
       {
