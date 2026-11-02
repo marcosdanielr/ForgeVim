@@ -26,6 +26,12 @@ function M.choose(window)
   end
 end
 
+function M.hide(window)
+  if focus(window) then
+    require("forge.features.terminal").toggle()
+  end
+end
+
 function M.render(window, title, width)
   local hints = require("forge.features.workbench.hints")
   local function button(method, label)
@@ -43,10 +49,18 @@ function M.render(window, title, width)
     .. button("split", "Split")
     .. "  "
     .. button("choose", "List")
+    .. "  "
+    .. button("hide", width >= 65 and ("Hide " .. hints.get("terminal")) or "Hide")
   local key = hints.command("ForgeTerminalNew")
   local label = title .. "  " .. key .. " new"
   if width < 55 then
-    label = title
+    label = title:gsub("Terminal", "Term")
+    controls = " "
+      .. button("new", "+ New")
+      .. "  "
+      .. button("choose", "List")
+      .. "  "
+      .. button("hide", "Hide")
   end
   return "%#ForgeBorder#╭─%#ForgeAccent# "
     .. label:gsub("%%", "%%%%")
