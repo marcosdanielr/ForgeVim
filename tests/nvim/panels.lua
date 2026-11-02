@@ -25,6 +25,7 @@ local function exercise()
   vim.o.shell = "/bin/sh"
   local terminal = require("forge.features.terminal")
   local first = terminal.new(false)
+  assert(windows.get("terminal-list"), "Terminal list did not open beside the shell")
   jobs[#jobs + 1] = first.job
   vim.api.nvim_chan_send(first.job, "printf 'FORGE_TERMINAL_ONE\\n'\n")
   assert(vim.wait(5000, function()
@@ -37,6 +38,15 @@ local function exercise()
   local second = terminal.new(false)
   jobs[#jobs + 1] = second.job
   vim.cmd("stopinsert")
+  terminal.choose()
+  local tree = assert(windows.get("terminal-list"))
+  assert(vim.api.nvim_get_current_buf() == tree.buffer, "Terminal list did not take focus")
+  vim.api.nvim_win_set_cursor(tree.window, { 3, 0 })
+  vim.fn.maparg("<CR>", "n", false, true).callback()
+  assert(vim.api.nvim_get_current_buf() == first.buffer, "Terminal tree selected the wrong session")
+  vim.cmd("stopinsert")
+  terminal.cycle(1)
+  vim.cmd("stopinsert")
   terminal.cycle(-1)
   assert(vim.api.nvim_get_current_buf() == first.buffer, "Terminal switching lost its buffer")
   vim.cmd("stopinsert")
@@ -44,15 +54,20 @@ local function exercise()
   jobs[#jobs + 1] = split.job
   vim.cmd("stopinsert")
   assert(windows.get("terminal") and windows.get(split.slot), "Terminal split did not open")
+  assert(
+    vim.api.nvim_win_get_width(windows.get("terminal").window) >= 18
+      and vim.api.nvim_win_get_width(windows.get(split.slot).window) >= 18,
+    "Terminal list squeezed a shell to an unusable width"
+  )
   terminal.toggle()
   assert(
-    not windows.get("terminal") and not windows.get(split.slot),
+    not windows.get("terminal") and not windows.get(split.slot) and not windows.get("terminal-list"),
     "Terminal split group did not hide"
   )
   terminal.toggle()
   vim.cmd("stopinsert")
   assert(
-    windows.get("terminal") and windows.get(split.slot),
+    windows.get("terminal") and windows.get(split.slot) and windows.get("terminal-list"),
     "Terminal split group did not restore"
   )
   terminal.toggle()
