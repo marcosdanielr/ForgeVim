@@ -66,7 +66,7 @@ function M.conflicts()
           return vim.notify("No unresolved merge conflicts")
         end
         vim.cmd("DiffviewOpen -C" .. vim.fn.fnameescape(root))
-        vim.notify("Conflicts: ]x / [x navigate; Space co ours, ct theirs, cb base; :write saves")
+        vim.notify("Conflicts: ]x / [x navigate; Leader co ours, ct theirs, cb base; :write saves")
       end)
     end
   )

@@ -12,14 +12,14 @@ function M.apply(action, keys)
       end
     end
     for _, key in ipairs(keys) do
-      if mode == "t" then
+      if mode == "t" and not vim.tbl_contains(action.terminal_exclude or {}, key) then
         vim.keymap.set(
           mode,
           key,
           "<C-\\><C-n><cmd>" .. action.command .. "<cr>",
           { desc = action.label }
         )
-      else
+      elseif mode == "n" then
         vim.keymap.set(mode, key, function()
           require("forge.core.commands").execute(action)
         end, { desc = action.label })
@@ -33,8 +33,6 @@ function M.setup()
   for _, action in ipairs(require("forge.core.actions")) do
     M.apply(action, require("forge.features.shortcuts").keys(action))
   end
-  vim.keymap.set("n", "<leader><space>", "<cmd>Forge<cr>", { desc = "Command palette" })
-  vim.keymap.set("n", "<C-S-p>", "<cmd>Forge<cr>", { desc = "Command palette" })
   vim.keymap.set({ "n", "i", "v" }, "<C-s>", "<Esc><cmd>update<cr>", { desc = "Save file" })
   vim.keymap.set("n", "<M-Up>", "<cmd>move -2<cr>==", { desc = "Move line up" })
   vim.keymap.set("n", "<M-Down>", "<cmd>move +1<cr>==", { desc = "Move line down" })

@@ -33,7 +33,7 @@ An empty interactive launch opens a Tokyo Night workspace with the project tree,
 Git status, visible actions, and keyboard hints. Press `f` to find a file, `g` for
 source control, `v` to review changes, or `a` for agents. Press the displayed letter
 or move with `j`/`k` and press Enter. Existing files and piped input open normally.
-Return with `:ForgeWorkspace` (Space u w). Set `workspace = false` to disable the
+Return with `:ForgeWorkspace` (Leader u w). Set `workspace = false` to disable the
 welcome screen. Themes and saved user preferences remain customizable.
 
 Use Ctrl H/J/K/L in normal mode or Forge terminals to focus adjacent windows, including the file tree. Native h/j/k/l cursor movement and Ctrl W window commands remain intact.
@@ -43,26 +43,26 @@ Insert-mode editing preserves its native controls. Forge terminal window shortcu
 
 | Action | Shortcut | Terminal fallback |
 | --- | --- | --- |
-| Command palette | Ctrl Shift P | Space Space / `:Forge` |
-| Find files | Ctrl P | Space f f |
-| Search project | Ctrl Shift F | Space f g |
-| Search buffer | Ctrl F | Space f b |
-| Replace project text | Ctrl Shift H | Space f r |
-| Replace current file text | — | Space f R |
-| Rename symbol with LSP | F2 | Space c r |
-| Format | Alt Shift F | Space c f |
-| Commit graph | Space g h | `:ForgeGitHistory` |
-| Commit staged changes | Space g c | `:ForgeCommit` |
-| Review any changes | Space g d | `:ForgeDiff` |
+| Command palette | Ctrl Shift P | Leader Leader / `:Forge` |
+| Find files | Ctrl P | Leader f f |
+| Search project | Ctrl Shift F | Leader f g |
+| Search buffer | Ctrl F | Leader f b |
+| Replace project text | Ctrl Shift H | Leader f r |
+| Replace current file text | — | Leader f R |
+| Rename symbol with LSP | F2 | Leader c r |
+| Format | Alt Shift F | Leader c f |
+| Commit graph | Leader g h | `:ForgeGitHistory` |
+| Commit staged changes | Leader g c | `:ForgeCommit` |
+| Review any changes | Leader g d | `:ForgeDiff` |
 | Save | Ctrl S | `:write` |
-| Debug start/continue | F5 | Space d c |
-| Breakpoint | F9 | Space d b |
-| Step over/into/out | F10 / F11 / Shift F11 | Space d o / d i / d O |
-| Start agent | — | Space a n |
-| List/review agents | — | Space a a |
-| Themes / plugins / tools | — | Space u t / u p / u l |
+| Debug start/continue | F5 | Leader d c |
+| Breakpoint | F9 | Leader d b |
+| Step over/into/out | F10 / F11 / Shift F11 | Leader d o / d i / d O |
+| Start agent | — | Leader a n |
+| List/review agents | — | Leader a a |
+| Themes / plugins / tools | — | Leader u t / u p / u l |
 
-Leader is Space. Ctrl/Shift combinations depend on the terminal's keyboard
+Leader defaults to Space; change it through `:ForgeLeader` (restart required). Ctrl/Shift combinations depend on the terminal's keyboard
 protocol; use leader alternatives when keys collide. Ctrl W remains native window
 control. Ctrl S also works in insert/visual mode. Ctrl Space opens completion.
 
@@ -119,7 +119,7 @@ binary files and agent commits relative to the original base. After accepting
 and committing one task, review each sibling result against the current target.
 Independent patches can apply unchanged; conflicting patches remain blocked. There is no automatic rebase, hunk acceptance, or task DAG yet. Interactive conversations use the official CLI in a separate terminal worktree.
 
-Use `:ForgeNotifications` (Space u n) to enable/disable completion notifications.
+Use `:ForgeNotifications` (Leader u n) to enable/disable completion notifications.
 They run only while watched tasks are active and the editor is open.
 
 Worktrees isolate changes, not permissions. Codex runs with `workspace-write` and
@@ -143,7 +143,7 @@ return {
   format_on_save = true,
   copilot = false,
   notifications = true,
-  nerd_fonts = false,
+  nerd_fonts = true,
 }
 ```
 
@@ -190,13 +190,19 @@ brand assets and [validation](docs/validation.md) for observed checks.
 Support: [Buy Me a Coffee](https://buymeacoffee.com/marcosdanielr).
 Source: [GitHub](https://github.com/marcosdanielr/forge.nvim).
 
-Nerd Fonts are optional. Set `nerd_fonts = true` after configuring a Nerd Font in
-your terminal to enable file icons and richer which-key icons. Text-first defaults
-remain usable without installing a font.
+Nerd Font folder and language icons are enabled by default in Explorer and buffer
+tabs. Select a Nerd Font in your terminal (for example, MesloLGM Nerd Font Mono).
+The terminal owns its font; Forge cannot select it through Neovim. If you prefer
+plain text, use `:ForgeIcons` (Leader u i), or set `nerd_fonts = false` in user.lua,
+and restart. The preference also appears in Settings.
+
+A global bottom statusbar shows the current mode, cached Git branch, actual buffer
+errors and warnings, language icon/type, encoding, line endings, and cursor position.
+It stays visible when you focus the tree, chat, or terminal.
 
 ## Git and file tree
 
-`:ForgeTree` (Ctrl B / Space f e) opens nvim-tree. `:ForgeGit` (Space g g) opens
+`:ForgeTree` (Ctrl B / Leader f e) opens nvim-tree. `:ForgeGit` (Leader g g) opens
 Neogit for staging hunks and committing. `:ForgeDiff` reviews current changes;
 `:ForgeConflicts` opens a three-way Diffview merge only when conflicts exist.
 See [Git workflow](docs/git-workflow.md) for keys and explicit decision rules.
@@ -205,8 +211,8 @@ See [Git workflow](docs/git-workflow.md) for keys and explicit decision rules.
 
 Use `gd`/F12 for definition (including another file), `grr`/Shift F12 for references,
 `gi` for implementation, `gy` for type definition, `K` for hover documentation,
-Space c s for signature help, and `gl` for line diagnostics. `]d`/`[d` navigate
-diagnostics. Space f s searches document symbols. All are named actions in
+Leader c s for signature help, and `gl` for line diagnostics. `]d`/`[d` navigate
+diagnostics. Leader f s searches document symbols. All are named actions in
 `:ForgeKeymaps`, so their normal-mode shortcuts can be replaced without Lua edits.
 These actions require an active server supporting the relevant LSP capability.
 
@@ -224,7 +230,7 @@ skill directories are symlinks for discovery, not duplicate files.
 ## Panels, buffers, and terminals
 
 Use F1 for a beginner guide with your actual configured shortcuts. The top bar
-shows common actions. `:ForgeSettings` (Space u s) groups theme, keys, languages,
+shows common actions. `:ForgeSettings` (Leader u s) groups theme, keys, languages,
 plugins, provider login, notifications, and startup layout. The default wide
 layout shows a navigation rail, separate Explorer, editor buffer tabs, Agents,
 chat welcome, and an output dock. These empty panes start no shell or model.
@@ -233,15 +239,15 @@ available by shortcut. Mouse focus, split resizing, and panel double-clicks work
 
 | Action | Default keys |
 | --- | --- |
-| Toggle navigation / files | Space p n / Ctrl B; Space p e |
-| Toggle Agents | Space p a |
-| Toggle CLI chat / create conversation | Space p c / Space a C |
-| Toggle terminal / new terminal | Ctrl backtick / Ctrl Shift backtick; Space o t / Space o T |
-| Split terminal / choose terminal | Ctrl Shift 5 / Space o s; Space o o |
-| Next / previous buffer | Ctrl Tab / Ctrl Shift Tab; Space b n / Space b p |
-| Choose open buffer | Space b b |
-| Toggle review / debug / logs | Space p r / Space p d / Space p l |
-| Problems / restore panels | Ctrl Shift M / Space p p; Space p w |
+| Toggle navigation / files | Leader p n / Ctrl B; Leader p e |
+| Toggle Agents | Leader p a |
+| Toggle CLI chat / create conversation | Leader p c / Leader a C |
+| Toggle terminal / new terminal | Ctrl backtick / Ctrl Shift backtick; Leader o t / Leader o T |
+| Split terminal / choose terminal | Ctrl Shift 5 / Leader o s; Leader o o |
+| Next / previous buffer | Tab / Shift Tab; Ctrl Tab / Ctrl Shift Tab; Leader b n / Leader b p |
+| Choose open buffer | Leader b b |
+| Toggle review / debug / logs | Leader p r / Leader p d / Leader p l |
+| Problems / restore panels | Ctrl Shift M / Leader p p; Leader p w |
 
 Ctrl H/J/K/L works in normal mode and Forge-owned terminals. Insert-mode editing
 retains native controls. The explorer uses j/k, h to collapse, and l/Enter to open
@@ -267,7 +273,7 @@ message UI or an autonomous multi-agent plan/DAG.
 
 ## Search and replace
 
-Ctrl Shift H / Space f r opens a form for project replacement; Space f R targets
+Ctrl Shift H / Leader f r opens a form for project replacement; Leader f R targets
 the current file. Edit Search and Replace, select File/Project, and toggle Match
 case, Whole word, and Regex. Enter or double-click edits an option. Preview opens
 grug-far without changing files. Its header and g? explain application, history,
@@ -280,3 +286,23 @@ startup after dependencies are installed. It does not measure interactive panel
 rendering, typing latency, LSPs, debuggers, model inference, or compare Rust and
 Python. Panels and notifications share one event-driven status stream per project, with a five-second fallback while tasks run. Editor
 keystrokes do not trigger Python work. Interactive CLI PTY relay uses Python I/O.
+
+## Window sizing and diagnostic messages
+
+Focus a split with Ctrl H/J/K/L, then use Ctrl Shift Left/Right to decrease/increase
+its width or Ctrl Shift Up/Down to increase/decrease its height. Leader w h/l/k/j
+provides the same controls. Leader w = balances resizable windows. Mouse dragging
+and native Ctrl W commands remain available. Pane headers display their configured
+hide shortcut, including when the navigation rail is hidden.
+
+K (Shift K) shows LSP symbol information. gl or Leader c e opens actual line errors
+and warnings. ]d/[d moves between diagnostics. Inline messages are enabled by
+default; :ForgeDiagnosticDisplay selects inline, current-line expanded, or quiet
+presentation. This changes presentation only, not Dart analyzer policy or messages.
+
+Tab/Shift Tab cycles source buffers in normal mode, matching VIMarcos. Terminal
+Tab completion and insert-mode indentation remain available. Searches use Leader
+f f for files, Leader f g for project text, and Leader f b for the current buffer.
+Use :ForgeLeader or Settings to save a different Leader key, then restart Forge.
+The default is Space. `leader` and `localleader` can also be set in user.lua;
+localleader defaults to comma for plugin-local actions such as replacement.

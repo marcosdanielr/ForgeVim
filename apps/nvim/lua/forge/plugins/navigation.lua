@@ -2,7 +2,7 @@ return {
   {
     "nvim-tree/nvim-web-devicons",
     enabled = require("forge.core.config").options.nerd_fonts,
-    opts = {},
+    opts = { color_icons = true, default = true, strict = true },
   },
   {
     "nvim-telescope/telescope.nvim",
@@ -35,6 +35,7 @@ return {
         { "<leader>a", group = "Agents" },
         { "<leader>d", group = "Debug" },
         { "<leader>u", group = "Preferences" },
+        { "<leader>w", group = "Window size" },
         { "<leader>c", group = "Code" },
       },
     },

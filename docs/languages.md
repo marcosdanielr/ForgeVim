@@ -6,7 +6,7 @@ Flutter tooling loads only for Dart files or explicit Flutter commands.
 
 ## Guided setup
 
-1. Run `:ForgeLanguages` (Space u l).
+1. Run `:ForgeLanguages` (Leader u l).
 2. Choose a profile. The menu displays its current on/off state.
 3. Choose **Show requirements** to see available/missing SDK executables.
 4. Install the language SDK/runtime separately using its official instructions.
@@ -53,11 +53,11 @@ not also enable nvim-lspconfig's dartls, preventing duplicate analysis processes
 
 | Command | Default shortcut | Purpose |
 | --- | --- | --- |
-| :ForgeFlutterDevices | Space D d | Choose a connected device |
-| :ForgeFlutterRun | Space D r | Run/debug the project |
-| :ForgeFlutterReload | Space D h | Hot reload |
-| :ForgeFlutterRestart | Space D R | Hot restart |
-| :ForgeFlutterOutline | Space D o | Toggle widget outline |
+| :ForgeFlutterDevices | Leader D d | Choose a connected device |
+| :ForgeFlutterRun | Leader D r | Run/debug the project |
+| :ForgeFlutterReload | Leader D h | Hot reload |
+| :ForgeFlutterRestart | Leader D R | Hot restart |
+| :ForgeFlutterOutline | Leader D o | Toggle widget outline |
 | :FlutterQuit | Command palette via FlutterCommands | Stop the app |
 
 F9 toggles breakpoints; F5 uses the Flutter/Dart DAP configuration when available.
@@ -136,3 +136,22 @@ device target or application build.
 - [Rust](https://www.rust-lang.org/tools/install)
 - [Python](https://www.python.org/downloads/)
 - [PHP](https://www.php.net/manual/en/install.php)
+
+### Reading Dart errors
+
+K (Shift K) opens symbol/type information. It may show `InvalidType` for invalid
+Dart expressions; that is hover content rather than the diagnostic explanation.
+Use gl or Leader c e for complete analyzer errors on the line, ]d/[d to navigate,
+and Leader p p for the project diagnostic list. Inline messages are enabled by
+default. :ForgeDiagnosticDisplay changes presentation without changing analysis.
+
+Optional actual-server verification uses an installed Dart SDK without Flutter
+packages or model calls:
+
+```sh
+python3 scripts/dart-smoke.py --dart /path/to/dart-sdk/bin/dart
+```
+
+The fixture checks an undefined identifier and missing semicolon, then verifies
+both messages are present in the line popup. It tests Dart LSP diagnostics and
+Forge presentation; it does not claim verification of every Flutter runtime.

@@ -4,6 +4,7 @@ function M.open()
   local lines = {
     "FORGE / QUICK START",
     "",
+    "Leader defaults to Space. :ForgeLeader changes it after restart.",
     "Edit: i enters insert mode. Esc returns to normal. Ctrl S saves.",
     "Move: h left, j down, k up, l right. These stay native in files.",
     "Windows: Ctrl H/J/K/L or Ctrl W then h/j/k/l focuses a panel.",
@@ -14,6 +15,20 @@ function M.open()
     "",
   }
   local wanted = {
+    ForgeDiagnosticDisplay = true,
+    ForgeWindowNarrower = true,
+    ForgeWindowWider = true,
+    ForgeWindowTaller = true,
+    ForgeWindowShorter = true,
+    ForgeWindowEqualize = true,
+    ForgeLeader = true,
+    ForgePalette = true,
+    ForgeHover = true,
+    ForgeDiagnostics = true,
+    ForgeDiagnosticNext = true,
+    ForgeDiagnosticPrevious = true,
+    ForgeDefinition = true,
+    ForgeIcons = true,
     ForgeNavigation = true,
     ForgeTree = true,
     ForgeAgents = true,
@@ -41,7 +56,7 @@ function M.open()
     if wanted[action.command] then
       local keys = table
         .concat(require("forge.features.shortcuts").keys(action), " / ")
-        :gsub("<leader>", "Space ")
+        :gsub("<leader>", "Leader ")
       lines[#lines + 1] = action.label .. "  " .. keys .. "  :" .. action.command
     end
   end
@@ -55,7 +70,7 @@ function M.open()
     "GIT",
     "",
     "Source control: Tab expands, s stages, u unstages, c opens commit options.",
-    "Conflicts: ]x/[x selects; Space cm chooses Current / Incoming / Base.",
+    "Conflicts: ]x/[x selects; Leader cm chooses Current / Incoming / Base.",
     "Review the result and save before staging. Nothing commits automatically.",
     "",
     "CHAT",
@@ -63,7 +78,7 @@ function M.open()
     "Each CLI chat uses its own worktree and the provider's normal login.",
     "Exit the CLI to finish; Agents then offers Review changes.",
     "Hiding a terminal or chat keeps its process running while Forge stays open.",
-    "Terminal keys require modern terminal support; Space shortcuts always work.",
+    "Terminal keys require modern terminal support; Leader shortcuts always work.",
     "",
     "q hides this help.",
   })

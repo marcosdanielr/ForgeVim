@@ -12,6 +12,12 @@ function M.setup()
   local purple = tokyo and 0xbb9af7 or accent.fg or 0xbb9af7
   local foreground = normal.fg or 0xc0caf5
   local groups = {
+    ForgeModeNormal = { fg = background, bg = purple, bold = true },
+    ForgeModeInsert = { fg = background, bg = 0x9ece6a, bold = true },
+    ForgeModeVisual = { fg = background, bg = 0xe0af68, bold = true },
+    ForgeModeReplace = { fg = background, bg = 0xf7768e, bold = true },
+    ForgeError = { fg = 0xf7768e, bg = background },
+    ForgeWarning = { fg = 0xe0af68, bg = background },
     ForgePanel = { fg = foreground, bg = background },
     ForgeSurface = { fg = foreground, bg = background },
     ForgeBorder = { fg = 0x414868, bg = background },

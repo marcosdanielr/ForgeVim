@@ -80,3 +80,25 @@ because the underlying protocol could eventually support it.
 - **NFR-13 Presentation cost**: Project context and buffer lists are cached outside
   redraw functions. Tests verify source preservation, native pane geometry,
   mouse activation, visibility toggles, and Explorer reopening order.
+
+- **FR-31**: Explorer shows distinct open/closed folder glyphs and language file
+  icons; buffer tabs and the global bottom statusbar show language glyphs. A saved
+  Settings option disables Nerd Font glyphs without changing editing behavior.
+- **FR-32**: One global bottom bar remains visible across panel focus changes and
+  reports real mode, branch, errors/warnings, filetype, encoding, line endings, and
+  cursor position. Diagnostic changes update the displayed counts.
+
+- **FR-33**: Actual analyzer errors are visible inline by default. Users can open
+  complete line diagnostics with gl, navigate with ]d/[d, and choose inline,
+  expanded current-line, or quiet display in Settings.
+- **FR-34**: Each Forge pane header shows its current hide shortcut, even when the
+  navigation rail is hidden. Changing a named shortcut updates header hints.
+- **FR-35**: Ctrl Shift arrows resize the focused split. Leader w h/l decreases/
+  increases width, Leader w k/j increases/decreases height, and Leader w = invokes
+  native balancing. Terminal jobs and source buffers survive resizing.
+- **FR-36**: Leader is configurable through Settings or user.lua; Space remains the
+  default. Restart applies new and restored values without losing custom symbolic
+  mappings or unknown preferences. The command palette uses Leader Leader.
+- **FR-37**: Tab/Shift Tab restores VIMarcos normal-mode buffer cycling while
+  terminal completion and insert-mode indentation remain intact. Existing Ctrl
+  Tab and Leader b n/b p alternatives remain available.

@@ -82,6 +82,7 @@ function M.show(id, buffer, options)
     vim.api.nvim_win_set_buf(visible.window, buffer)
     visible.buffer = buffer
     visible.on_hide = options.on_hide
+    vim.w[visible.window].forge_panel_id = id
     vim.w[visible.window].forge_panel_title = options.title or id
     require("forge.features.workbench.frame").apply(visible.window)
     if options.focus ~= false then
@@ -116,6 +117,7 @@ function M.show(id, buffer, options)
   vim.wo[window].number = false
   vim.wo[window].relativenumber = false
   vim.wo[window].signcolumn = "no"
+  vim.w[window].forge_panel_id = id
   vim.w[window].forge_panel_title = options.title or id
   require("forge.features.workbench.frame").apply(window)
   vim.wo[window].winfixwidth = configuration.width ~= nil

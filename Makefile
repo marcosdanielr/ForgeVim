@@ -7,6 +7,7 @@ test:
 smoke:
 	$(PYTHON) scripts/smoke.py --nvim $(NVIM)
 	$(PYTHON) scripts/panels-smoke.py --nvim $(NVIM)
+	$(PYTHON) scripts/keymaps-smoke.py --nvim $(NVIM)
 format:
 	stylua apps/nvim tests
 format-check:

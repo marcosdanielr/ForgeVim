@@ -45,6 +45,7 @@ return {
   {
     "nvim-tree/nvim-tree.lua",
     cmd = { "NvimTreeToggle", "NvimTreeFocus" },
+    dependencies = { "nvim-tree/nvim-web-devicons" },
     opts = function()
       local icons = require("forge.core.config").options.nerd_fonts
       return {
@@ -56,7 +57,18 @@ return {
           indent_markers = { enable = true },
           icons = {
             show = { file = icons, folder = icons, folder_arrow = true, git = icons },
-            glyphs = { folder = { arrow_closed = "▸", arrow_open = "▾" } },
+            glyphs = {
+              folder = {
+                arrow_closed = "▸",
+                arrow_open = "▾",
+                default = "",
+                open = "",
+                empty = "",
+                empty_open = "",
+                symlink = "",
+                symlink_open = "",
+              },
+            },
           },
         },
         actions = { open_file = { quit_on_open = false } },

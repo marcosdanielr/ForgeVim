@@ -8,14 +8,14 @@ and integration tests improve reproducibility, not a blanket security guarantee.
 
 ## File tree
 
-`:ForgeTree` / Ctrl B / Space f e toggles the project tree. Enter opens a file;
+`:ForgeTree` / Ctrl B / Leader f e toggles the project tree. Enter opens a file;
 `a` creates, `r` renames, and `d` requests deletion using nvim-tree's confirmation.
 Press `g?` for its context help. An empty interactive launch opens the project tree beside the workspace. Ctrl B toggles it; Ctrl H/L focuses either side.
-Nerd Font file/folder icons are disabled unless explicitly enabled by the user.
+Nerd Font file/folder icons are enabled by default. Select a Nerd Font in the terminal, or disable icons with `:ForgeIcons` and restart.
 
 ## Stage and commit
 
-`:ForgeGit` / Space g g opens Neogit status. Expand a section/file with Tab.
+`:ForgeGit` / Leader g g opens Neogit status. Expand a section/file with Tab.
 Press `s` to stage a file or selected hunk, `u` to unstage, and `c` to open the
 commit popup; `c` again opens the commit editor. Write a short English Conventional
 Commit, save, and close the editor as directed by Neogit. `?` shows available keys.
@@ -27,9 +27,9 @@ until the user chooses stage and commit. Neogit uses the user's Git configuratio
 
 ## Resolve conflicts
 
-`:ForgeConflicts` / Space g m first checks whether unmerged files exist, then opens
+`:ForgeConflicts` / Leader g m first checks whether unmerged files exist, then opens
 Diffview's three-way merge layout. Navigate conflicts with `]x` and `[x`. At a
-conflict use Space c o for ours/current, Space c t for theirs/incoming, or Space c b
+conflict use Leader c o for ours/current, Leader c t for theirs/incoming, or Leader c b
 for the base. You can edit the result buffer directly instead of accepting a side.
 Save with `:write`, inspect the result, then stage only resolved files in Neogit.
 
@@ -39,7 +39,7 @@ any time. Consult `:h diffview-usage` and the plugin help for complete commands.
 
 ## Optional lazygit
 
-`:ForgeLazygit` / Space g L opens an installed lazygit CLI in a native terminal tab.
+`:ForgeLazygit` / Leader g L opens an installed lazygit CLI in a native terminal tab.
 Forge does not install or replace that CLI. Use Escape twice to leave terminal
 input mode; the underlying lazygit keyboard workflow remains unchanged.
 

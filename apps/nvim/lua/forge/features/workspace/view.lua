@@ -40,7 +40,7 @@ function M.render(buffer, root, snapshot)
   end
   line("Enter opens an action. F1 shows shortcuts.")
   line("Ctrl H/J/K/L  Move between panels")
-  line("Space Space   Find any command")
+  line("Leader Leader   Find any command")
   vim.bo[buffer].modifiable = true
   vim.api.nvim_buf_set_lines(buffer, 0, -1, false, lines)
   vim.bo[buffer].modifiable = false

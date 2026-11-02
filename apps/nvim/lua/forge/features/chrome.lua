@@ -1,9 +1,9 @@
 local M = {}
 
-function M.refresh()
+function M.refresh(force)
   local root = require("forge.core.project").root()
   local tab = vim.api.nvim_get_current_tabpage()
-  if vim.t.forge_chrome_root == root then
+  if not force and vim.t.forge_chrome_root == root then
     return
   end
   vim.t.forge_chrome_root = root
@@ -18,7 +18,7 @@ function M.refresh()
 end
 
 function M.statusline()
-  return require("forge.features.workbench.frame").bottom()
+  return require("forge.features.workbench.statusline").render()
 end
 
 function M.tabline()
@@ -40,10 +40,11 @@ function M.tabline()
     .. " active agents"
     .. "%=%#ForgeMuted#"
     .. pages
-    .. " F1 Help   ·   Space Space Commands  "
+    .. " F1 Help   ·   Leader Leader Commands  "
 end
 
 function M.setup()
+  require("forge.features.workbench.hints").setup()
   require("forge.features.workbench.palette").setup()
   vim.api.nvim_create_autocmd("ColorScheme", {
     group = vim.api.nvim_create_augroup("ForgeWorkbenchColors", { clear = true }),
@@ -53,8 +54,9 @@ function M.setup()
   })
   vim.opt.showtabline = 2
   vim.opt.tabline = "%!v:lua.require('forge.features.chrome').tabline()"
-  vim.opt.laststatus = 2
+  vim.opt.laststatus = 3
   vim.opt.statusline = "%!v:lua.require('forge.features.chrome').statusline()"
+  require("forge.features.workbench.statusline").setup()
   require("forge.features.workbench.frame").setup()
   vim.api.nvim_create_autocmd({ "BufEnter", "DirChanged", "TabEnter" }, {
     group = vim.api.nvim_create_augroup("ForgeWorkbenchContext", { clear = true }),
@@ -62,6 +64,17 @@ function M.setup()
       vim.schedule(M.refresh)
     end,
   })
+  local group = vim.api.nvim_create_augroup("ForgeBranchRefresh", { clear = true })
+  local function refresh_branch()
+    vim.schedule(function()
+      M.refresh(true)
+    end)
+  end
+  vim.api.nvim_create_autocmd("FocusGained", { group = group, callback = refresh_branch })
+  vim.api.nvim_create_autocmd(
+    "User",
+    { group = group, pattern = "NeogitStatusRefreshed", callback = refresh_branch }
+  )
   vim.schedule(M.refresh)
 end
 

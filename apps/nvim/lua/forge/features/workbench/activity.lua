@@ -1,4 +1,14 @@
 local M = {}
+local symbols = {
+  ["Agents"] = "",
+  ["Explorer"] = "",
+  ["Search"] = "",
+  ["Source control"] = "",
+  ["Debug"] = "",
+  ["Problems"] = "",
+  ["Terminal"] = "",
+  ["Settings"] = "",
+}
 local entries = {
   { "Agents", "ForgeAgents" },
   { "Explorer", "ForgeTree" },
@@ -15,7 +25,7 @@ local function shortcut(command)
     if action.command == command then
       local key = require("forge.features.shortcuts").keys(action)[1] or "Unbound"
       return key
-        :gsub("<leader>", "Space ")
+        :gsub("<leader>", "Leader ")
         :gsub("<C%-S%-([^>]+)>", "Ctrl Shift %1")
         :gsub("<C%-([^>]+)>", "Ctrl %1")
         :gsub("<([^>]+)>", "%1")
@@ -28,7 +38,9 @@ function M.render(buffer)
   local text = require("forge.features.panels.text")
   local lines, rows = { "", "  YOUR WORKSPACE", "" }, {}
   for _, entry in ipairs(entries) do
-    lines[#lines + 1] = "  " .. entry[1]
+    lines[#lines + 1] = "  "
+      .. require("forge.features.workbench.icons").symbol(symbols[entry[1]] .. " ")
+      .. entry[1]
     rows[tostring(#lines)] = entry[2]
     lines[#lines + 1] = "  " .. shortcut(entry[2])
     rows[tostring(#lines)] = entry[2]
@@ -72,7 +84,7 @@ function M.open(anchor)
   windows.show(
     "activity",
     buffer,
-    { title = "Workspace", position = "left", anchor = anchor, size = 22, focus = false }
+    { title = "Menu", position = "left", anchor = anchor, size = 22, focus = false }
   )
   if windows.get("agents") then
     M.reanchor(anchor)

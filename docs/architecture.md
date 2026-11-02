@@ -124,8 +124,22 @@ retain full Git validation.
 activity navigation, and actionable empty states. `features/layout` composes these
 with Explorer and the existing agent/terminal panels according to available screen
 space and saved startup preferences. Every pane is a native split; there is no
-second renderer or GUI runtime. Winbars and local statuslines provide framing.
+second renderer or GUI runtime. Winbars provide window headers; one global statusline stays at the bottom.
 User-selected themes remain authoritative; the default Tokyo Night palette adds
 contrasting editor and panel surfaces. The chat pane hosts the official CLI after
 an explicit conversation action; its welcome state does not imply a custom
 orchestrator or model connection. No plan or progress is invented for presentation.
+
+`workbench/icons` adapts the pinned nvim-web-devicons provider with a plain-text
+fallback. `workbench/statusline` caches file icon metadata and diagnostic counts
+from editor events. Its renderer reads native state and cached branch data only;
+no process, provider query, or settings-file read runs during redraw.
+
+`features/diagnostics` owns diagnostic presentation and the line-message popup;
+FlutterTools remains the Dart LSP owner. `features/panels/resize` adapts native
+resize commands. `workbench/hints` rebuilds displayed shortcuts on preference
+changes and keeps redraw free of settings reads. `features/leader` validates and
+saves one printable key. Startup resolves that preference before registering any
+mapping or loading plugins; live sessions keep their current Leader until restart.
+Buffer Tab aliases explicitly exclude terminal mode. No new backend process is
+introduced for these controls.

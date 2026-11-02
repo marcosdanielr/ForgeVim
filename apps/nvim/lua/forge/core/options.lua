@@ -1,8 +1,8 @@
 local M = {}
 
 function M.setup()
-  vim.g.mapleader = " "
-  vim.g.maplocalleader = ","
+  vim.g.mapleader = require("forge.core.config").options.leader
+  vim.g.maplocalleader = require("forge.core.config").options.localleader
   local options = {
     number = true,
     relativenumber = true,
@@ -27,11 +27,7 @@ function M.setup()
   for name, value in pairs(options) do
     vim.opt[name] = value
   end
-  vim.diagnostic.config({
-    severity_sort = true,
-    virtual_text = false,
-    float = { border = "single" },
-  })
+  require("forge.features.diagnostics").setup()
 end
 
 return M

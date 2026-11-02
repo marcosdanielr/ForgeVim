@@ -72,7 +72,7 @@ persist as data. Add/replace/reset workflows must detect existing mappings and
 preserve native single-key motions and Ctrl W. Owner: features.shortcuts and
 core.keymaps. Evidence: native editor smoke customization/reset checks.
 
-BR-ED-10: Nerd Fonts are opt-in. Missing patched fonts must not prevent basic
+BR-ED-10: Nerd Font icons default to enabled. Users can persist a plain-text fallback through Settings or user.lua. Missing patched fonts must not prevent basic
 editing or navigation. Owner: core.config and plugin appearance options.
 
 ## Git workflow rules
@@ -136,3 +136,31 @@ plugin integration, machine setup record, and docs/languages.md.
 
 Owners: `features/workbench`, `features/chrome`, `features/layout`,
 `features/panels/windows`. Verification: native workbench and plugin integration tests.
+
+- **BR-ED-22**: The bottom statusbar is global across native splits. It displays
+  actual mode, cached Git branch, buffer diagnostics, filetype, encoding, line
+  endings, and cursor position. Rendering starts no process and reads no settings
+  file. Language glyphs use the existing pinned nvim-web-devicons dependency.
+  Disabling Nerd Fonts preserves textual status and navigation after restart.
+
+## Diagnostics and keyboard controls
+
+- **BR-ED-23**: Diagnostics default to inline messages with signs and underlines.
+  Users may select expanded current-line messages or quiet presentation. K remains
+  LSP hover; gl opens actual line diagnostics. Presentation does not rewrite,
+  suppress, or fabricate Dart analyzer findings.
+- **BR-ED-24**: Pane headers display their configured hide key from a cache. Header
+  redraw never reads preferences. Resizing targets the focused native split and
+  preserves source buffers, terminal jobs, window navigation, and mouse resizing.
+- **BR-ED-25**: Shortcut notation uses Leader. Its default is Space; persisted
+  Leader preferences override user.lua. A change takes effect only after restart,
+  so existing session mappings remain intact. Custom action keys stay symbolic
+  (`<leader>...`), and saving preserves all other preference fields. Restoring Space
+  follows the same path. Localleader defaults to comma and remains configurable.
+- **BR-ED-26**: Tab and Shift Tab cycle buffers only in normal mode. Forge must not
+  intercept terminal Tab completion or insert-mode indentation for these aliases.
+
+Owners: `features/diagnostics`, `features/leader`, `features/panels/resize`,
+`features/workbench/hints`, and the named action registry. Verification includes
+native split/diagnostic tests, fresh-process Leader transitions, and the optional
+real Dart language-server test.

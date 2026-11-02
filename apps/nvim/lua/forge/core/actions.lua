@@ -13,6 +13,65 @@ end
 
 return {
   {
+    command = "ForgeLeader",
+    label = "Configure Leader key",
+    keys = { "<leader>uK" },
+    run = feature("features.leader", "choose"),
+  },
+  {
+    command = "ForgePalette",
+    label = "Command palette",
+    keys = { "<leader><leader>", "<C-S-p>" },
+    run = feature("core.commands", "palette"),
+  },
+  {
+    command = "ForgeDiagnosticDisplay",
+    label = "Choose diagnostic display",
+    keys = { "<leader>ud" },
+    run = feature("features.diagnostics", "choose"),
+  },
+  {
+    command = "ForgeWindowNarrower",
+    label = "Decrease window width",
+    keys = { "<C-S-Left>", "<leader>wh" },
+    terminal = true,
+    run = feature("features.panels.resize", "width", -3),
+  },
+  {
+    command = "ForgeWindowWider",
+    label = "Increase window width",
+    keys = { "<C-S-Right>", "<leader>wl" },
+    terminal = true,
+    run = feature("features.panels.resize", "width", 3),
+  },
+  {
+    command = "ForgeWindowTaller",
+    label = "Increase window height",
+    keys = { "<C-S-Up>", "<leader>wk" },
+    terminal = true,
+    run = feature("features.panels.resize", "height", 2),
+  },
+  {
+    command = "ForgeWindowShorter",
+    label = "Decrease window height",
+    keys = { "<C-S-Down>", "<leader>wj" },
+    terminal = true,
+    run = feature("features.panels.resize", "height", -2),
+  },
+  {
+    command = "ForgeWindowEqualize",
+    label = "Balance window sizes",
+    keys = { "<leader>w=" },
+    terminal = true,
+    run = feature("features.panels.resize", "equalize"),
+  },
+  {
+    command = "ForgeIcons",
+    label = "Toggle Nerd Font icons",
+    keys = { "<leader>ui" },
+    run = feature("features.workbench.icons", "toggle"),
+  },
+  {
     command = "ForgeNavigation",
     label = "Toggle workspace navigation",
     keys = { "<leader>pn" },
@@ -67,14 +126,16 @@ return {
   {
     command = "ForgeBufferNext",
     label = "Next buffer / terminal",
-    keys = { "<C-Tab>", "<C-PageDown>", "<leader>bn" },
+    keys = { "<Tab>", "<C-Tab>", "<C-PageDown>", "<leader>bn" },
+    terminal_exclude = { "<Tab>" },
     terminal = true,
     run = feature("features.buffers", "cycle_next"),
   },
   {
     command = "ForgeBufferPrevious",
     label = "Previous buffer / terminal",
-    keys = { "<C-S-Tab>", "<C-PageUp>", "<leader>bp" },
+    keys = { "<S-Tab>", "<C-S-Tab>", "<C-PageUp>", "<leader>bp" },
+    terminal_exclude = { "<S-Tab>" },
     terminal = true,
     run = feature("features.buffers", "cycle_previous"),
   },
@@ -277,9 +338,7 @@ return {
     command = "ForgeDiagnostics",
     label = "Show line diagnostics",
     keys = { "gl", "<leader>ce" },
-    run = function()
-      vim.diagnostic.open_float(nil, { scope = "line", border = "single" })
-    end,
+    run = feature("features.diagnostics", "open_line"),
   },
   {
     command = "ForgeDiagnosticNext",

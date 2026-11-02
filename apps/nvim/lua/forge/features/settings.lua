@@ -50,7 +50,10 @@ end
 function M.open()
   local choices = {
     { label = "Startup layout", command = "ForgeStartupLayout" },
+    { label = "Nerd Font icons (restart)", command = "ForgeIcons" },
+    { label = "Diagnostic messages", command = "ForgeDiagnosticDisplay" },
     { label = "Theme", command = "ForgeThemes" },
+    { label = "Leader key (restart)", command = "ForgeLeader" },
     { label = "Keyboard shortcuts", command = "ForgeKeymaps" },
     { label = "Languages and formatters", command = "ForgeLanguages" },
     { label = "Plugins and Copilot", command = "ForgePlugins" },

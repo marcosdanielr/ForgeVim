@@ -23,6 +23,32 @@ local function exercise()
   })
   vim.wait(100)
   assert(#errors == 0, table.concat(errors, "\n"))
+  assert(require("forge.features.workbench.icons").enabled(), "Default Nerd Font icons disabled")
+  local seen = {}
+  for _, extension in ipairs({
+    "ts",
+    "tsx",
+    "js",
+    "html",
+    "css",
+    "dart",
+    "go",
+    "py",
+    "rs",
+    "lua",
+    "php",
+  }) do
+    local buffer = vim.api.nvim_create_buf(false, true)
+    vim.api.nvim_buf_set_name(buffer, vim.fn.tempname() .. "." .. extension)
+    local icon, highlight = require("forge.features.workbench.icons").file(buffer)
+    assert(
+      icon ~= "" and highlight:find("DevIcon", 1, true),
+      "Missing language icon: " .. extension
+    )
+    seen[icon] = true
+    vim.api.nvim_buf_delete(buffer, { force = true })
+  end
+  assert(vim.tbl_count(seen) >= 8, "Languages use generic repeated icons")
   local completion = require("blink.cmp.config")
   completion.validate(completion)
   assert(vim.lsp.config.lua_ls.settings.Lua.diagnostics.globals[1] == "vim")

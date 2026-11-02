@@ -1,17 +1,19 @@
 local M = {}
-local modes = {
-  n = "NORMAL",
-  i = "INSERT",
-  v = "VISUAL",
-  V = "V-LINE",
-  c = "COMMAND",
-  t = "TERMINAL",
-  R = "REPLACE",
-}
 local buffers = {}
 
 local function escape(value)
   return value:gsub("%%", "%%%%")
+end
+
+local function tab_label(item, active)
+  local group = active and "%#ForgeTabActive#" or "%#ForgeTab#"
+  local suffix = vim.bo[item.id].modified and " ● " or "  "
+  local prefix = item.icon ~= "" and item.icon .. " " or ""
+  local styled = group .. " "
+  if item.icon ~= "" then
+    styled = styled .. "%#" .. item.highlight .. "#" .. prefix .. group
+  end
+  return " " .. prefix .. item.label .. suffix, styled .. escape(item.label) .. suffix
 end
 
 function M.refresh_buffers()
@@ -19,8 +21,13 @@ function M.refresh_buffers()
   for _, buffer in ipairs(vim.api.nvim_list_bufs()) do
     if vim.bo[buffer].buflisted and vim.bo[buffer].buftype == "" then
       local path = vim.api.nvim_buf_get_name(buffer)
-      buffers[#buffers + 1] =
-        { id = buffer, label = path == "" and "Untitled" or vim.fs.basename(path) }
+      local icon, highlight = require("forge.features.workbench.icons").file(buffer)
+      buffers[#buffers + 1] = {
+        id = buffer,
+        label = path == "" and "Untitled" or vim.fs.basename(path),
+        icon = icon,
+        highlight = highlight,
+      }
     end
   end
   vim.cmd("redrawstatus")
@@ -49,7 +56,18 @@ function M.top()
     title = "Explorer"
   end
   if title then
-    local text = vim.fn.strcharpart(title, 0, math.max(1, width - 6))
+    local id = vim.bo[buffer].filetype == "NvimTree" and "files" or vim.w[window].forge_panel_id
+    local hint = require("forge.features.workbench.hints").get(id)
+    local available = math.max(1, width - 6)
+    local base = title:match("^(.-)%s+/") or title
+    local text = vim.fn.strcharpart(
+      base,
+      0,
+      math.max(1, available - (hint ~= "" and vim.fn.strdisplaywidth(hint) + 1 or 0))
+    )
+    if hint ~= "" then
+      text = text .. " " .. hint
+    end
     return "%#ForgeBorder#╭─%#ForgeAccent# "
       .. escape(text)
       .. " %#ForgeBorder#"
@@ -58,15 +76,14 @@ function M.top()
   end
   local tabs, used = {}, 2
   for _, item in ipairs(buffers) do
-    local label = " " .. item.label .. (vim.bo[item.id].modified and " ● " or "  ")
+    local label, styled = tab_label(item, item.id == buffer)
     if used + vim.fn.strdisplaywidth(label) > width - 3 then
       break
     end
-    tabs[#tabs + 1] = (item.id == buffer and "%#ForgeTabActive#" or "%#ForgeTab#")
-      .. "%"
+    tabs[#tabs + 1] = "%"
       .. item.id
       .. "@v:lua.require'forge.features.workbench.frame'.select@"
-      .. escape(label)
+      .. styled
       .. "%T"
     used = used + vim.fn.strdisplaywidth(label)
   end
@@ -81,20 +98,6 @@ function M.top()
     .. "╮"
 end
 
-function M.bottom()
-  local window, buffer = context()
-  local panel = vim.w[window].forge_panel_title or vim.bo[buffer].buftype ~= ""
-  if panel then
-    return "%#ForgeBorder#╰─%=%#ForgeBorder#─╯"
-  end
-  local mode = modes[vim.fn.mode()] or "VISUAL"
-  return "%#ForgeBorder#╰─%#ForgeBadge# "
-    .. mode
-    .. " %#ForgeMuted#  %m%r%=%#ForgeSurface#"
-    .. escape(vim.bo[buffer].filetype ~= "" and vim.bo[buffer].filetype or "text")
-    .. "  %l:%c  %#ForgeBorder#─╯"
-end
-
 function M.apply(window)
   if
     not vim.api.nvim_win_is_valid(window) or vim.api.nvim_win_get_config(window).relative ~= ""
@@ -104,6 +107,7 @@ function M.apply(window)
   local buffer = vim.api.nvim_win_get_buf(window)
   if vim.bo[buffer].buftype == "" and vim.w[window].forge_panel_title then
     vim.w[window].forge_panel_title = nil
+    vim.w[window].forge_panel_id = nil
     vim.wo[window].winhighlight = vim.w[window].forge_previous_highlight or ""
   end
   if vim.w[window].forge_panel_title or vim.bo[buffer].filetype == "NvimTree" then
@@ -113,7 +117,7 @@ function M.apply(window)
     vim.wo[window].winhighlight = "Normal:ForgePanel,NormalNC:ForgePanel,EndOfBuffer:ForgePanel"
   end
   vim.wo[window].winbar = "%!v:lua.require('forge.features.workbench.frame').top()"
-  vim.wo[window].statusline = "%!v:lua.require('forge.features.workbench.frame').bottom()"
+  vim.wo[window].statusline = "%!v:lua.require('forge.features.workbench.statusline').render()"
   vim.wo[window].fillchars =
     "eob: ,vert:│,horiz:─,horizup:┴,horizdown:┬,vertleft:┤,vertright:├,verthoriz:┼"
 end
@@ -126,12 +130,15 @@ function M.setup()
       M.apply(vim.api.nvim_get_current_win())
     end,
   })
-  vim.api.nvim_create_autocmd({ "BufAdd", "BufDelete", "BufFilePost", "BufModifiedSet" }, {
-    group = group,
-    callback = function()
-      vim.schedule(M.refresh_buffers)
-    end,
-  })
+  vim.api.nvim_create_autocmd(
+    { "BufAdd", "BufDelete", "BufFilePost", "BufModifiedSet", "FileType" },
+    {
+      group = group,
+      callback = function()
+        vim.schedule(M.refresh_buffers)
+      end,
+    }
+  )
   for _, window in ipairs(vim.api.nvim_list_wins()) do
     M.apply(window)
   end
