@@ -81,9 +81,9 @@ of Dart LSP/DAP. SDK prerequisites and per-editor PATH choices are documented in
 ## Native workspace presentation
 
 `features/workspace` separates action metadata, read-only asynchronous Git status,
-and buffer rendering. Empty interactive launches show this buffer beside nvim-tree;
-explicit input and headless operation preserve the normal startup path. The panel
-starts no Python worker or model call. `features/chrome` supplies a native statusline
+and buffer rendering. An empty interactive launch displays the dashboard in its only
+window; explicit directory/file input and headless operation preserve the normal
+project startup path. The panel starts no Python worker or model call. `features/chrome` supplies a native statusline
 with mode and discoverable command/workspace hints. Review and Git operations reuse
 Neogit, Diffview, and the existing agent snapshot boundary.
 

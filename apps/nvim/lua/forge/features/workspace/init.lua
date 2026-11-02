@@ -1,15 +1,18 @@
 local M = {}
 
-function M.open()
+local function is_empty_buffer(buffer)
+  return vim.bo[buffer].buftype == ""
+    and vim.api.nvim_buf_get_name(buffer) == ""
+    and not vim.bo[buffer].modified
+    and vim.api.nvim_buf_line_count(buffer) == 1
+    and vim.api.nvim_buf_get_lines(buffer, 0, 1, false)[1] == ""
+end
+
+function M.open(options)
+  options = options or {}
   local root = require("forge.core.project").root()
   local previous_buffer = vim.api.nvim_get_current_buf()
-  if
-    vim.bo[previous_buffer].buftype == ""
-    and vim.api.nvim_buf_get_name(previous_buffer) == ""
-    and not vim.bo[previous_buffer].modified
-    and vim.api.nvim_buf_line_count(previous_buffer) == 1
-    and vim.api.nvim_buf_get_lines(previous_buffer, 0, 1, false)[1] == ""
-  then
+  if is_empty_buffer(previous_buffer) then
     vim.bo[previous_buffer].buflisted = false
   end
   local buffer = vim.api.nvim_create_buf(false, true)
@@ -81,9 +84,17 @@ function M.open()
     end,
   })
   vim.b[buffer].forge_root = root
-  require("forge.features.layout").open()
+  if not options.dashboard then
+    require("forge.features.layout").open()
+  end
   refresh()
   return buffer
+end
+
+-- The dashboard is intentionally an empty-launch experience. Project workspaces
+-- use M.open() so opening a directory never replaces the editor with a welcome UI.
+function M.open_dashboard()
+  return M.open({ dashboard = true })
 end
 
 -- BR-ED-11: welcome only on an empty interactive launch; never replace input files.
@@ -111,21 +122,17 @@ function M.setup()
       local name = vim.api.nvim_buf_get_name(0)
       if vim.fn.argc() == 1 and vim.fn.isdirectory(name) == 1 then
         vim.cmd.tcd(vim.fn.fnameescape(name))
-        if enabled then
-          vim.schedule(M.open)
-        else
-          vim.cmd("enew")
-          vim.schedule(function()
-            require("forge.features.layout").open()
-          end)
-        end
+        vim.cmd("enew")
+        vim.schedule(function()
+          require("forge.features.layout").open()
+        end)
       elseif vim.fn.argc() > 0 and vim.bo.buftype == "" then
         vim.schedule(function()
           require("forge.features.layout").open()
         end)
       elseif not vim.bo.modified and name == "" and vim.bo.buftype == "" then
         if enabled then
-          vim.schedule(M.open)
+          vim.schedule(M.open_dashboard)
         else
           vim.schedule(function()
             require("forge.features.layout").open()

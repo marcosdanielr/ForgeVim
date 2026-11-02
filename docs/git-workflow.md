@@ -10,7 +10,7 @@ and integration tests improve reproducibility, not a blanket security guarantee.
 
 `:ForgeTree` / Ctrl B / Leader f e toggles the project tree. Enter opens a file;
 `a` creates, `r` renames, and `d` requests deletion using nvim-tree's confirmation.
-Press `g?` for its context help. An empty interactive launch opens the project tree beside the workspace. Ctrl B toggles it; Ctrl H/L focuses either side.
+Press `g?` for its context help. `forge .` opens the project tree beside the editor; `forge` alone opens the full-screen welcome dashboard. Ctrl B toggles the tree; Ctrl H/L focuses either side.
 Nerd Font file/folder icons are enabled by default. Select a Nerd Font in the terminal, or disable icons with `:ForgeIcons` and restart.
 
 ## Stage and commit

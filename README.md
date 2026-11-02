@@ -35,12 +35,13 @@ the checkout is `/Volumes/DEV_SSD/Projects/forge.nvim`.
 
 ## Ready-to-use workspace
 
-An empty interactive launch opens a Tokyo Night workspace with the project tree,
-Git status, visible actions, and keyboard hints. Press `f` to find a file, `g` for
+Running `forge` with no file or directory opens a full-screen Tokyo Night welcome
+dashboard with visible actions and keyboard hints. Press `f` to find a file, `g` for
 source control, `v` to review changes, or `a` for agents. Press the displayed letter
-or move with `j`/`k` and press Enter. Existing files and piped input open normally.
-Return with `:ForgeWorkspace` (Leader u w). Set `workspace = false` to disable the
-welcome screen. Themes and saved user preferences remain customizable.
+or move with `j`/`k` and press Enter. `forge .`, explicit files, and piped input open
+the project workspace directly and never show the welcome dashboard. Return to the
+project workspace with `:ForgeWorkspace` (Leader u w). Set `workspace = false` to
+disable the welcome screen. Themes and saved user preferences remain customizable.
 
 Use Ctrl H/J/K/L in normal mode or Forge terminals to focus adjacent windows, including the file tree. Native h/j/k/l cursor movement and Ctrl W window commands remain intact.
 Insert-mode editing preserves its native controls. Forge terminal window shortcuts leave terminal mode before focusing a pane.
@@ -77,7 +78,7 @@ Restart to install or unload choices; `:Lazy` manages installed dependencies.
 `:ForgeKeymaps` lets you add/replace shortcuts for named actions, inspect current
 keys, detect conflicts, and restore defaults. Changes apply immediately and
 persist without editing Lua. Native single-key motions and Ctrl W are protected.
-`:ForgeThemes` applies and persists a theme. The default is Tokyo Night (night). Choose `forge-mint` for nearly black surfaces, green accents, and dedicated syntax colors, including explorer folders. Switching back restores Tokyo Night. Empty interactive launches open the project workspace and file tree.
+`:ForgeThemes` applies and persists a theme. The default is Tokyo Night (night). Choose `forge-mint` for nearly black surfaces, green accents, and dedicated syntax colors, including explorer folders. Switching back restores Tokyo Night. An empty interactive launch opens the full-screen welcome dashboard; a project path opens the project workspace and file tree.
 
 blink.cmp provides LSP, path, snippet, and buffer completion. Copilot is opt-in:
 enable it in `:ForgePlugins`, restart, then run `:Copilot auth`. Alt L accepts an

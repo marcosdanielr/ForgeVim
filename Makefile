@@ -9,6 +9,7 @@ smoke:
 	$(PYTHON) scripts/verify/smoke.py --nvim $(NVIM)
 	$(PYTHON) scripts/verify/panels.py --nvim $(NVIM)
 	$(PYTHON) scripts/verify/keymaps.py --nvim $(NVIM)
+	$(PYTHON) scripts/verify/workspace-startup.py --nvim $(NVIM)
 	$(PYTHON) scripts/verify/terminal-input.py --nvim $(NVIM)
 	$(PYTHON) scripts/verify/replace-input.py --nvim $(NVIM)
 format:

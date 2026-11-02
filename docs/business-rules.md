@@ -102,7 +102,7 @@ plugin integration, machine setup record, and docs/languages.md.
 
 ## Workspace defaults
 
-- **BR-ED-11**: An empty interactive launch opens the native workspace and file tree. Explicit files, stdin, modified buffers, and headless runs are never replaced. Users can disable the welcome screen.
+- **BR-ED-11**: An empty interactive launch opens the native full-screen welcome dashboard. Explicit directories, files, stdin, modified buffers, and headless runs are never replaced. Users can disable the welcome screen.
 - **BR-ED-12**: Tokyo Night is the fresh-install default; saved theme preferences and user.lua remain authoritative. Missing themes fall back to habamax.
 - **BR-ED-13**: Native h/j/k/l and Ctrl W navigation remain available. Ctrl H/J/K/L focus adjacent windows in normal mode only and remain configurable.
 - **BR-GIT-05**: General review includes changes from any author. Opening a graph, diff, commit popup, or conflict view never commits or pushes automatically.
@@ -194,7 +194,7 @@ Owners: `scripts/installer`, `install.sh`, `features/terminal`,
 
 - **BR-WEB-07**: Automatic website deployment is limited to main and changes to website inputs since the last successful deployment. Missing comparison history builds. Deployment does not change repository visibility or existing editor configuration.
 
-- **BR-ED-30**: The welcome dashboard renders a native ForgeVim wordmark and actionable shortcuts. Narrow windows use a compact wordmark. It starts no model or terminal process, and explicit files and stdin retain their normal startup path.
+- **BR-ED-30**: The full-screen welcome dashboard renders a native ForgeVim wordmark and actionable shortcuts. Narrow windows use a compact wordmark. It starts no model or terminal process, and explicit directories, files, and stdin retain their normal startup path.
 
 - **BR-ED-29**: Find/Replace Tab order follows visual order and visits every option
   and button. Space toggles options without triggering Leader commands. Next and

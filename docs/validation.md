@@ -66,9 +66,10 @@ integration passes after the workspace change. pnpm 12.4.1 imports the npm lock
 and installs the workspace with a frozen lockfile. These checks do not establish
 feature parity with Orca or verify continuous provider conversations.
 
-An interactive TUI with a fresh test profile also reports one attached UI, the
-forge-workspace buffer, a visible nvim-tree, and tokyonight-night. Installed plugin
-smoke covers tree/workspace focus and opening a commit diff from the commit graph.
+An interactive TUI with a fresh test profile reports one attached UI and a single
+full-screen forge-workspace buffer for `forge`; `forge <directory>` does not open
+the welcome dashboard. Installed plugin smoke covers tree/workspace focus and
+opening a commit diff from the commit graph.
 The pnpm website type check, lint, format check, and 15-page bilingual build pass
 after removing internal architecture, domain rule, and requirements pages.
 
@@ -89,8 +90,9 @@ is not directly comparable to the earlier host-load sample or a typing-latency
 claim. Reproduce with scripts/benchmarks/startup.py after installing plugins.
 
 The November 2 interactive TUI checks additionally cover empty launch, explicit
-file, directory argument, and welcome disabled. All preserve the intended editor
-content while showing Tokyo Night, files, and Agents in a wide terminal. PTY core
+file, directory argument, and welcome disabled. Empty launch uses a full-screen
+Tokyo Night dashboard; project launch opens project panes without that dashboard.
+PTY core
 tests include actual resize propagation, output draining, duplicate-ownership
 rejection, queued/running cancellation, and failed-session partial review.
 

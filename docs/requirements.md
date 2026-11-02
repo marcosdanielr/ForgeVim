@@ -53,7 +53,7 @@ because the underlying protocol could eventually support it.
 
 ## Workspace acceptance
 
-- **FR-20**: Fresh interactive launch presents Tokyo Night, file tree, project status, visible action keys, and command hints. Explicit input and native editing remain intact.
+- **FR-20**: An interactive launch with no file or directory presents a full-screen Tokyo Night welcome dashboard with visible action keys and command hints. Explicit directory/file input opens the project workspace directly; native editing remains intact.
 - **FR-21**: Users can open a commit graph, inspect a selected commit, review working-tree changes, open a staged commit popup, and resolve conflicts from the workspace.
 - **FR-22**: Ctrl H/J/K/L changes visible-window focus in normal mode while native cursor and Ctrl W navigation remain intact.
 
