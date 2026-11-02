@@ -2,6 +2,9 @@ local function exercise()
   for _, file in ipairs(vim.fn.glob(require("forge").directory .. "/**/*.lua", false, true)) do
     assert(loadfile(file), "Invalid Lua: " .. file)
   end
+  local brand = require("forge.features.workspace.brand")
+  assert(#brand.lines(100) == 5, "Dashboard wordmark missing")
+  assert(#brand.lines(30) == 1, "Narrow dashboard did not use compact wordmark")
   assert(vim.fn.exists(":Forge") == 2)
   assert(vim.fn.exists(":ForgeAgents") == 2)
   vim.api.nvim_buf_set_lines(0, 0, -1, false, { "one two" })

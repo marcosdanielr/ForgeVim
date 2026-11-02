@@ -7,15 +7,22 @@ function M.render(buffer, root, snapshot)
   end
   local window = vim.fn.bufwinid(buffer)
   local width = window > 0 and vim.api.nvim_win_get_width(window) or 80
+  local brand = require("forge.features.workspace.brand").lines(width)
+  local height = window > 0 and vim.api.nvim_win_get_height(window) or 40
   local padding = string.rep(" ", math.max(2, math.floor((width - 48) / 2)))
   local lines, highlights, rows = {}, {}, {}
   local function line(text, group)
     lines[#lines + 1] = padding .. text
     highlights[#lines] = group or "ForgeMuted"
   end
+  for _ = 1, math.max(1, math.floor((height - 31 - #brand) / 2)) do
+    line("")
+  end
+  for _, text in ipairs(brand) do
+    line(text, "ForgeAccent")
+  end
   line("")
-  line("◇  F O R G E", "ForgeAccent")
-  line("Your next idea starts here.", "Normal")
+  line("Native editing. Agents within reach.", "Normal")
   line("")
   line(vim.fs.basename(root), "Directory")
   line(
