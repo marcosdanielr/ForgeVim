@@ -135,6 +135,17 @@ local function exercise()
     "Chat did not finish"
   )
   assert(session.exit_code == 0)
+  -- Simulate a fresh editor module: durable output must not depend on session tables.
+  package.loaded["forge.features.agents.chat"] = nil
+  require("forge.features.agents.chat").show(task)
+  assert(
+    vim.wait(5000, function()
+      local logs = windows.get("logs")
+      return logs and text(logs.buffer):find("CHAT_READY", 1, true)
+    end),
+    "Saved conversation output disappeared after reopening"
+  )
+
   assert(vim.v.errmsg == "", "Async panel error: " .. vim.v.errmsg)
   assert(vim.fn.filereadable(root .. "/chat.txt") == 0, "Chat modified source checkout")
   require("forge.features.agents.review").open(task)

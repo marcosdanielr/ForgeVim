@@ -81,13 +81,15 @@ function M.new()
   end)
 end
 
+function M.live(task)
+  local session = sessions[task.id]
+  return session ~= nil and session.exit_code == nil and vim.api.nvim_buf_is_valid(session.buffer)
+end
+
 function M.show(task)
   local session = sessions[task.id]
-  if not session then
-    return vim.notify(
-      "This CLI terminal belongs to its original editor session. Logs and worktree remain available.",
-      vim.log.levels.INFO
-    )
+  if not M.live(task) then
+    return require("forge.features.agents.actions").logs(task)
   end
   selected[vim.api.nvim_get_current_tabpage()] = task.id
   make_room()

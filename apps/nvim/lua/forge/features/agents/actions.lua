@@ -15,7 +15,11 @@ end
 function M.open(task)
   local choices = { "Review changes", "View logs", "Open worktree", "Cancel task", "Reject task" }
   if task.mode == "interactive" then
-    table.insert(choices, 1, "Show interactive chat")
+    if require("forge.features.agents.chat").live(task) then
+      table.insert(choices, 1, "Show interactive chat")
+    else
+      choices[2] = "View saved conversation output"
+    end
   end
   require("forge.features.picker").select(
     choices,
@@ -25,7 +29,7 @@ function M.open(task)
         require("forge.features.agents.chat").show(task)
       elseif action == "Review changes" then
         require("forge.features.agents.review").open(task)
-      elseif action == "View logs" then
+      elseif action == "View logs" or action == "View saved conversation output" then
         M.logs(task)
       elseif action == "Open worktree" then
         vim.cmd.tabnew()
