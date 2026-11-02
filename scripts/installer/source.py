@@ -2,13 +2,15 @@
 import shutil
 import subprocess
 
-REPOSITORY = "https://github.com/marcosdanielr/forgevim.git"
+REPOSITORY = "https://github.com/marcosdanielr/ForgeVim.git"
 SPARSE_PATHS = ("bin", "apps/nvim", "packages/agent-core", "packages/protocol", "scripts")
 
 
 def canonical_repository(repository):
     """Keep installations created before the ForgeVim repository rename reusable."""
-    if repository == "https://github.com/marcosdanielr/forge.nvim.git":
+    if isinstance(repository, str) and repository.lower() in {
+        "https://github.com/marcosdanielr/forge.nvim.git", REPOSITORY.lower()
+    }:
         return REPOSITORY
     return repository
 
@@ -34,7 +36,7 @@ def clone(repository, destination, revision):
     validate_revision(revision)
     repository = canonical_repository(repository)
     if repository == REPOSITORY and github_login():
-        command = ["gh", "repo", "clone", "marcosdanielr/forgevim", str(destination), "--", "--filter=blob:none", "--sparse"]
+        command = ["gh", "repo", "clone", "marcosdanielr/ForgeVim", str(destination), "--", "--filter=blob:none", "--sparse"]
     else:
         command = ["git", "clone", "--filter=blob:none", "--sparse", "--", repository, str(destination)]
     subprocess.run(command, check=True, timeout=240)

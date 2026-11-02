@@ -73,6 +73,7 @@ class InstallationTests(unittest.TestCase):
         self.assertEqual(reused["repository"], legacy)
         self.assertEqual(self.paths.command.read_bytes(), before)
         self.assertEqual(source.canonical_repository(legacy), source.REPOSITORY)
+        self.assertEqual(source.canonical_repository(source.REPOSITORY.lower()), source.REPOSITORY)
         self.assertEqual(source.canonical_repository("file:///custom"), "file:///custom")
 
     def test_launcher_quotes_source_and_preserves_arguments_and_cwd(self):

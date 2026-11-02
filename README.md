@@ -13,8 +13,8 @@ Node.js 22+ is needed for Copilot and JavaScript tooling. Language runtimes are
 installed separately. The repository is private during initial development.
 
 ```sh
-gh repo clone marcosdanielr/forgevim
-cd forgevim
+gh repo clone marcosdanielr/ForgeVim
+cd ForgeVim
 bash install.sh
 forge .
 ```
@@ -29,7 +29,7 @@ separate. First launch installs lazy.nvim and the selected plugins. It does not
 install every LSP or debug runtime. Use `:ForgeLanguages`, wait for Mason to finish,
 and restart. Use `:ForgeHealth` to check dependencies.
 
-To work on a different project, run `/path/to/forgevim/bin/forge` from that
+To work on a different project, run `/path/to/ForgeVim/bin/forge` from that
 project. The launcher does not change your working directory. On this machine,
 the checkout is `/Volumes/DEV_SSD/Projects/forge.nvim`.
 
@@ -194,7 +194,7 @@ For offline native startup, set `FORGE_OFFLINE=1`; plugin features are unavailab
 brand assets and [validation](docs/validation.md) for observed checks.
 
 Support: [Buy Me a Coffee](https://buymeacoffee.com/marcosdanielr).
-Source: [GitHub](https://github.com/marcosdanielr/forgevim).
+Source: [GitHub](https://github.com/marcosdanielr/ForgeVim).
 
 Nerd Font folder and language icons are enabled by default in Explorer and buffer
 tabs. Select a Nerd Font in your terminal (for example, MesloLGM Nerd Font Mono).
@@ -332,3 +332,5 @@ changed by opening preview; applying remains a separate explicit action. Existin
 localleader replacement keys and grug-far help remain available.
 
 ForgeVim retains the `forge` command and the `forge.nvim` XDG profile name for compatibility. Existing personal plugins, logins, settings, installer metadata, and SSD checkout paths remain valid after the repository rename.
+
+Website deployment through Vercel is documented in [deployment](docs/deployment.md). Automatic production builds watch only website inputs on main.

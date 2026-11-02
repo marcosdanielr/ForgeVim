@@ -11,8 +11,8 @@ The repository is private during development. Authenticate Git or use GitHub CLI
 with an account that has access:
 
 ```sh
-gh repo clone marcosdanielr/forgevim
-cd forgevim
+gh repo clone marcosdanielr/ForgeVim
+cd ForgeVim
 bash install.sh
 forge .
 ```
@@ -33,7 +33,7 @@ While the repository is private, fetch the bootstrap through your authenticated
 GitHub CLI. Anonymous raw-GitHub downloads will not work for a private repository.
 
 ```sh
-bash <(gh api repos/marcosdanielr/forgevim/contents/install.sh -H 'Accept: application/vnd.github.raw+json')
+bash <(gh api repos/marcosdanielr/ForgeVim/contents/install.sh -H 'Accept: application/vnd.github.raw+json')
 ```
 
 The bootstrap downloads a sparse source copy and delegates to the same installer.

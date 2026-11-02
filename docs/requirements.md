@@ -2,7 +2,7 @@
 
 Scope: a real Neovim distribution centered on debugging, search, code assistance,
 and concurrent agents under human review. Status reflects delivered behavior, not
-roadmap intent. Business constraints are in [business rules](https://github.com/marcosdanielr/forgevim/blob/main/docs/business-rules.md).
+roadmap intent. Business constraints are in [business rules](https://github.com/marcosdanielr/ForgeVim/blob/main/docs/business-rules.md).
 
 ## Functional requirements
 

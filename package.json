@@ -7,7 +7,8 @@
     "check": "pnpm --filter @forge/web check",
     "lint": "eslint apps/web",
     "format": "prettier --write apps/web package.json eslint.config.mjs .prettierrc.mjs",
-    "format:check": "prettier --check apps/web package.json eslint.config.mjs .prettierrc.mjs"
+    "format:check": "prettier --check apps/web package.json eslint.config.mjs .prettierrc.mjs",
+    "test:deploy": "node --test tests/web-deployment/*.test.mjs"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

@@ -35,7 +35,7 @@ export const docsPt: readonly DocPage[] = [
       },
       {
         title: 'Instalação isolada',
-        code: 'gh repo clone marcosdanielr/forgevim\ncd forgevim\nbash install.sh\nforge .',
+        code: 'gh repo clone marcosdanielr/ForgeVim\ncd ForgeVim\nbash install.sh\nforge .',
         paragraphs: [
           'O instalador prepara os plugins selecionados e cria ~/.local/bin/forge. Adicione ~/.local/bin ao PATH quando necessário. O launcher define NVIM_APPNAME=forge.nvim. Plugins, estado e configuração ficam separados do seu ~/.config/nvim. A primeira execução instala o gerenciador e os plugins; as próximas usam os arquivos locais.',
         ],
@@ -57,7 +57,7 @@ export const docsPt: readonly DocPage[] = [
       },
       {
         title: 'Abra seu projeto',
-        code: 'cd /caminho/do/projeto\n/caminho/forgevim/bin/forge',
+        code: 'cd /caminho/do/projeto\n/caminho/ForgeVim/bin/forge',
         paragraphs: [
           'O editor continua sendo Neovim: use :edit, :split, :terminal, macros, registros e os movimentos que você já conhece. Leader é Espaço por padrão. Altere em :ForgeLeader e reinicie.',
         ],
