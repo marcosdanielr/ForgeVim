@@ -4,8 +4,10 @@ permissions:
   contents: read
 jobs:
   agent-core:
-    runs-on: ubuntu-latest
+    # Python 3.9 binaries are unavailable on ubuntu-latest (26.04).
+    runs-on: ubuntu-22.04
     strategy:
+      fail-fast: false
       matrix:
         python: ['3.9', '3.13']
     steps:
