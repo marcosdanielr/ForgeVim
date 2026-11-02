@@ -36,7 +36,7 @@ function M.open()
     height = height,
     title = " Find and replace ",
     title_pos = "center",
-    footer = " Tab next field · Esc normal / close ",
+    footer = " Tab fields/buttons · Space toggle · F3 next · Esc close ",
     footer_pos = "center",
   })
   vim.api.nvim_win_set_config(windows.frame.window, { zindex = 50 })
@@ -51,7 +51,7 @@ function M.open()
   end
   pane("search", 1, 2, width - 4, 1, "Find", true)
   pane("replacement", 4, 2, width - 4, 1, "Replace with · empty removes the match", true)
-  pane("options", 7, 2, width - 4, 1, "Search options · click or Enter")
+  pane("options", 7, 2, width - 4, 1, "Options · Tab to select · Space toggle")
   local content = height - 16
   if width >= 96 then
     local left = math.floor((width - 7) / 2)
@@ -69,7 +69,7 @@ function M.open()
     pane("results", 10, 2, width - 4, list, "Matches · arrows / j k")
     pane("preview", 12 + list, 2, width - 4, 2, "Before / after")
   end
-  pane("actions", height - 3, 2, width - 4, 2, "Actions · click or Enter")
+  pane("actions", height - 3, 2, width - 4, 2, "Actions · Tab / arrows · Enter / Space")
   return windows
 end
 

@@ -1,17 +1,8 @@
 local M = {}
-local order = { "search", "replacement", "results", "actions", "options" }
-
 function M.attach(dialog)
   local windows = dialog.windows
   local function cycle(back)
-    local current = vim.api.nvim_get_current_win()
-    for index, name in ipairs(order) do
-      if windows[name].window == current then
-        dialog:focus(order[(index - 1 + (back and -1 or 1)) % #order + 1])
-        return
-      end
-    end
-    dialog:focus("search")
+    require("forge.features.search.navigation").cycle(dialog, back and -1 or 1)
   end
   for name, pane in pairs(windows) do
     if type(pane) == "table" and pane.buffer then
@@ -57,10 +48,25 @@ function M.attach(dialog)
       map("<C-a>", function()
         dialog:apply(true)
       end)
+      map("<F3>", function()
+        dialog:step(1)
+      end)
+      map("<S-F3>", function()
+        dialog:step(-1)
+      end)
+      map("<M-c>", function()
+        dialog:toggle(1)
+      end)
+      map("<M-w>", function()
+        dialog:toggle(2)
+      end)
+      map("<M-r>", function()
+        dialog:toggle(3)
+      end)
       map("<F2>", function()
         dialog:focus("replacement")
       end)
-      for key, option in pairs({ ["<F3>"] = 1, ["<F4>"] = 2, ["<F5>"] = 3, ["<F6>"] = 4 }) do
+      for key, option in pairs({ ["<F8>"] = 1, ["<F4>"] = 2, ["<F5>"] = 3, ["<F6>"] = 4 }) do
         map(key, function()
           dialog:toggle(option)
         end)
@@ -68,7 +74,7 @@ function M.attach(dialog)
       vim.keymap.set("n", "<Esc>", function()
         if dialog.confirming then
           dialog.confirming = false
-          dialog.action = 1
+          dialog.action = 3
           dialog:render()
         else
           dialog:close()
@@ -76,7 +82,10 @@ function M.attach(dialog)
       end, { buffer = pane.buffer })
       if name == "search" or name == "replacement" then
         map("<CR>", function()
-          dialog:focus("results")
+          dialog:step(1)
+        end)
+        map("<S-CR>", function()
+          dialog:step(-1)
         end)
         vim.keymap.set("i", "<C-u>", function()
           vim.api.nvim_buf_set_lines(pane.buffer, 0, -1, false, { "" })
@@ -107,6 +116,9 @@ function M.attach(dialog)
     vim.keymap.set("n", "<CR>", function()
       activate(dialog[field])
     end, { buffer = pane.buffer })
+    vim.keymap.set("n", "<Space>", function()
+      activate(dialog[field])
+    end, { buffer = pane.buffer, nowait = true })
   end
   for key, delta in pairs({ j = 1, k = -1, ["<Down>"] = 1, ["<Up>"] = -1 }) do
     vim.keymap.set("n", key, function()
@@ -115,7 +127,25 @@ function M.attach(dialog)
     end, { buffer = windows.results.buffer })
   end
   vim.keymap.set("n", "<CR>", function()
+    dialog:step(1)
+  end, { buffer = windows.results.buffer })
+  vim.keymap.set("n", "<C-CR>", function()
     dialog:open_result()
+  end, { buffer = windows.results.buffer })
+  vim.keymap.set("n", "<S-CR>", function()
+    dialog:step(-1)
+  end, { buffer = windows.results.buffer })
+  vim.keymap.set("n", "<Space>", function()
+    dialog:step(1)
+  end, { buffer = windows.results.buffer, nowait = true })
+  vim.keymap.set("n", "y", function()
+    dialog:apply(false)
+  end, { buffer = windows.results.buffer })
+  vim.keymap.set("n", "n", function()
+    dialog:step(1)
+  end, { buffer = windows.results.buffer })
+  vim.keymap.set("n", "N", function()
+    dialog:step(-1)
   end, { buffer = windows.results.buffer })
   local group =
     vim.api.nvim_create_augroup("ForgeReplace" .. windows.frame.buffer, { clear = true })

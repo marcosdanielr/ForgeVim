@@ -5,6 +5,17 @@ function M.start(form, done)
   local command = require("forge.features.search.matches").command(form, form.search)
   local cancelled, process = false, nil
   local rows, pending, truncated = {}, "", false
+  local input
+  local buffer = vim.fn.bufnr(form.file)
+  if command and not form.project and buffer >= 0 and vim.api.nvim_buf_is_loaded(buffer) then
+    if not vim.bo[buffer].modified then
+      vim.api.nvim_buf_call(buffer, function()
+        vim.cmd("checktime")
+      end)
+    end
+    input = table.concat(vim.api.nvim_buf_get_lines(buffer, 0, -1, false), "\n") .. "\n"
+    command[#command] = nil -- Read this buffer through stdin rather than its older disk contents.
+  end
   local function cancel()
     cancelled = true
     if process then
@@ -23,6 +34,10 @@ function M.start(form, done)
     local entry = require("forge.features.search.matches").entry(form.root, value)
     if not entry then
       return
+    end
+    if input then
+      entry.filename = form.file
+      entry.value.filename = form.file
     end
     for _, match in ipairs(entry.value.matches) do
       if #rows == 2000 then
@@ -48,6 +63,7 @@ function M.start(form, done)
   local ok, result = pcall(vim.system, command, {
     cwd = form.root,
     text = true,
+    stdin = input,
     stdout = function(error, chunk)
       if cancelled or truncated then
         return

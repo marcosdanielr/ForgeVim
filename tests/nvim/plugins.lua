@@ -247,7 +247,23 @@ local function exercise()
     table.concat(vim.fn.readfile(search_file), "\n") == "done done\nother done",
     "Replace all missed an occurrence"
   )
+  local unsaved = vim.fn.bufnr(search_file)
+  vim.api.nvim_buf_set_lines(unsaved, 0, -1, false, { "unsaved needle" })
+  dialog:search()
+  assert(
+    vim.wait(5000, function()
+      return form.ready and #form.rows == 1
+    end),
+    "Find ignored unsaved buffer text"
+  )
+  assert(form.rows[1].value.text == "unsaved needle")
+  dialog:apply(false)
+  assert(
+    vim.bo[unsaved].modified and vim.fn.readfile(search_file)[1] == "done done",
+    "Replacement silently wrote an unsaved buffer"
+  )
   dialog:close()
+  vim.api.nvim_buf_delete(unsaved, { force = true })
   vim.fn.delete(search_file)
   assert(#errors == 0, table.concat(errors, "\n"))
 end

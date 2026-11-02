@@ -6,27 +6,33 @@ Dialog.__index = Dialog
 
 function Dialog:render()
   require("forge.features.search.view").render(self)
+  if not self.closed and self.form.ready then
+    local entry = self.form.rows[self.selected]
+    if entry then
+      require("forge.features.search.location").show(self, entry)
+    else
+      require("forge.features.search.location").clear(self)
+    end
+  end
 end
 
 function Dialog:focus(name, column)
-  vim.cmd("stopinsert")
-  vim.schedule(function()
-    if self.closed then
-      return
-    end
-    local pane = self.windows[name]
-    vim.api.nvim_set_current_win(pane.window)
-    if name == "search" or name == "replacement" then
-      vim.api.nvim_win_set_cursor(pane.window, {
-        1,
-        math.max(
-          0,
-          math.min(column or math.huge, #vim.api.nvim_buf_get_lines(pane.buffer, 0, 1, false)[1])
-        ),
-      })
-      vim.cmd("startinsert!")
-    end
-  end)
+  if self.closed then
+    return
+  end
+  local editable = name == "search" or name == "replacement"
+  if not editable then
+    vim.cmd("stopinsert")
+  end
+  local pane = self.windows[name]
+  vim.api.nvim_set_current_win(pane.window)
+  self.focused = name
+  self:render()
+  if editable then
+    local length = #vim.api.nvim_buf_get_lines(pane.buffer, 0, 1, false)[1]
+    vim.api.nvim_win_set_cursor(pane.window, { 1, math.max(0, math.min(column or length, length)) })
+    vim.cmd("startinsert!")
+  end
 end
 
 function Dialog:close()
@@ -34,6 +40,7 @@ function Dialog:close()
     return
   end
   self.closed = true
+  require("forge.features.search.location").clear(self)
   if self.cancel then
     self.cancel()
   end
@@ -102,7 +109,7 @@ function Dialog:changed(field)
   self.form[field] = table.concat(lines, " ")
   self.confirming = false
   self.message = nil
-  self.action = 1
+  self.action = 3
   if field == "search" then
     if self.cancel then
       self.cancel()
@@ -161,13 +168,13 @@ function Dialog:apply(all, confirmed)
   local entry = self.form.rows[self.selected]
   local ok, result = require("forge.features.search.actions").apply(self.form, all, entry)
   self.confirming = false
-  self.action = 1
+  self.action = 3
   if not ok then
     self.message = tostring(result)
     self:render()
     return
   end
-  self.message = "Replaced " .. result .. " occurrence(s). Files saved."
+  self.message = "Replaced " .. result .. " · saved"
   local anchor = entry
     and { filename = entry.filename, lnum = entry.lnum, col = entry.col + #self.form.replacement }
   self:search(not all and anchor or nil)
@@ -179,17 +186,30 @@ function Dialog:activate(index)
       self:apply(true, true)
     else
       self.confirming = false
-      self.action = 1
+      self.action = 3
       self.message = "Replace all cancelled"
       self:render()
     end
   elseif index == 1 then
-    self:apply(false)
+    self:step(-1)
   elseif index == 2 then
+    self:step(1)
+  elseif index == 3 then
+    self:apply(false)
+  elseif index == 4 then
     self:apply(true)
   else
     self:close()
   end
+end
+
+function Dialog:step(direction)
+  if self.confirming or not self.form.ready or #self.form.rows == 0 then
+    return
+  end
+  self.selected = (self.selected - 1 + direction) % #self.form.rows + 1
+  self.message = nil
+  self:render()
 end
 
 function Dialog:open_result()
@@ -231,7 +251,9 @@ function M.open(form)
     windows = windows,
     tab = vim.api.nvim_get_current_tabpage(),
     selected = 1,
-    action = 1,
+    action = 3,
+    focused = "search",
+    editor = require("forge.features.panels.windows").editor(),
     option = 1,
     timer = vim.uv.new_timer(),
   }, Dialog)

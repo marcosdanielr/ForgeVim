@@ -1,17 +1,18 @@
 local M = {}
 local namespace = vim.api.nvim_create_namespace("forge-replace")
 
-local function buttons(pane, labels, index, status)
+local function buttons(pane, labels, index, status, focused)
   local text, ranges = "", {}
   for _, label in ipairs(labels) do
     local first = #text
-    text = text .. "[ " .. label .. " ]  "
-    ranges[#ranges + 1] = { first = first, last = #text - 2 }
+    local compact = vim.api.nvim_win_get_width(pane.window) < 90
+    text = text .. (compact and ("[" .. label .. "] ") or ("[ " .. label .. " ]  "))
+    ranges[#ranges + 1] = { first = first, last = #text - 1 }
   end
   require("forge.features.search.windows").write(pane, status and { text, status } or { text })
   vim.api.nvim_buf_clear_namespace(pane.buffer, namespace, 0, -1)
   local chosen = ranges[index]
-  if chosen then
+  if chosen and focused then
     vim.api.nvim_buf_add_highlight(pane.buffer, namespace, "Visual", 0, chosen.first, chosen.last)
     vim.api.nvim_win_set_cursor(pane.window, { 1, chosen.first })
   end
@@ -36,7 +37,9 @@ function M.render(dialog)
   end
   require("forge.features.search.windows").write(windows.results, lines)
   vim.api.nvim_win_set_config(windows.results.window, {
-    title = " " .. (form.ready and (#rows .. " matches · arrows / j k") or "Searching…") .. " ",
+    title = " "
+      .. (form.ready and (#rows .. " matches · y replace · n skip · N prev") or "Searching…")
+      .. " ",
   })
   dialog.selected = math.max(1, math.min(dialog.selected, #rows))
   vim.api.nvim_buf_clear_namespace(windows.results.buffer, namespace, 0, -1)
@@ -66,8 +69,9 @@ function M.render(dialog)
     "Word " .. (form.whole_word and "on" or "off"),
     "Regex " .. (form.regex and "on" or "off"),
     form.project and "Project" or "File",
-  }, dialog.option)
-  local status = dialog.message or (#rows .. " occurrences · replacement is literal text")
+  }, dialog.option, nil, dialog.focused == "options")
+  local position = #rows == 0 and "0 matches" or (dialog.selected .. " / " .. #rows .. " matches")
+  local status = (dialog.message and (dialog.message .. " · ") or "") .. position
   if not form.ready then
     status = "Searching…"
   end
@@ -80,9 +84,13 @@ function M.render(dialog)
   buttons(
     windows.actions,
     dialog.confirming and { "Confirm replace all", "Cancel" }
-      or { "Replace one", "Replace all", "Close" },
+      or (
+        windows.width < 96 and { "Prev", "Next", "Replace", "All", "Close" }
+        or { "Previous", "Next / skip", "Replace one", "Replace all", "Close" }
+      ),
     dialog.action,
-    status
+    status,
+    dialog.focused == "actions"
   )
 end
 

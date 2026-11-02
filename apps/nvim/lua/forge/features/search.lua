@@ -17,7 +17,7 @@ function M.project()
 end
 
 function M.buffer()
-  builtin("current_buffer_fuzzy_find")
+  require("forge.features.search.form").open(false)
 end
 
 function M.replace(project)
