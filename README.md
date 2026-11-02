@@ -4,8 +4,7 @@ A modular Neovim distribution for debugging, fast search, and concurrent agents
 whose changes stay in isolated worktrees until you review and accept them.
 
 Native Neovim modes, motions, registers, buffers, splits, and commands remain at
-the center. VS Code-inspired shortcuts have leader-key alternatives. There is no
-custom TUI or permanent background service.
+the center. VS Code-inspired shortcuts have leader-key alternatives. Panels use native Neovim buffers and splits. There is no permanent background service.
 
 ## Start
 
@@ -37,10 +36,8 @@ or move with `j`/`k` and press Enter. Existing files and piped input open normal
 Return with `:ForgeWorkspace` (Space u w). Set `workspace = false` to disable the
 welcome screen. Themes and saved user preferences remain customizable.
 
-Use Ctrl H/J/K/L in normal mode to focus left/down/up/right windows, including the
-file tree. Native h/j/k/l cursor movement and Ctrl W window commands remain intact.
-Terminal input keeps its own controls; leave terminal mode before using normal-mode
-window shortcuts.
+Use Ctrl H/J/K/L in normal mode or Forge terminals to focus adjacent windows, including the file tree. Native h/j/k/l cursor movement and Ctrl W window commands remain intact.
+Insert-mode editing preserves its native controls. Forge terminal window shortcuts leave terminal mode before focusing a pane.
 
 ## Editor workflows
 
@@ -112,8 +109,7 @@ and commit or stash project changes first. `:ForgeAgentStart` starts a one-shot
 task with the selected provider in its own worktree. Multiple independent tasks can run concurrently.
 Closing the editor does not stop workers.
 
-Use `:ForgeAgents` to inspect status, logs, worktrees, or completed changes. Reopen
-the menu to refresh. Review opens a native diff buffer: `a` accepts with a final
+Use `:ForgeAgents` to toggle the live task sidebar. Enter opens task actions; n starts a task, c opens chat, v reviews, and L shows logs. Review opens a native diff buffer: `a` accepts with a final
 confirmation, `r` rejects, and `q` closes without deciding. Acceptance applies the
 entire reviewed patch and never commits it. Rejection preserves worktree/logs.
 
@@ -121,8 +117,7 @@ A SHA-256 hash binds acceptance to the reviewed snapshot. The core rejects stale
 patches, modified targets, target HEAD changes after review, and Git conflicts. It includes new and
 binary files and agent commits relative to the original base. After accepting
 and committing one task, review each sibling result against the current target.
-Independent patches can apply unchanged; conflicting patches remain blocked. There is no
-automatic rebase, interactive conversation, hunk acceptance, or task DAG yet.
+Independent patches can apply unchanged; conflicting patches remain blocked. There is no automatic rebase, hunk acceptance, or task DAG yet. Interactive conversations use the official CLI in a separate terminal worktree.
 
 Use `:ForgeNotifications` (Space u n) to enable/disable completion notifications.
 They run only while watched tasks are active and the editor is open.
@@ -130,7 +125,7 @@ They run only while watched tasks are active and the editor is open.
 Worktrees isolate changes, not permissions. Codex runs with `workspace-write` and
 no approval bypass. Local custom command providers are trusted executable code.
 State and logs live in the target project's `.forge`, excluded locally from Git.
-No model call is made at startup. Tests use a fake provider and consume no paid
+No model call is made at startup. A visible Agents panel may read existing task status asynchronously. Tests use a fake provider and consume no paid
 model tokens. Workers with expired heartbeats are marked interrupted, never killed
 by a recovered PID. Interrupted tasks retain recoverable worktrees.
 
@@ -224,3 +219,62 @@ Contributor and technical documentation in `docs/` is English only. Portuguese
 reader translations live under `apps/web/src/content/docs/pt` and are rendered
 only by the website. Skills live once in `.agents/skills`; the provider-specific
 skill directories are symlinks for discovery, not duplicate files.
+
+
+## Panels, buffers, and terminals
+
+Use F1 for a beginner guide with your actual configured shortcuts. The top bar
+shows common actions. `:ForgeSettings` (Space u s) groups theme, keys, languages,
+plugins, provider login, notifications, and startup layout. The default wide
+layout shows files, the editor, and Agents. Narrow terminals keep side panels
+available by shortcut. Mouse focus, split resizing, and panel double-clicks work.
+
+| Action | Default keys |
+| --- | --- |
+| Toggle files | Ctrl B / Space p e |
+| Toggle Agents | Space p a |
+| Toggle CLI chat / create conversation | Space p c / Space a C |
+| Toggle terminal / new terminal | Ctrl backtick / Ctrl Shift backtick; Space o t / Space o T |
+| Split terminal / choose terminal | Ctrl Shift 5 / Space o s; Space o o |
+| Next / previous buffer | Ctrl Tab / Ctrl Shift Tab; Space b n / Space b p |
+| Choose open buffer | Space b b |
+| Toggle review / debug / logs | Space p r / Space p d / Space p l |
+| Problems / restore panels | Ctrl Shift M / Space p p; Space p w |
+
+Ctrl H/J/K/L works in normal mode and Forge-owned terminals. Insert-mode editing
+retains native controls. The explorer uses j/k, h to collapse, and l/Enter to open
+in the editor. Hiding terminal panels retains their jobs, scrollback, and split
+group. Cycling buffers from a terminal cycles integrated terminal sessions;
+cycling from source code selects source buffers. Legacy terminals cannot encode
+every VS Code key combination; leader alternatives remain available.
+
+## Interactive chat
+
+Connect with `:ForgeAgentConnect`, then `:ForgeChatNew`. Choose Codex, Claude, or
+Gemini and name the conversation. The official CLI runs in a right-hand terminal
+with its normal login, model choices, follow-ups, and permission prompts. Save
+buffers and commit or stash first: chat gets a separate Git worktree. No prompt
+or paid model call is sent automatically. Exit the CLI to finish, then select the
+task in Agents and review its changes. The existing snapshot acceptance gate
+applies; source files remain untouched until explicit acceptance.
+
+Hidden chat remains live while Forge is open. These interactive terminals belong
+to their original editor session; reopening Forge does not reattach an old PTY.
+Logs/worktrees remain recoverable. This is a real CLI conversation, not a custom
+message UI or an autonomous multi-agent plan/DAG.
+
+## Search and replace
+
+Ctrl Shift H / Space f r opens a form for project replacement; Space f R targets
+the current file. Edit Search and Replace, select File/Project, and toggle Match
+case, Whole word, and Regex. Enter or double-click edits an option. Preview opens
+grug-far without changing files. Its header and g? explain application, history,
+and undo. With the default local leader, comma then r applies replacement.
+
+## Performance checks
+
+`python3 scripts/benchmark-startup.py --nvim nvim` measures warm headless process
+startup after dependencies are installed. It does not measure interactive panel
+rendering, typing latency, LSPs, debuggers, model inference, or compare Rust and
+Python. Panels and notifications share one event-driven status stream per project, with a five-second fallback while tasks run. Editor
+keystrokes do not trigger Python work. Interactive CLI PTY relay uses Python I/O.

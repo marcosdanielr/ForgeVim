@@ -32,7 +32,7 @@ roadmap intent. Business constraints are in [business rules](https://github.com/
 
 | ID | Requirement and measurable acceptance | Verification |
 | --- | --- | --- |
-| NFR-01 Performance | No Python process on startup or keystrokes; plugin loading is deferred by command/event; no permanent daemon. Report measured startup with environment, never claim universal latency. | Startup modules, plugin specs, validation report |
+| NFR-01 Performance | No Python work on code-editing keystrokes; no provider starts at startup; an open Agents panel may read existing task status; plugin loading is deferred by command/event; no permanent daemon. Report measured startup with environment, never claim universal latency. | Startup modules, plugin specs, validation report |
 | NFR-02 Responsiveness | Editor-to-core calls use vim.system callbacks; a long model task must not block typing. | Async editor smoke |
 | NFR-03 Integrity | Never apply a changed snapshot, dirty target, changed base, or reserved state. No automatic commit/push. | Agent regression suite |
 | NFR-04 Process safety | Use argument arrays without shell interpolation. Only the owning worker terminates its provider group. Never recover by killing an unverified PID. | Providers/Git/worker ownership and cancellation tests |
@@ -48,7 +48,7 @@ roadmap intent. Business constraints are in [business rules](https://github.com/
 
 For a new capability, add or update its requirement, rule, owner, and focused
 acceptance proof in the same change. Mark unverified runtime integration as such.
-Avoid claiming a future mobile client or conversational agent interface exists
+Avoid claiming a future mobile client or normalized custom chat interface exists
 because the underlying protocol could eventually support it.
 
 ## Workspace acceptance
@@ -56,3 +56,13 @@ because the underlying protocol could eventually support it.
 - **FR-20**: Fresh interactive launch presents Tokyo Night, file tree, project status, visible action keys, and command hints. Explicit input and native editing remain intact.
 - **FR-21**: Users can open a commit graph, inspect a selected commit, review working-tree changes, open a staged commit popup, and resolve conflicts from the workspace.
 - **FR-22**: Ctrl H/J/K/L changes visible-window focus in normal mode while native cursor and Ctrl W navigation remain intact.
+
+
+## Persistent workspace acceptance
+
+- **FR-23**: Users can toggle files, Agents, CLI chat, logs, review, diagnostics, debug, and terminal panels through named configurable actions. F1 lists current keys.
+- **FR-24**: Multiple integrated terminals retain output and jobs across hide/show and restore split groups. Buffer/terminal cycling has VS Code-inspired and leader alternatives.
+- **FR-25**: Codex, Claude, and Gemini can run their official interactive CLIs in an isolated terminal worktree with normal permissions and explicit final review.
+- **FR-26**: Search/replacement exposes file/project scope, case matching, whole words, and regex; preview is non-mutating.
+- **FR-27**: Settings expose theme, keymaps, providers, languages, plugins, notifications, and persisted startup-panel choices without requiring Lua edits.
+- **NFR-12 Interactive transport**: PTY ownership, input/output draining, resize forwarding, cancellation, heartbeat, and source isolation have fixture coverage. Real provider account interoperability is verified separately.

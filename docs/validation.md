@@ -6,7 +6,7 @@ security certification.
 
 ## Agent core
 
-19 standard-library unittest cases pass: isolated concurrent tasks, new/deleted and
+30 standard-library unittest cases pass: isolated concurrent tasks, new/deleted and
 binary files, agent commits, dirty source/target, changed HEAD, wrong/tampered/stale
 snapshot hashes, reserved paths, rejection preservation, cancellation, expired
 heartbeats, JSON envelopes/event cursors, official provider command contracts, independent sibling acceptance, and conflicting
@@ -71,3 +71,30 @@ forge-workspace buffer, a visible nvim-tree, and tokyonight-night. Installed plu
 smoke covers tree/workspace focus and opening a commit diff from the commit graph.
 The pnpm website type check, lint, format check, and 15-page bilingual build pass
 after removing internal architecture, domain rule, and requirements pages.
+
+## Persistent panels and interactive PTY checks
+
+Local headless Neovim checks pass terminal creation, switching, split-group
+hide/restore without killing jobs, source buffer navigation, terminal-aware custom
+keys, visible search options, real ripgrep matching semantics, and CLI chat output
+through a native terminal. The fixture chat remains isolated until its patch is
+reviewed and explicitly accepted. Installed-plugin smoke passes explorer and Git
+flows after the new panel integration. These are local fixture providers, not
+authenticated Codex, Claude, or Gemini inference tests.
+
+A fresh warm headless sample on macOS arm64 / Neovim 0.12.6 measured median
+98.74 ms across 98.74, 97.19, 104.87, 95.53, 101.8, 88.75, and 99.95 ms. This
+includes launcher and exit, excludes interactive panels/LSPs/debuggers/models, and
+is not directly comparable to the earlier host-load sample or a typing-latency
+claim. Reproduce with scripts/benchmark-startup.py after installing plugins.
+
+The November 2 interactive TUI checks additionally cover empty launch, explicit
+file, directory argument, and welcome disabled. All preserve the intended editor
+content while showing Tokyo Night, files, and Agents in a wide terminal. PTY core
+tests include actual resize propagation, output draining, duplicate-ownership
+rejection, queued/running cancellation, and failed-session partial review.
+
+Resource accounting methodology, fixture boundaries, CPU units, RSS, and macOS
+footprint results are recorded in [performance.md](performance.md). The final
+resource probe validates Mach CPU conversion against both own and child POSIX
+clocks. Shared event-driven status updates retain the active-task polling fallback.

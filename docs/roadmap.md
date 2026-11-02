@@ -10,7 +10,7 @@ logs/events, cancellation, and snapshot-bound whole-patch review.
 ## Next iterations
 
 1. Validate installed language tools against real projects; add adapter smoke fixtures.
-2. Interactive agent follow-ups and explicit provider approval/attention UI.
+2. Structured chat messages, normalized approval/attention UI, and provider-native session resume. Interactive CLI conversations are already available.
 3. File/hunk acceptance, task dependencies, and richer provider event normalization.
 4. Measure startup and large-workspace latency before changing implementation language.
 5. Authenticated remote gateway and mobile client after protocol hardening.

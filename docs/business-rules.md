@@ -106,3 +106,18 @@ plugin integration, machine setup record, and docs/languages.md.
 - **BR-ED-12**: Tokyo Night is the fresh-install default; saved theme preferences and user.lua remain authoritative. Missing themes fall back to habamax.
 - **BR-ED-13**: Native h/j/k/l and Ctrl W navigation remain available. Ctrl H/J/K/L focus adjacent windows in normal mode only and remain configurable.
 - **BR-GIT-05**: General review includes changes from any author. Opening a graph, diff, commit popup, or conflict view never commits or pushes automatically.
+
+
+## Native panels and interactive conversations
+
+- **BR-AG-14**: A terminal may claim only a queued interactive task. Duplicate or completed-session ownership is rejected under the store mutation lock.
+- **BR-AG-15**: Interactive chat uses a clean committed source and isolated worktree. Running chat cannot be reviewed. Finished chat uses the existing snapshot gate and never applies or commits automatically.
+- **BR-AG-16**: Hiding chat keeps its owned process live while the editor is open. CLI output and logs remain separate from control JSON; ending an editor session does not imply reattachment later.
+- **BR-ED-14**: Hiding a terminal panel preserves its jobs, buffers, scrollback, and split group. Only explicit job termination or the editor terminal lifecycle can stop it.
+- **BR-ED-15**: Explorer h/l collapses/opens; j/k remains native. Ctrl H/J/K/L stays configurable across normal and Forge terminal modes. Plain source-buffer motions and insert controls remain intact.
+- **BR-ED-16**: Search/replacement scope, match-case, whole-word, and regex are visible options. Opening preview never modifies files; replacement remains an explicit grug-far action.
+- **BR-ED-17**: Existing modified buffers remain available while panels and buffers switch. Startup may add panels around explicit files but must not replace file contents or stdin.
+- **BR-ED-18**: Visible task status comes from persisted real tasks. The UI must not fabricate agent roles, progress, test results, model activity, or system metrics.
+
+- **BR-AG-17**: Existing task/status/log/event reads do not bootstrap Git or recreate the schema. Task creation, review, and application retain repository validation.
+- **BR-AG-18**: UI wakeups follow committed lifecycle events, never heartbeats or token output. The marker is a hint, not authoritative state. A shared active-task fallback preserves visibility if file events are unavailable.

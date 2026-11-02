@@ -129,6 +129,23 @@ export const docsPt: readonly DocPage[] = [
         ],
         note: 'Os atalhos com Ctrl e função são mapeados em modo normal. Ctrl S também funciona nos modos de inserção e visual. Ctrl W continua controlando janelas.',
       },
+      {
+        title: 'Painéis, buffers e terminais',
+        paragraphs: [
+          'F1 abre um guia com seus atalhos configurados. Ctrl H/J/K/L alterna os painéis no modo normal e nos terminais do Forge; h/j/k/l continua nativo nos arquivos. Na árvore, h recolhe e l ou Enter abre. Clique para focar e dê dois cliques para ativar ações dos painéis.',
+        ],
+        table: {
+          headers: ['Ação', 'Teclas'],
+          rows: [
+            ['Arquivos / Agentes / Chat', 'Ctrl B / Espaço p a / Espaço p c'],
+            ['Próximo / anterior buffer', 'Ctrl Tab / Ctrl Shift Tab; Espaço b n / Espaço b p'],
+            ['Terminal / novo terminal', 'Ctrl crase / Ctrl Shift crase; Espaço o t / Espaço o T'],
+            ['Dividir / escolher terminal', 'Ctrl Shift 5 / Espaço o s; Espaço o o'],
+            ['Revisão / debug / logs', 'Espaço p r / Espaço p d / Espaço p l'],
+            ['Configuração / painéis iniciais', 'Espaço u s / Espaço u L'],
+          ],
+        },
+      },
     ],
   },
   {
@@ -145,7 +162,7 @@ export const docsPt: readonly DocPage[] = [
     navigationTitle: 'Agentes e revisão',
     title: 'Delegue. Revise. Decida.',
     description:
-      'Agentes concorrentes em worktrees separados. O aceite fica vinculado ao conteúdo exato que você revisou.',
+      'Execute agentes lado a lado e revise cada resultado antes de alterar seu projeto.',
     sections: [
       {
         title: 'Conecte e prepare a tarefa',
@@ -153,7 +170,7 @@ export const docsPt: readonly DocPage[] = [
         paragraphs: [
           'O Forge usa sua instalação e autenticação do Codex, Claude Code ou Gemini CLI. Nenhuma chave é embutida no projeto. O comando cria uma branch e um worktree a partir do HEAD atual. Você pode iniciar várias tarefas independentes.',
         ],
-        note: 'Esta versão executa tarefas não interativas. Acompanhamento, logs e cancelamento estão disponíveis; conversa contínua e aprovação interativa de ferramentas ficam para a próxima etapa.',
+        note: 'Use tarefas para pedidos pontuais ou abra o chat CLI para conversar e responder às permissões do provedor. Ambos usam worktrees isoladas e revisão explícita.',
       },
       {
         title: 'Revise o resultado',
@@ -170,14 +187,6 @@ export const docsPt: readonly DocPage[] = [
         ],
       },
       {
-        title: 'Limites claros',
-        paragraphs: [
-          'Worktrees isolam alterações, não permissões de segurança. O Codex recebe sandbox workspace-write e não usa flags de bypass. Providers locais personalizados devem ser tratados como código confiável.',
-          'O cancelamento é feito pelo worker que iniciou o processo. O estado fica em .forge, excluído localmente do Git. Prompts e logs podem conter dados do projeto; não compartilhe essa pasta inadvertidamente.',
-          'O worker continua rodando se você fechar o Neovim. Reabra o projeto para consultar tarefas. Após queda do worker, um heartbeat expirado marca a tarefa como interrompida sem matar processos por um PID antigo.',
-        ],
-      },
-      {
         title: 'Notificações sob seu controle',
         code: ':ForgeNotifications',
         paragraphs: [
@@ -186,11 +195,13 @@ export const docsPt: readonly DocPage[] = [
         ],
       },
       {
-        title: 'CLI independente do editor',
-        code: './bin/forge-agents --root /seu/projeto list\n./bin/forge-agents --root /seu/projeto events --after 0',
+        title: 'Converse com seu CLI autenticado',
         paragraphs: [
-          'A saída é JSON com versão explícita. O contrato permite um futuro gateway mobile, mas autenticação remota, transporte HTTP e o app ainda não estão implementados.',
+          'Conecte sua conta e use :ForgeChatNew ou Espaço a C. Escolha o provedor e dê um nome à conversa. O CLI oficial abre num terminal lateral: escreva seu pedido e use o histórico, as próximas mensagens e as permissões do próprio provedor.',
+          'Salve os arquivos e faça commit ou stash antes. O chat usa uma worktree própria. Ocultar o painel mantém o processo ativo enquanto o Forge estiver aberto. Saia do CLI, selecione sua tarefa em Agentes e revise as alterações antes de aceitar.',
+          'O terminal pertence à sessão atual do editor. Logs e worktrees continuam disponíveis depois de fechar; o Forge não promete reanexar um terminal antigo nem substitui a retomada nativa do provedor.',
         ],
+        code: ':ForgeAgentConnect\n:ForgeChatNew\n:ForgeAgents',
       },
     ],
   },
@@ -230,6 +241,14 @@ export const docsPt: readonly DocPage[] = [
           'Mantenedores usam FORGE_UPDATE_LOCK=1 ao sincronizar dependências, revisam o lock e executam os testes antes de commitar.',
         ],
       },
+      {
+        title: 'Configure pelo editor',
+        paragraphs: [
+          'Espaço u s abre Configurações. Escolha tema, teclas, linguagens, plugins, conta de IA, notificações ou layout inicial. Essas opções não exigem editar Lua.',
+          'No layout inicial, habilite ou desabilite boas-vindas, árvore de arquivos e Agentes. Em terminais estreitos, os painéis continuam disponíveis por atalho.',
+        ],
+        code: ':ForgeSettings\n:ForgeStartupLayout',
+      },
     ],
   },
   {
@@ -262,6 +281,14 @@ export const docsPt: readonly DocPage[] = [
           'Edite o resultado diretamente quando precisar combinar os lados. Salve, revise e faça stage apenas dos arquivos resolvidos. :ForgeDiff abre a revisão de alterações a qualquer momento.',
         ],
         note: 'Escolher um lado é sempre sua decisão. Nenhum conflito é resolvido automaticamente.',
+      },
+      {
+        title: 'Buscar e substituir com opções visíveis',
+        paragraphs: [
+          'Ctrl Shift H ou Espaço f r abre busca e substituição no projeto. Espaço f R limita ao arquivo atual. Preencha Search e Replace, escolha File ou Project e ajuste Match case, Whole word e Regex.',
+          'Pressione p para pré-visualizar. Isso não altera arquivos. Revise os resultados e use as ações visíveis do grug-far; g? mostra ajuda. Com as teclas padrão, vírgula seguida de r aplica a substituição.',
+        ],
+        code: ':ForgeReplace\n:ForgeBufferReplace',
       },
     ],
   },

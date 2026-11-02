@@ -133,6 +133,26 @@ export const docsEn: readonly DocPage[] = [
           'LSP navigation and hover require a server supporting the relevant capability. Text replacement opens grug-far with a preview; Forge does not provide a custom multicursor implementation.',
         ],
       },
+      {
+        title: 'Panels, buffers, and terminals',
+        paragraphs: [
+          'Press F1 for a guide that reflects your configured shortcuts. Ctrl H/J/K/L moves between visible panes in normal mode and Forge terminals; h/j/k/l stays native in files. In the explorer, h collapses and l or Enter opens. Mouse clicks focus panels and double-clicks activate their actions.',
+        ],
+        table: {
+          headers: ['Action', 'Keys'],
+          rows: [
+            ['Files / Agents / Chat', 'Ctrl B / Space p a / Space p c'],
+            ['Next / previous buffer', 'Ctrl Tab / Ctrl Shift Tab; Space b n / Space b p'],
+            [
+              'Terminal / new terminal',
+              'Ctrl backtick / Ctrl Shift backtick; Space o t / Space o T',
+            ],
+            ['Split / choose terminal', 'Ctrl Shift 5 / Space o s; Space o o'],
+            ['Review / debug / logs', 'Space p r / Space p d / Space p l'],
+            ['Settings / startup panels', 'Space u s / Space u L'],
+          ],
+        },
+      },
     ],
   },
   {
@@ -148,8 +168,7 @@ export const docsEn: readonly DocPage[] = [
     slug: 'agents',
     navigationTitle: 'Agents and review',
     title: 'Delegate. Review. Decide.',
-    description:
-      'Concurrent agents in independent worktrees. Acceptance is bound to the exact content you reviewed.',
+    description: 'Run agents side by side and review each result before it changes your project.',
     sections: [
       {
         title: 'Connect your account',
@@ -158,7 +177,7 @@ export const docsEn: readonly DocPage[] = [
           'Save buffers and commit or stash changes first. Each task starts at the current HEAD in its own branch and worktree. Start several independent tasks when useful.',
         ],
         code: ':ForgeAgentConnect\n:ForgeAgentStart',
-        note: 'Initial support is one-shot tasks, status, raw logs, review, and cancellation. Continuous conversation and interactive provider permission prompts are future work.',
+        note: 'Use tasks for one-shot work or open CLI chat for follow-ups and interactive permission prompts. Both use isolated worktrees and explicit review.',
       },
       {
         title: 'Review the result',
@@ -178,23 +197,18 @@ export const docsEn: readonly DocPage[] = [
         title: 'Notifications you control',
         paragraphs: [
           'Enable or disable notifications for ready, failed, cancelled, and interrupted tasks. The choice persists. Watching begins when you start a task or inspect the agent list, and stops after watched tasks finish.',
-          'Notifications stay inside Neovim without exposing prompt contents. Workers keep running when the editor closes; system notifications while closed and mobile push are not implemented.',
+          'Notifications stay inside Neovim without exposing prompt contents. One-shot tasks keep running when the editor closes; interactive chats end with their terminal. System notifications while closed and mobile push are not implemented.',
         ],
         code: ':ForgeNotifications',
       },
       {
-        title: 'Clear boundaries',
+        title: 'Chat with your existing CLI account',
         paragraphs: [
-          'Worktrees isolate changes, not permissions. Codex uses workspace-write, Claude acceptEdits, and Gemini auto_edit. No blanket permission bypass is added; other provider permission checks remain. Headless operations requiring approval may be denied.',
-          'Prompts, state, and logs stay in the project-local .forge directory, excluded from Git. A stale worker heartbeat marks a task interrupted without killing an unverified PID. Interrupted tasks cannot be reviewed as finished.',
+          'Connect your account, then run :ForgeChatNew or press Space a C. Choose a provider and name the conversation. The official CLI opens in a side terminal; type your request there and use its normal follow-ups and permission prompts.',
+          'Save files and commit or stash first. Chat uses its own worktree. Hiding the pane keeps it live while Forge is open. Exit the CLI, select its task in Agents, and choose Review changes before accepting.',
+          'These terminals belong to the current editor session. Logs and worktrees remain available after closing; Forge does not promise to reattach an old terminal or replace provider-native resume controls.',
         ],
-      },
-      {
-        title: 'An editor-independent CLI',
-        paragraphs: [
-          'The CLI returns a versioned JSON envelope. A future mobile gateway can wrap this boundary. Remote authentication, HTTP transport, and a mobile application are not implemented.',
-        ],
-        code: './bin/forge-agents --root /your/project list\n./bin/forge-agents --root /your/project events --after 0',
+        code: ':ForgeAgentConnect\n:ForgeChatNew\n:ForgeAgents',
       },
     ],
   },
@@ -233,6 +247,14 @@ export const docsEn: readonly DocPage[] = [
           'Maintainers use FORGE_UPDATE_LOCK=1 when intentionally syncing dependencies, review the lock, and run checks before committing.',
         ],
       },
+      {
+        title: 'Configure from the editor',
+        paragraphs: [
+          'Open Settings with Space u s. Choose theme, keyboard shortcuts, languages, plugins, account login, notifications, or startup layout. No Lua edit is required for these choices.',
+          'Startup layout can enable or disable the welcome screen, files sidebar, and Agents sidebar. Narrow terminals keep panels available by shortcut instead of opening every pane.',
+        ],
+        code: ':ForgeSettings\n:ForgeStartupLayout',
+      },
     ],
   },
   {
@@ -265,6 +287,14 @@ export const docsEn: readonly DocPage[] = [
         ],
         code: ':ForgeConflicts',
         note: 'Choosing a side is your decision. No conflict is resolved automatically.',
+      },
+      {
+        title: 'Find and replace with visible options',
+        paragraphs: [
+          'Ctrl Shift H or Space f r opens project search and replace. Space f R targets the current file. Set Search and Replace, choose File or Project, and toggle Match case, Whole word, and Regex.',
+          'Press p to preview. The preview does not change files. Review matches, then use grug-far’s visible action keys; g? shows help. With default keys, comma followed by r applies replacement.',
+        ],
+        code: ':ForgeReplace\n:ForgeBufferReplace',
       },
     ],
   },

@@ -21,9 +21,7 @@ Agent application service
 ## Why Lua and Python
 
 Lua owns startup and editing. Git, ripgrep, LSP servers, and debug adapters already
-execute performance-sensitive operations in native processes. Python coordinates
-I/O and process lifecycles on demand using its standard library. It does not run
-on each keystroke. Rust would add a build toolchain and cross-platform binaries
+execute performance-sensitive operations in native processes. Python coordinates I/O and process lifecycles using its standard library. Code-editing keystrokes do not invoke Python. Interactive CLI sessions use a Python-owned PTY relay; visible active-task status uses bounded-interval polling. Rust would add a build toolchain and cross-platform binaries
 without demonstrated benefit for this workload. Introduce it only after measured
 latency or memory evidence warrants replacing a specific boundary.
 
@@ -88,3 +86,34 @@ explicit input and headless operation preserve the normal startup path. The pane
 starts no Python worker or model call. `features/chrome` supplies a native statusline
 with mode and discoverable command/workspace hints. Review and Git operations reuse
 Neogit, Diffview, and the existing agent snapshot boundary.
+
+
+## Panel ownership and interactive transport
+
+`features/panels/windows` owns tab-local native split references. It never deletes
+terminal buffers or kills jobs when hiding. `features/terminal/session` owns each
+Neovim job handle; the terminal controller selects/restores groups. File buffers,
+explorer movement, and normal/terminal window commands remain native. `features/agents`
+separates live task rendering, actions, and CLI chat. Only visible active panels
+poll; closing or leaving a panel stops its status timer. No model runs on startup.
+
+`tasks.create` is the shared worktree preparation path. Batch workers detach;
+interactive tasks are claimed once by `forge_agents.chat`, which delegates terminal
+I/O, resize, and owned-process cleanup to `terminal`. JSON control envelopes stay
+separate from raw terminal bytes. Both modes share the same review/hash/target-HEAD
+invariant. Only interactive queued tasks can cancel without a running worker.
+
+The initial screen is inspired by a multi-pane agent workspace. It does not invent
+agent roles, CPU statistics, plan progress, tests, or token counts. Status comes
+from actual persisted tasks; empty states explain the next available action.
+
+## Shared status wakeups
+
+`agents/watch` owns one status subscription per project and fans results out to
+visible panels and optional notifications. Store commits with a lifecycle event
+touch a best-effort events.signal marker. Heartbeats never touch that marker.
+Native file events debounce status reads; a five-second fallback runs only while
+tasks are active, preserving lost-worker detection and older state compatibility.
+No model logs or editor keystrokes trigger status reads. Existing status/log/event
+queries reuse the store without bootstrapping Git; mutating and review operations
+retain full Git validation.
