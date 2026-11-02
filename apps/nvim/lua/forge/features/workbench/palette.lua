@@ -5,14 +5,14 @@ function M.setup()
   local accent = vim.api.nvim_get_hl(0, { name = "Function", link = false })
   local mint = vim.g.colors_name == "forge-mint"
   local tokyo = (vim.g.colors_name or ""):find("tokyonight", 1, true)
-  local background = mint and 0x171e2a or tokyo and 0x10121e or normal.bg or 0x16161e
+  local background = mint and 0x0b110e or tokyo and 0x10121e or normal.bg or 0x16161e
   if tokyo or mint then
-    local editor_background = mint and 0x10151f or 0x0d0f18
+    local editor_background = mint and 0x050907 or 0x0d0f18
     vim.api.nvim_set_hl(0, "Normal", { fg = normal.fg or 0xc0caf5, bg = editor_background })
     vim.api.nvim_set_hl(0, "NormalNC", { fg = normal.fg or 0xc0caf5, bg = editor_background })
   end
-  local accent_color = mint and 0x83d9b3 or tokyo and 0xbb9af7 or accent.fg or 0xbb9af7
-  local border = mint and 0x354253 or 0x414868
+  local accent_color = mint and 0x69e598 or tokyo and 0xbb9af7 or accent.fg or 0xbb9af7
+  local border = mint and 0x203c2c or 0x414868
   local foreground = normal.fg or 0xc0caf5
   local groups = {
     ForgeModeNormal = { fg = background, bg = accent_color, bold = true },

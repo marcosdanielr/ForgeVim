@@ -1,0 +1,86 @@
+local M = {}
+
+function M.setup()
+  local colors = {
+    Normal = { fg = 0xc5d5cd, bg = 0x050907 },
+    NormalNC = { fg = 0xc5d5cd, bg = 0x050907 },
+    Comment = { fg = 0x748b7c, italic = true },
+    String = { fg = 0xa6e3a1 },
+    Character = { fg = 0xa6e3a1 },
+    Function = { fg = 0xc1f29d },
+    Keyword = { fg = 0x69e598, bold = true },
+    Statement = { fg = 0x69e598 },
+    Conditional = { fg = 0x69e598 },
+    Repeat = { fg = 0x69e598 },
+    Type = { fg = 0x7ee0bf },
+    Identifier = { fg = 0xc5d5cd },
+    Constant = { fg = 0xd7dfa6 },
+    Number = { fg = 0xe0be79 },
+    Boolean = { fg = 0xe0be79 },
+    Operator = { fg = 0x78b79a },
+    Special = { fg = 0x7bdac6 },
+    PreProc = { fg = 0x7ee0bf },
+    Delimiter = { fg = 0x94ad9f },
+    Directory = { fg = 0x69e598 },
+    LineNr = { fg = 0x4c6657 },
+    CursorLineNr = { fg = 0x69e598, bold = true },
+    CursorLine = { bg = 0x0d1811 },
+    Visual = { bg = 0x204531 },
+    Search = { fg = 0xd6f5df, bg = 0x285139 },
+    IncSearch = { fg = 0x050907, bg = 0x69e598 },
+    Pmenu = { fg = 0xc5d5cd, bg = 0x0b110e },
+    PmenuSel = { fg = 0xe4f8eb, bg = 0x204531 },
+    NormalFloat = { fg = 0xc5d5cd, bg = 0x0b110e },
+    FloatBorder = { fg = 0x355e44, bg = 0x0b110e },
+    NvimTreeNormal = { fg = 0xc5d5cd, bg = 0x0b110e },
+    NvimTreeNormalNC = { fg = 0xc5d5cd, bg = 0x0b110e },
+  }
+  local links = {
+    ["@comment"] = "Comment",
+    ["@string"] = "String",
+    ["@string.escape"] = "Special",
+    ["@function"] = "Function",
+    ["@function.call"] = "Function",
+    ["@function.method"] = "Function",
+    ["@function.method.call"] = "Function",
+    ["@function.builtin"] = "Function",
+    ["@constructor"] = "Type",
+    ["@keyword"] = "Keyword",
+    ["@keyword.function"] = "Keyword",
+    ["@keyword.return"] = "Keyword",
+    ["@keyword.import"] = "PreProc",
+    ["@keyword.conditional"] = "Conditional",
+    ["@keyword.repeat"] = "Repeat",
+    ["@type"] = "Type",
+    ["@type.builtin"] = "Type",
+    ["@variable"] = "Identifier",
+    ["@variable.builtin"] = "Special",
+    ["@variable.member"] = "Identifier",
+    ["@variable.parameter"] = "Identifier",
+    ["@property"] = "Identifier",
+    ["@constant"] = "Constant",
+    ["@constant.builtin"] = "Constant",
+    ["@number"] = "Number",
+    ["@boolean"] = "Boolean",
+    ["@operator"] = "Operator",
+    ["@punctuation.delimiter"] = "Delimiter",
+    ["@punctuation.bracket"] = "Delimiter",
+    ["@tag"] = "Type",
+    ["@tag.attribute"] = "Identifier",
+    ["@lsp.type.class"] = "Type",
+    ["@lsp.type.function"] = "Function",
+    ["@lsp.type.method"] = "Function",
+    ["@lsp.type.variable"] = "Identifier",
+    ["@lsp.type.property"] = "Identifier",
+    ["@lsp.type.parameter"] = "Identifier",
+    ["@lsp.type.keyword"] = "Keyword",
+  }
+  for name, value in pairs(colors) do
+    vim.api.nvim_set_hl(0, name, value)
+  end
+  for name, target in pairs(links) do
+    vim.api.nvim_set_hl(0, name, { link = target })
+  end
+end
+
+return M
