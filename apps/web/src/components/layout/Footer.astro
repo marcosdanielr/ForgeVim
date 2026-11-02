@@ -1,8 +1,8 @@
 ---
 import Logo from '@/components/brand/Logo.astro';
 import Icon from '@/components/ui/Icon.astro';
-import { pageLocale } from '@/lib/i18n';
-import { site } from '@/lib/site';
+import { site } from '@/config/site';
+import { pageLocale } from '@/i18n';
 const { t, path } = pageLocale(Astro.url.pathname);
 ---
 

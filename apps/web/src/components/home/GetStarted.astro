@@ -1,8 +1,8 @@
 ---
 import ButtonLink from '@/components/ui/ButtonLink.astro';
 import CodeBlock from '@/components/ui/CodeBlock.astro';
-import { pageLocale } from '@/lib/i18n';
-import { site } from '@/lib/site';
+import { site } from '@/config/site';
+import { pageLocale } from '@/i18n';
 const { t, path } = pageLocale(Astro.url.pathname);
 ---
 

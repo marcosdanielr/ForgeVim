@@ -4,7 +4,8 @@ description: Maintain ForgeVim landing page, brand assets, and documentation in 
 ---
 
 Read `AGENTS.md` and `docs/design.md`. Keep the site under `apps/web`; keep shared
-presentation components, typed content in `lib`, and `cn` in `utils`. Use Tailwind
+presentation components in `components`, reader MDX in `content/docs`, translations
+in `i18n`, settings in `config`, behavior in `features`, and `cn` in `utils`. Use Tailwind
 utilities and existing CSS tokens. Preserve the site's visual hierarchy and native
 editor identity; do not add generic feature grids, fabricated metrics, or claims
 for roadmap-only capabilities.
@@ -13,7 +14,7 @@ TypeScript must remain strict with no explicit any. Run `pnpm format`,
 `pnpm lint`, `pnpm check`, and `pnpm build`. Import sorting is enforced
 by ESLint and Tailwind sorting by Prettier. Verify desktop and narrow-screen
 layouts, keyboard tabs, copy feedback, documentation navigation, and focus states.
-Keep donation and repository URLs in `src/lib/site.ts`. Treat the repository as
+Keep donation and repository URLs in `src/config/site.ts`. Treat the repository as
 private until the owner explicitly changes its audience.
 
 Code and contributor documentation use English. Preserve both English and

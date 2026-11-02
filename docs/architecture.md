@@ -126,7 +126,7 @@ with Explorer and the existing agent/terminal panels according to available scre
 space and saved startup preferences. Every pane is a native split; there is no
 second renderer or GUI runtime. Winbars provide window headers; one global statusline stays at the bottom.
 User-selected themes remain authoritative; the default Tokyo Night palette adds
-contrasting editor and panel surfaces. `colors/forge-mint.lua` exposes an optional, separate theme that reuses Tokyo Night syntax without changing its configuration. Mint surfaces and explorer folder highlights are scoped to that theme identity. The chat pane hosts the official CLI after
+contrasting editor and panel surfaces. `colors/forge-mint.lua` exposes an optional, separate theme that uses Tokyo Night as a baseline without changing its configuration, then applies scoped Vim, Tree-sitter, and LSP syntax colors. Black surfaces and green explorer folder highlights are scoped to that theme identity. The chat pane hosts the official CLI after
 an explicit conversation action; its welcome state does not imply a custom
 orchestrator or model connection. No plan or progress is invented for presentation.
 
@@ -158,3 +158,11 @@ repositories and prefixes rather than the user's global installation.
 application. Both reuse native window headers and cached shortcut labels.
 
 Personal `plugin_specs` are merged into the lazy.nvim specification by the plugin feature. FlutterTools declarations belong to personal configuration; the distribution documents a recipe and retains optional Dart profile/action metadata without installing FlutterTools.
+
+## Website content ownership
+
+Reader documentation lives in typed Astro MDX collections under `apps/web/src/content/docs/{en,pt}`. Repository `docs/` remains English contributor documentation and is not imported by reader pages. `config/` owns site settings, `i18n/` owns translations and locale routing, and `features/` owns browser behavior and documentation queries. `client.ts` only composes those behaviors. Native editor screenshots use local example data; captions distinguish examples from live model sessions.
+
+Developer tools are grouped under `scripts/verify`, `scripts/benchmarks`, `scripts/setup`, and `scripts/deploy`. The stable `scripts/install.py` entry point and installer package retain their installation contract. See `scripts/README.md` for commands.
+
+Search replacement uses Telescope for presentation, an asynchronous ripgrep finder, and a byte-range replacement service. The finder caps displayed results at 2000 matching lines and disables Replace all for truncated results. Replacement preflights every affected file before mutation, preserves UTF-8 byte boundaries, and writes through native buffers. File-write errors are reported; multi-file writes are not a cross-file filesystem transaction. The legacy grug-far adapter remains available for its existing direct workflow.

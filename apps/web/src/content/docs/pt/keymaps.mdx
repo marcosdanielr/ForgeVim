@@ -1,0 +1,80 @@
+---
+title: 'Memória muscular preservada.'
+description: 'Atalhos familiares do VS Code, com alternativas confiáveis no terminal. Movimentos e comandos do Neovim continuam disponíveis.'
+navigationTitle: 'Atalhos'
+locale: 'pt'
+route: 'keymaps'
+order: 2
+---
+
+import CodeBlock from '@/components/ui/CodeBlock.astro';
+
+## Navegação e edição
+
+| Atalho       | Alternativa   | Ação                             |
+| ------------ | ------------- | -------------------------------- |
+| Ctrl P       | Leader f f    | Buscar arquivos no projeto.      |
+| Ctrl Shift F | Leader f g    | Buscar texto no projeto.         |
+| Ctrl F       | Leader f b    | Buscar no buffer.                |
+| Ctrl Shift H | Leader f r    | Substituir texto no projeto.     |
+| —            | Leader f R    | Substituir texto no arquivo.     |
+| F2           | Leader c r    | Renomear símbolo usando LSP.     |
+| Ctrl S       | :write        | Salvar buffer.                   |
+| Alt Shift F  | Leader c f    | Formatar código.                 |
+| Ctrl Shift P | Leader Leader | Abrir paleta de comandos.        |
+| Ctrl Space   | —             | Abrir sugestões de autocomplete. |
+
+## Entenda o código pelo teclado
+
+| Atalho          | Ação                                                |
+| --------------- | --------------------------------------------------- |
+| gd / F12        | Ir à definição, inclusive em outro arquivo.         |
+| grr / Shift F12 | Encontrar referências.                              |
+| K / Leader c h  | Mostrar documentação de classe, variável ou função. |
+| Leader c s      | Mostrar assinatura da função.                       |
+| gi / gy         | Ir à implementação / definição do tipo.             |
+| gl / Leader c e | Ler diagnósticos da linha.                          |
+| ]d / [d         | Próximo / anterior diagnóstico.                     |
+| Leader f s      | Pesquisar símbolos do documento.                    |
+
+## Debug e agentes
+
+| Atalho    | Alternativa | Ação                        |
+| --------- | ----------- | --------------------------- |
+| F5        | Leader d c  | Iniciar ou continuar debug. |
+| F9        | Leader d b  | Alternar breakpoint.        |
+| F10       | Leader d o  | Avançar sem entrar.         |
+| F11       | Leader d i  | Entrar na chamada.          |
+| Shift F11 | Leader d O  | Sair da chamada.            |
+| Shift F5  | Leader d q  | Encerrar debug.             |
+| —         | Leader a n  | Iniciar agente Codex.       |
+| —         | Leader a a  | Listar e revisar agentes.   |
+
+## Personalize sem editar Lua
+
+Escolha uma ação pelo nome, veja os atalhos atuais e selecione adicionar, substituir ou restaurar padrões. Digite combinações como &lt;leader&gt;xf ou &lt;F6&gt;. As mudanças são aplicadas na hora e salvas.
+
+O menu configura ações em modo normal. Conflitos com outros mapeamentos são sinalizados. Movimentos de uma tecla e comandos Ctrl W são protegidos.
+
+<CodeBlock code={':ForgeKeymaps'} />
+
+## Limites do terminal
+
+Alguns terminais não distinguem Ctrl Shift F de Ctrl F, ou capturam Ctrl S. Terminais com protocolo de teclado estendido oferecem melhor suporte. Use os atalhos com líder quando necessário.
+
+Para renomear símbolos, prefira F2 com um LSP ativo. Substituição textual abre a prévia do Telescope com ações para uma ou todas as ocorrências. Ela é independente da renomeação de símbolos pelo LSP.
+
+> Os atalhos com Ctrl e função são mapeados em modo normal. Ctrl S também funciona nos modos de inserção e visual. Ctrl W continua controlando janelas.
+
+## Painéis, buffers e terminais
+
+F1 abre um guia com seus atalhos configurados. Ctrl H/J/K/L alterna os painéis no modo normal e nos terminais do Forge; h/j/k/l continua nativo nos arquivos. Na árvore, h recolhe e l ou Enter abre. Clique para focar e dê dois cliques para ativar ações dos painéis.
+
+| Ação                            | Teclas                                                 |
+| ------------------------------- | ------------------------------------------------------ |
+| Arquivos / Agentes / Chat       | Ctrl B / Leader p a / Leader p c                       |
+| Próximo / anterior buffer       | Ctrl Tab / Ctrl Shift Tab; Leader b n / Leader b p     |
+| Terminal / novo terminal        | Ctrl crase / Ctrl Shift crase; Leader o t / Leader o T |
+| Dividir / escolher terminal     | Ctrl Shift 5 / Leader o s; Leader o o                  |
+| Revisão / debug / logs          | Leader p r / Leader p d / Leader p l                   |
+| Configuração / painéis iniciais | Leader u s / Leader u L                                |

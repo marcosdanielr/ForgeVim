@@ -57,9 +57,9 @@ Install Forge plugins first. Pass the XDG data root that contains
 forge.nvim/lazy/lazy.nvim; the probe uses temporary projects and isolated settings.
 
 ```sh
-python3 scripts/benchmark-resources.py --nvim nvim --data-home /path/to/xdg/data --seconds 6
-python3 scripts/benchmark-resources.py --nvim nvim --data-home /path/to/xdg/data --scenario agents
-python3 scripts/benchmark-startup.py --nvim nvim
+python3 scripts/benchmarks/resources.py --nvim nvim --data-home /path/to/xdg/data --seconds 6
+python3 scripts/benchmarks/resources.py --nvim nvim --data-home /path/to/xdg/data --scenario agents
+python3 scripts/benchmarks/startup.py --nvim nvim
 ```
 
 The resource probe currently supports macOS only. It does not modify the source

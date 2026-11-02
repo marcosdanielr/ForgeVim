@@ -10,7 +10,7 @@ roadmap intent. Business constraints are in [business rules](https://github.com/
 | --- | --- | --- | --- |
 | FR-01 | Launch an isolated Neovim app without replacing existing configuration. Native operators/registers still work. | Implemented | make smoke |
 | FR-02 | Expose a searchable command palette, themes, and plugin choices without mandatory Lua editing. Choices persist. Forge Mint has a separate identity and does not alter Tokyo Night after theme switching. | Implemented | Plugin integration and state smoke |
-| FR-03 | Find files/text by file or Git project; preview textual replacement; rename symbols through LSP. | Implemented | Telescope/grug-far integration; real Pyright rename smoke |
+| FR-03 | Find files/text by file or Git project; preview textual replacement; rename symbols through LSP. | Implemented | Telescope occurrence replacement integration; real Pyright rename smoke |
 | FR-04 | Provide LSP/path/snippet/buffer autocomplete and opt-in Copilot inline suggestions. | Implemented; live Copilot auth unverified | Blink API integration; user authentication required |
 | FR-05 | Preserve VIMarcos language formatter inventory and expose opt-in tool installation. | Implemented | Conform integration; real StyLua formatting smoke |
 | FR-06 | Provide breakpoints, stepping, scopes, stack, watches, and DAP profiles for Python, Go, Node, PHP, and native binaries. | Implemented profiles; all runtimes not verified | DAP config integration; real debugpy smoke |
@@ -112,9 +112,7 @@ because the underlying protocol could eventually support it.
   authenticated access rather than promising anonymous curl downloads.
 - **FR-40**: New/split/list terminal controls are visible; legacy NUL input and
   Alt Enter work in a real TUI. Pane toggles operate while terminal mode is focused.
-- **FR-41**: Replacement preview has a visible Apply all action backed by the
-  pinned engine. Tests prove preview preserves files and explicit application
-  changes only the requested fixture.
+- **FR-41**: Search exposes visible Replace one and Replace all controls. One replaces one byte-range match; all requires confirmation and complete results. Tests cover repeated occurrences on one line, UTF-8, file scope, stale results, and unsaved edits.
 
 - **FR-42**: CLI chats and terminals receive spaces and printable text unchanged. Leader shortcuts require terminal-normal mode; modified window/terminal keys remain available while typing.
 

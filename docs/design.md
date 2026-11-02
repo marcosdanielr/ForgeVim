@@ -1,7 +1,7 @@
 # Visual design and brand
 
-The site uses a restrained editorial layout: warm paper, mineral green, compact
-monospaced annotations, generous space, and an editor demonstration instead of
+The site uses a restrained editorial layout: neutral paper/light mode, near-black graphite/dark mode, restrained lavender accents, compact
+monospaced annotations, generous space, and real editor screenshots instead of
 stock imagery. Manrope and IBM Plex Mono are bundled locally through Fontsource.
 No remote font service, trackers, invented statistics, or testimonials are used.
 
@@ -18,3 +18,5 @@ original; no upstream assets or source code are copied.
 The landing page and docs support English and Portuguese, with English as the
 static default and browser language detection plus a persistent manual choice. Code and contribution documentation use
 English. The demo is explicitly illustrative; it does not operate local agents.
+
+The header groups navigation and preferences rather than spreading an oversized call to action across the page. Installation and AI guides use MDX, ordered task steps, copyable commands, real captures, and an explicit first-chat/review path. Do not replace genuine screenshots with illustrative editor mockups or invent live agent activity.

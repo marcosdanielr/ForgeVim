@@ -1,8 +1,8 @@
 ---
 import DocContent from '@/components/docs/DocContent.astro';
+import { getDocs } from '@/features/docs/content';
 import DocsLayout from '@/layouts/DocsLayout.astro';
-import { getDocs } from '@/lib/docs';
-const page = getDocs('pt')[0];
+const page = (await getDocs('pt'))[0];
 if (!page) throw new Error('Getting started documentation is missing');
 ---
 

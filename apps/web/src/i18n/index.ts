@@ -1,4 +1,4 @@
-import { english, portuguese, type TranslationKey } from '@/lib/messages';
+import { english, portuguese, type TranslationKey } from '@/i18n/messages';
 
 export type Locale = 'en' | 'pt';
 export function localeFromPath(pathname: string): Locale {

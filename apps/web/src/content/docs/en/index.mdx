@@ -1,0 +1,76 @@
+---
+title: 'Your first project in ForgeVim.'
+description: 'Install, open a project, and learn the essential keys. Connect AI when you are ready.'
+navigationTitle: 'Start here'
+locale: 'en'
+route: ''
+order: 0
+---
+
+import CodeBlock from '@/components/ui/CodeBlock.astro';
+import ProductShot from '@/components/ui/ProductShot.astro';
+
+## 1. Check the essentials
+
+You need **macOS or Linux**, **Neovim 0.11+**, **Git**, **ripgrep**, and **Python 3.9+**.
+Choose a Nerd Font in your terminal if you want file and language icons.
+
+> The repository is currently private. Your GitHub account needs access to clone it.
+
+## 2. Install from your terminal
+
+Copy this block into your computer’s terminal. Wait for plugin installation to finish.
+
+<CodeBlock
+  code={`git clone https://github.com/marcosdanielr/ForgeVim.git
+cd ForgeVim
+bash install.sh`}
+  label="Terminal"
+/>
+
+Your existing Neovim setup stays separate. If you prefer GitHub CLI authentication,
+replace the first line with `gh repo clone marcosdanielr/ForgeVim`.
+
+## 3. Open a project
+
+Go to the folder you want to work on, then run:
+
+<CodeBlock code="forge ." label="Terminal · from your project folder" />
+
+If you see **command not found**, use `~/.local/bin/forge .`. Follow the PATH instruction
+printed by the installer to make the shorter command available.
+
+<ProductShot
+  src="/screenshots/dashboard.png"
+  alt="Actual ForgeVim welcome dashboard with shortcut menu."
+  caption="The actual welcome screen. Click to enlarge."
+/>
+
+## 4. Open, edit, and save a file
+
+1. Press **f** on the welcome screen. Type part of a filename and press **Enter**.
+2. Press **i** to type code.
+3. Press **Esc** to return to navigation.
+4. Press **Ctrl S** to save.
+
+**Leader** is your shortcut key. It defaults to **Space**. `Leader f f` means Space,
+then f, then f. Do not hold all three together.
+
+## 5. Keep these keys nearby
+
+| Key                | Action                                      |
+| ------------------ | ------------------------------------------- |
+| Leader f f         | Find a file                                 |
+| Leader f g         | Search project text                         |
+| Ctrl B             | Show or hide files                          |
+| Ctrl H / J / K / L | Move left / down / up / right between panes |
+| F1                 | Show help                                   |
+| :qa                | Exit; warns about unsaved changes           |
+| :wqa               | Save everything and exit                    |
+
+Press Esc before entering a command that starts with a colon.
+
+## Next: your language or your AI
+
+Run `:ForgeLanguages` to enable only the language tools you need.
+Follow [AI agents](/docs/agents/) to connect Codex, Claude Code, or Gemini and review your first result.

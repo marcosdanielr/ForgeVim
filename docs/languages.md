@@ -168,7 +168,7 @@ After enabling profiles, maintainers may install their Mason tools without openi
 interactive menus:
 
 ```sh
-./bin/forge --headless '+lua dofile("scripts/install-language-tools.lua")'
+./bin/forge --headless '+lua dofile("scripts/setup/language-tools.lua")'
 ```
 
 Run from the distribution checkout. The helper installs only enabled profiles,
@@ -224,7 +224,7 @@ Optional actual-server verification uses an installed Dart SDK without Flutter
 packages or model calls:
 
 ```sh
-python3 scripts/dart-smoke.py --dart /path/to/dart-sdk/bin/dart
+python3 scripts/verify/dart.py --dart /path/to/dart-sdk/bin/dart
 ```
 
 The fixture checks an undefined identifier and missing semicolon, then verifies

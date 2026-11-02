@@ -1,0 +1,63 @@
+---
+title: 'Review. Resolve. Commit.'
+description: 'Neogit, Diffview, nvim-tree, and optional lazygit. Familiar workflows in Neovim, without automating your Git decisions.'
+navigationTitle: 'Git and files'
+locale: 'en'
+route: 'git'
+order: 3
+---
+
+import ProductShot from '@/components/ui/ProductShot.astro';
+import CodeBlock from '@/components/ui/CodeBlock.astro';
+
+## File tree
+
+Ctrl B or Leader f e toggles the project tree. Enter opens a file; a creates, r renames, and d requests deletion with confirmation. g? shows shortcuts. The tree opens beside the welcome screen. Ctrl H/L moves between panels; h/j/k/l moves the cursor.
+
+<CodeBlock code={':ForgeTree'} />
+
+## Stage and commit
+
+Tab expands files, s stages, and u unstages. Press c for the commit popup, then c to open the message editor. Review staged content, write your commit message, save, and close as Neogit instructs.
+
+Forge never commits or pushes automatically. Hooks, signing, and identity follow your Git configuration. Prefer lazygit? :ForgeLazygit opens your installed CLI in a native terminal tab.
+
+<CodeBlock code={':ForgeGit'} />
+
+## Three-way conflict resolution
+
+The command checks for unmerged files before opening the merge. ]x and [x navigate conflicts. Leader c o chooses ours/current, Leader c t chooses theirs/incoming, and Leader c b chooses the base at the selected conflict.
+
+Edit the result directly to combine both sides. Save, review, and stage only resolved files. :ForgeDiff opens working-tree review at any time.
+
+<CodeBlock code={':ForgeConflicts'} />
+
+> Choosing a side is your decision. No conflict is resolved automatically.
+
+## Find and replace
+
+1. Open `Leader f r` for the project, or `Leader f R` for the current file.
+2. Type your query in Telescope. Results appear without changing files.
+3. Press **F2** to enter replacement text. Enter saves the field; Esc cancels.
+4. Select a result with the arrows or Ctrl J/K. The preview shows before and after.
+5. **Ctrl R** replaces one occurrence. **Ctrl A** replaces all, after confirmation.
+
+| Key       | Option                               |
+| --------- | ------------------------------------ |
+| F3        | Match case (Aa)                      |
+| F4        | Whole word                           |
+| F5        | Literal or regular-expression search |
+| F6        | Current file or project              |
+| Enter     | Open the result file                 |
+| Esc twice | Close search                         |
+
+Replacement text is literal: `$1` does not expand capture groups. An empty
+replacement deletes the selected match. Files with unsaved edits and results
+that changed after searching are blocked. With more than 2000 matching lines,
+refine the query before replacing all.
+
+<ProductShot
+  src="/screenshots/search.png"
+  alt="Actual Telescope search and replacement window."
+  caption="Actual preview: results on the left, selected change on the right."
+/>

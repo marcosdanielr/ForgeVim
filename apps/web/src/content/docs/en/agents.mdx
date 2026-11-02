@@ -1,0 +1,108 @@
+---
+title: 'Your first agent, from request to review.'
+description: 'Connect your account, chat with an AI, and review its work before applying.'
+navigationTitle: 'AI agents'
+locale: 'en'
+route: 'agents'
+order: 1
+---
+
+import CodeBlock from '@/components/ui/CodeBlock.astro';
+import ProductShot from '@/components/ui/ProductShot.astro';
+
+## What does an agent do?
+
+An agent can read code, edit files, and run tools such as tests, within its CLI permissions.
+ForgeVim gives each task a **separate Git copy** of your project. You review its changes before applying them.
+
+**Chat** is an ongoing conversation. **Task** is one request that can run while you code.
+**Autocomplete** suggests code while typing; it is separate from agents.
+
+## 1. Install one AI CLI
+
+Choose just one to begin. Follow its official installation guide:
+
+- [Codex CLI](https://developers.openai.com/codex/cli/) — command: `codex`.
+- [Claude Code](https://code.claude.com/docs/en/overview) — command: `claude`.
+- [Gemini CLI](https://geminicli.com/docs/get-started/installation/) — command: `gemini`.
+
+Use your own provider account. ForgeVim does not include an AI subscription.
+
+## 2. Sign in
+
+Inside ForgeVim, press Esc and run:
+
+<CodeBlock code=":ForgeAgentConnect" label="Inside ForgeVim" />
+
+Choose the provider and complete its login flow. When login finishes, press **Esc twice**, then `:q` to close its window.
+
+> **Successfully logged in** means authentication worked. It does not start a chat.
+
+## 3. Save and prepare your project
+
+Use `:wa` to save all files, then **commit or stash** pending Git changes.
+Open `:ForgeGit` if you need to stage and commit.
+The agent starts from the latest commit; unsaved or uncommitted work is not included.
+
+## 4. Open a new chat
+
+<CodeBlock code=":ForgeChatNew" label="Inside ForgeVim · shortcut: Leader a C" />
+
+1. Choose Codex, Claude Code, or Gemini.
+2. Give the conversation a name.
+3. Wait for the CLI to appear on the right. Type your request and send it.
+
+Start with something small:
+
+<CodeBlock
+  code={`Add two retries to the request client.
+Keep its public interface unchanged.
+Run the relevant tests and explain the changes.`}
+  label="Example request"
+/>
+
+Continue the conversation in that panel. The provider may ask for permission to run tools.
+To use editor shortcuts, press **Esc twice** first. Press **i** to return to typing.
+**Leader p c** hides or shows the chat; hiding it keeps the conversation running while ForgeVim is open.
+
+## 5. Run independent tasks in parallel
+
+Use `:ForgeAgentStart` for a one-shot request in another project copy. Repeat for independent work.
+For example, one task can investigate a failing test while another documents a separate module.
+
+<CodeBlock code=":ForgeAgents" label="Track tasks and choose actions" />
+
+These are independent agents. ForgeVim does not automatically invent a team or coordinate their plans.
+Review each result, and commit accepted changes before accepting the next task.
+
+## 6. Review before applying
+
+1. Exit the chat through its CLI when finished. Open `:ForgeAgents`.
+2. Select the finished task and choose **Review changes**.
+3. Read the diff. Added and removed lines show exactly what changed.
+4. Press **a** and confirm to apply, **r** to reject, or **q** to leave without deciding.
+
+<ProductShot
+  src="/screenshots/review.png"
+  alt="Actual ForgeVim patch review."
+  caption="Real interface using a local example task. This does not depict a live model session."
+/>
+
+**Apply does not commit.** Check the files in your project and commit when satisfied.
+If the project or result changed after review, review again. Conflicting results stay available for inspection.
+
+## If something does not open
+
+| Situation                       | What to do                                                            |
+| ------------------------------- | --------------------------------------------------------------------- |
+| CLI not installed               | Install the selected provider CLI and reopen your terminal.           |
+| Save buffers / Commit or stash  | Save files and handle pending Git changes.                            |
+| Process exited 0 after login    | Run :ForgeChatNew; login is already complete.                         |
+| Chat pane is hidden             | Esc twice, then Leader p c.                                           |
+| Space triggers editor shortcuts | Update and restart ForgeVim. In the CLI, press i to return to typing. |
+
+## Notifications and completion
+
+`:ForgeNotifications` toggles task notifications inside the editor.
+Copilot is separate: enable it in `:ForgePlugins`, restart, then run `:Copilot auth`.
+**Alt L** accepts a Copilot suggestion. Normal LSP completion works without Copilot.

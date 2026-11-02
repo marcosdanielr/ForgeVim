@@ -1,5 +1,6 @@
 import { env } from 'node:process';
 
+import mdx from '@astrojs/mdx';
 import tailwindcss from '@tailwindcss/vite';
 import { defineConfig } from 'astro/config';
 
@@ -8,6 +9,7 @@ export default defineConfig({
     env.FORGE_WEB_SITE_URL ||
     (env.VERCEL_PROJECT_PRODUCTION_URL && `https://${env.VERCEL_PROJECT_PRODUCTION_URL}`) ||
     'https://forge-nvim-marcos.upbeat-corgi-3005.chatgpt.site',
+  integrations: [mdx()],
   output: 'static',
   compressHTML: false,
   vite: { plugins: [tailwindcss()] },

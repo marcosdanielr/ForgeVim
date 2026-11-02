@@ -1,27 +1,12 @@
 ---
-import DocSections from '@/components/docs/DocSections.astro';
-import type { DocPage } from '@/lib/docs';
-import { localeFromPath } from '@/lib/i18n';
+import { render } from 'astro:content';
 
-import Languages from '../../../../../docs/languages.md';
-import LanguagesPt from '../../content/docs/pt/languages.md';
+import type { DocPage } from '@/features/docs/content';
 interface Props {
   page: DocPage;
 }
 const { page } = Astro.props;
-const locale = localeFromPath(Astro.url.pathname);
-const sources = {
-  languages: locale === 'pt' ? LanguagesPt : Languages,
-};
-const Source = page.source ? sources[page.source] : undefined;
+const { Content } = await render(page.entry);
 ---
 
-{
-  Source ? (
-    <div class="markdown-content">
-      <Source />
-    </div>
-  ) : (
-    <DocSections sections={page.sections} />
-  )
-}
+<div class="markdown-content"><Content /></div>

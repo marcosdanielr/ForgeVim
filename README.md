@@ -13,7 +13,7 @@ Node.js 22+ is needed for Copilot and JavaScript tooling. Language runtimes are
 installed separately. The repository is private during initial development.
 
 ```sh
-gh repo clone marcosdanielr/ForgeVim
+git clone https://github.com/marcosdanielr/ForgeVim.git
 cd ForgeVim
 bash install.sh
 forge .
@@ -77,7 +77,7 @@ Restart to install or unload choices; `:Lazy` manages installed dependencies.
 `:ForgeKeymaps` lets you add/replace shortcuts for named actions, inspect current
 keys, detect conflicts, and restore defaults. Changes apply immediately and
 persist without editing Lua. Native single-key motions and Ctrl W are protected.
-`:ForgeThemes` applies and persists a theme. The default is Tokyo Night (night). Choose `forge-mint` for graphite surfaces and mint accents, including explorer folders. Switching back restores Tokyo Night. Empty interactive launches open the project workspace and file tree.
+`:ForgeThemes` applies and persists a theme. The default is Tokyo Night (night). Choose `forge-mint` for nearly black surfaces, green accents, and dedicated syntax colors, including explorer folders. Switching back restores Tokyo Night. Empty interactive launches open the project workspace and file tree.
 
 blink.cmp provides LSP, path, snippet, and buffer completion. Copilot is opt-in:
 enable it in `:ForgePlugins`, restart, then run `:Copilot auth`. Alt L accepts an
@@ -185,7 +185,7 @@ pnpm dev
 ```
 
 `make smoke` uses temporary XDG directories and a fake agent to prove editor/core
-review acceptance. `scripts/plugin-smoke.py` checks installed plugin integration;
+review acceptance. `scripts/verify/plugins.py` checks installed plugin integration;
 it requires dependencies installed in the current XDG environment. These checks
 do not prove every debugger/LSP runtime or live Copilot authentication.
 
@@ -279,15 +279,17 @@ message UI or an autonomous multi-agent plan/DAG.
 
 ## Search and replace
 
-Ctrl Shift H / Leader f r opens a form for project replacement; Leader f R targets
-the current file. Edit Search and Replace, select File/Project, and toggle Match
-case, Whole word, and Regex. Enter or double-click edits an option. Preview opens
-grug-far without changing files. Its header and g? explain application, history,
-and undo. With the default local leader, comma then r applies replacement.
+Leader f r opens project search in a floating Telescope picker; Leader f R targets
+the current file. Type a query, use F2 to set replacement text, and inspect the
+before/after preview. Ctrl R replaces one occurrence; Ctrl A replaces all after
+confirmation. F3 toggles case matching, F4 whole words, F5 regex search, and F6
+file/project scope. Replacement text is literal; capture expansion is not provided.
+Unsaved buffers and changed search results are protected. Refine searches with
+more than 2000 matching lines before Replace all.
 
 ## Performance checks
 
-`python3 scripts/benchmark-startup.py --nvim nvim` measures warm headless process
+`python3 scripts/benchmarks/startup.py --nvim nvim` measures warm headless process
 startup after dependencies are installed. It does not measure interactive panel
 rendering, typing latency, LSPs, debuggers, model inference, or compare Rust and
 Python. Panels and notifications share one event-driven status stream per project, with a five-second fallback while tasks run. Editor
@@ -327,9 +329,7 @@ For a transport-independent fallback, use Leader o t. In terminal mode, Tab stil
 belongs to the shell. A real-PTY test verifies NUL and Alt Enter input plus multiple
 live shells and Agents hide/show.
 
-Replacement previews now expose an Apply all button and Leader f A. Nothing is
-changed by opening preview; applying remains a separate explicit action. Existing
-localleader replacement keys and grug-far help remain available.
+The Telescope replacement picker exposes one/all actions with a preview. Direct grug-far commands remain available as an advanced alternative.
 
 ForgeVim retains the `forge` command and the `forge.nvim` XDG profile name for compatibility. Existing personal plugins, logins, settings, installer metadata, and SSD checkout paths remain valid after the repository rename.
 

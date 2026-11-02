@@ -1,0 +1,76 @@
+---
+title: 'Seu primeiro projeto no ForgeVim.'
+description: 'Instale, abra um projeto e aprenda as teclas essenciais. Conecte uma IA quando quiser.'
+navigationTitle: 'Comece aqui'
+locale: 'pt'
+route: ''
+order: 0
+---
+
+import CodeBlock from '@/components/ui/CodeBlock.astro';
+import ProductShot from '@/components/ui/ProductShot.astro';
+
+## 1. Confira os requisitos
+
+Você precisa de **macOS ou Linux**, **Neovim 0.11+**, **Git**, **ripgrep** e **Python 3.9+**.
+Selecione uma Nerd Font no terminal se quiser ícones de arquivos e linguagens.
+
+> O repositório ainda é privado. Sua conta do GitHub precisa ter acesso para clonar.
+
+## 2. Instale pelo terminal
+
+Copie este bloco no terminal do computador. Aguarde a instalação dos plugins terminar.
+
+<CodeBlock
+  code={`git clone https://github.com/marcosdanielr/ForgeVim.git
+cd ForgeVim
+bash install.sh`}
+  label="Terminal"
+/>
+
+Sua configuração atual do Neovim fica separada. Se preferir autenticar pelo GitHub CLI,
+substitua a primeira linha por `gh repo clone marcosdanielr/ForgeVim`.
+
+## 3. Abra um projeto
+
+Entre na pasta do projeto em que quer trabalhar. Depois execute:
+
+<CodeBlock code="forge ." label="Terminal · dentro da pasta do projeto" />
+
+Se aparecer **command not found**, use `~/.local/bin/forge .`. Siga a instrução de PATH
+mostrada pelo instalador para habilitar o comando curto.
+
+<ProductShot
+  src="/screenshots/dashboard.png"
+  alt="Dashboard real do ForgeVim com menu de atalhos."
+  caption="Tela real de boas-vindas. Clique para ampliar."
+/>
+
+## 4. Abra, edite e salve um arquivo
+
+1. Pressione **f** na tela inicial. Digite parte do nome do arquivo e pressione **Enter**.
+2. Pressione **i** para digitar código.
+3. Pressione **Esc** para voltar à navegação.
+4. Pressione **Ctrl S** para salvar.
+
+**Leader** é sua tecla de atalhos. Por padrão é **Space**. `Leader f f` significa Space,
+depois f, depois f. Não segure as três juntas.
+
+## 5. Fique com estas teclas por enquanto
+
+| Tecla              | Ação                                                |
+| ------------------ | --------------------------------------------------- |
+| Leader f f         | Buscar arquivo                                      |
+| Leader f g         | Buscar texto no projeto                             |
+| Ctrl B             | Mostrar ou ocultar arquivos                         |
+| Ctrl H / J / K / L | Ir à janela à esquerda / abaixo / acima / à direita |
+| F1                 | Ver ajuda                                           |
+| :qa                | Sair; avisa sobre alterações sem salvar             |
+| :wqa               | Salvar tudo e sair                                  |
+
+Pressione Esc antes de digitar um comando que começa com dois-pontos.
+
+## Próximo passo: sua linguagem ou sua IA
+
+Use `:ForgeLanguages` para ativar apenas as ferramentas da linguagem que usa.
+Siga [Agentes de IA](/pt/docs/agents/) para conectar Codex, Claude Code ou Gemini e revisar seu primeiro resultado.

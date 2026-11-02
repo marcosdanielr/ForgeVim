@@ -1,8 +1,8 @@
 ---
-import EditorDemo from '@/components/home/EditorDemo.astro';
 import ButtonLink from '@/components/ui/ButtonLink.astro';
-import { pageLocale } from '@/lib/i18n';
-import { site } from '@/lib/site';
+import ProductShot from '@/components/ui/ProductShot.astro';
+import { site } from '@/config/site';
+import { pageLocale } from '@/i18n';
 const { t, path } = pageLocale(Astro.url.pathname);
 ---
 
@@ -25,11 +25,13 @@ const { t, path } = pageLocale(Astro.url.pathname);
     <p class="hero-note">{t('hero.note')}</p>
   </div>
   <div class="hero-product">
-    <div class="product-caption">
-      <span>{t('hero.caption')}</span><span>{t('hero.explore')}</span>
-    </div><EditorDemo /><p class="demo-disclaimer">
-      {t('hero.demo')}
-    </p>
+    <ProductShot
+      src="/screenshots/workspace.png"
+      height={1104}
+      alt={t('hero.caption')}
+      caption={t('hero.demo')}
+      eager
+    />
   </div>
 </section>
 <div class="compatibility-strip">

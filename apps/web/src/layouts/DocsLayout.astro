@@ -1,14 +1,14 @@
 ---
+import type { DocPage } from '@/features/docs/content';
+import { getDocs } from '@/features/docs/content';
+import { pageLocale } from '@/i18n';
 import BaseLayout from '@/layouts/BaseLayout.astro';
-import type { DocPage } from '@/lib/docs';
-import { getDocs } from '@/lib/docs';
-import { pageLocale } from '@/lib/i18n';
 interface Props {
   page: DocPage;
 }
 const { page } = Astro.props;
 const { locale, t, path } = pageLocale(Astro.url.pathname);
-const docs = getDocs(locale);
+const docs = await getDocs(locale);
 const index = docs.findIndex((entry) => entry.slug === page.slug);
 const previous = docs[index - 1];
 const next = docs[index + 1];

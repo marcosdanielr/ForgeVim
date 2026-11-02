@@ -4,5 +4,6 @@ export const site = {
   coffee: 'https://buymeacoffee.com/marcosdanielr',
   description:
     'Your Neovim, with more reach. Debugging, search, and parallel agents, with every change yours to review.',
-  install: 'gh repo clone marcosdanielr/ForgeVim\ncd ForgeVim\nbash install.sh\nforge .',
+  install:
+    'git clone https://github.com/marcosdanielr/ForgeVim.git\ncd ForgeVim\nbash install.sh\nforge .',
 } as const;

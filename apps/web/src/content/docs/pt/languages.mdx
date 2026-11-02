@@ -1,4 +1,13 @@
-# Configure suas linguagens
+---
+title: 'Escolha uma linguagem. Mantenha o resto leve.'
+description: 'Ative somente SDK, servidor, formatador e debugger necessários ao projeto. Menu guiado torna configuração simples.'
+navigationTitle: 'Linguagens e debug'
+locale: 'pt'
+route: 'languages'
+order: 4
+---
+
+import CodeBlock from '@/components/ui/CodeBlock.astro';
 
 Para um novo usuário, todos os perfis começam desabilitados. Instalar um binário
 não ativa seu servidor. Perfis iniciam LSP somente para arquivos compatíveis;
@@ -145,18 +154,6 @@ Python respeita VIRTUAL_ENV. Go exige módulo e Delve. Compile Rust/C/C++ antes 
 selecionar o binário. PHP precisa de Xdebug na porta 9003. TS pode precisar de
 compilação, source maps ou runtime específico. Carregue launch.json confiável por
 `:ForgeDebugLoadLaunch`.
-
-## Instalação headless explícita
-
-Depois de habilitar perfis, execute no checkout da distribuição:
-
-```sh
-./bin/forge --headless '+lua dofile("scripts/install-language-tools.lua")'
-```
-
-Instala somente ferramentas Mason dos perfis habilitados e reporta falhas; SDKs
-continuam separados. Use Python mantido para Black/debugpy atuais. O mínimo Python
-3.9 do núcleo não garante compatibilidade com toda ferramenta externa.
 
 ## Configuração declarativa opcional
 

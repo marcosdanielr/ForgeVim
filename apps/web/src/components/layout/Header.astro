@@ -3,15 +3,18 @@ import Logo from '@/components/brand/Logo.astro';
 import LanguageControl from '@/components/layout/LanguageControl.astro';
 import ThemeControl from '@/components/layout/ThemeControl.astro';
 import Icon from '@/components/ui/Icon.astro';
-import { pageLocale } from '@/lib/i18n';
-import { site } from '@/lib/site';
+import { site } from '@/config/site';
+import { pageLocale } from '@/i18n';
 const { t, path } = pageLocale(Astro.url.pathname);
 ---
 
 <header class="site-header">
-  <div class="page-shell flex min-h-22 items-center justify-between gap-5">
+  <div class="page-shell header-inner">
     <a href={path('/')} aria-label={t('nav.home')}><Logo /></a>
-    <nav class="hidden items-center gap-8 text-sm font-semibold md:flex" aria-label={t('nav.main')}>
+    <nav
+      class="header-navigation hidden items-center gap-7 text-sm font-medium md:flex"
+      aria-label={t('nav.main')}
+    >
       <a href={path('/#workflow')}>{t('nav.workflow')}</a><a href={path('/docs/')}
         >{t('nav.docs')}</a
       >
@@ -22,10 +25,13 @@ const { t, path } = pageLocale(Astro.url.pathname);
         class="inline-flex items-center gap-2">GitHub <Icon name="github" class="size-4" /></a
       >
     </nav>
-    <a href={path('/docs/')} class="button button-small button-primary hidden sm:inline-flex"
-      >{t('nav.start')} <Icon name="arrow" class="size-4" /></a
-    >
-    <div class="header-preferences"><LanguageControl /><ThemeControl /></div>
+    <div class="header-preferences">
+      <LanguageControl /><ThemeControl /><a
+        href={path('/docs/')}
+        class="header-install hidden sm:inline-flex"
+        >{t('nav.start')} <Icon name="arrow" class="size-3.5" /></a
+      >
+    </div>
     <details class="mobile-menu md:hidden">
       <summary aria-label={t('nav.mobile')}>Menu <span>+</span></summary><nav
         aria-label={t('nav.main')}

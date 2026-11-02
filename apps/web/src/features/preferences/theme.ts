@@ -1,4 +1,4 @@
-import { pageLocale } from '@/lib/i18n';
+import { pageLocale } from '@/i18n';
 
 export type ThemePreference = 'system' | 'light' | 'dark';
 

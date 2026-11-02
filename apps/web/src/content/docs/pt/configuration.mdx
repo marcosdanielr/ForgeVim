@@ -1,0 +1,82 @@
+---
+title: 'Seu editor, sem cerimônia.'
+description: 'Escolhas simples para o dia a dia. Lua disponível quando você precisar ir além.'
+navigationTitle: 'Configuração'
+locale: 'pt'
+route: 'configuration'
+order: 5
+---
+
+import ProductShot from '@/components/ui/ProductShot.astro';
+import CodeBlock from '@/components/ui/CodeBlock.astro';
+
+## Temas e plugins
+
+O tema escolhido é aplicado e salvo. Tokyo Night é o padrão; Catppuccin, Rose Pine e o tema simples Habamax também estão disponíveis.
+
+O menu de plugins permite alternar extras ou adicionar owner/repository. Reinicie o Forge para instalar ou descarregar plugins. :Lazy mostra versões e progresso. Plugins adicionados são código executável: escolha repositórios confiáveis.
+
+<CodeBlock code={':ForgeThemes\n:ForgePlugins'} />
+
+## Autocomplete e Copilot
+
+blink.cmp oferece autocomplete de LSP, caminhos, snippets e palavras do buffer. Copilot é opcional e aparece no menu de plugins.
+
+Depois de habilitar Copilot e reiniciar, execute :Copilot auth. Use Alt L para aceitar uma sugestão inline. Enter aceita sugestões do menu LSP. A tecla Tab continua disponível para snippets e indentação.
+
+> Copilot e agentes são integrações separadas. Habilitar autocomplete não inicia tarefas Codex.
+
+## Configuração pessoal
+
+O diretório respeita XDG_CONFIG_HOME quando definido. Preferências escolhidas nos menus ficam em stdpath("state")/forge/preferences.json. A escolha salva de tema e plugins tem prioridade sobre os defaults pessoais.
+
+<CodeBlock
+  code={
+    '-- ~/.config/forge.nvim/lua/user.lua\nreturn {\n  theme = "tokyonight",\n  format_on_save = true,\n  copilot = false,\n}'
+  }
+/>
+
+## Ícones e barra inferior
+
+Ícones de pastas e linguagens vêm habilitados. Selecione uma Nerd Font no terminal, como MesloLGM Nerd Font Mono. Para usar texto simples, execute :ForgeIcons (Leader u i) e reinicie o Forge.
+
+A barra inferior permanece visível entre os painéis. Mostra modo, branch, erros, avisos, linguagem, codificação, fim de linha e posição do cursor. Os contadores vêm dos diagnósticos reais do buffer.
+
+No modo normal, K (Shift K) mostra informações do símbolo. gl ou Leader c e mostra erros e avisos da linha. ]d e [d navegam pelos diagnósticos. F1 lista suas teclas configuradas; a documentação de símbolos exige um LSP ativo.
+
+## Tamanho das janelas e Leader
+
+O cabeçalho de cada painel mostra o atalho para ocultá-lo. Ctrl B alterna o Explorer; Leader p a alterna Agentes, Leader p c alterna o chat e Leader p l alterna os logs. Ctrl crase alterna os terminais.
+
+Foque uma janela com Ctrl H/J/K/L. Ctrl Shift Esquerda/Direita altera a largura; Ctrl Shift Cima/Baixo altera a altura. Leader w h/l/k/j oferece as mesmas ações; Leader w = equilibra as janelas. O mouse continua disponível para redimensionar.
+
+Leader é Espaço por padrão. :ForgeLeader ou Configurações salva outra tecla; reiniciar aplica a troca. Leader Leader abre comandos. Tab/Shift Tab alterna buffers no modo normal, como no VIMarcos, preservando o Tab de autocomplete nos terminais.
+
+Leader f f busca arquivos, Leader f g busca texto no projeto e Leader f b busca no buffer atual. :ForgeKeymaps altera essas teclas. :ForgeDiagnosticDisplay escolhe mensagens inline, expandidas na linha atual ou exibição discreta de erros.
+
+## Novos terminais, painéis e substituição
+
+Leader o t mostra ou oculta o terminal atual. Alt Enter ou Leader o T cria outro shell; Leader o s divide e Leader o o lista as sessões. New, Split e List também ficam clicáveis no cabeçalho. Ctrl Space/Ctrl @ alterna o terminal fora do modo de inserção; o autocomplete em inserção é preservado.
+
+Leader p a alterna Agentes, Leader p c alterna chat, Leader p l alterna logs e Ctrl B alterna Explorer. Dentro do chat ou terminal, pressione Esc duas vezes antes de usar atalhos Leader. Durante a digitação, espaços e texto chegam intactos à CLI. Atalhos modificados de janela e terminal continuam disponíveis. Ocultar mantém o processo rodando.
+
+A substituição usa uma prévia no Telescope. F2 edita o texto, Ctrl R aplica uma ocorrência e Ctrl A aplica todas após confirmação.
+
+## Configure pelo editor
+
+Leader u s abre Configurações. Escolha tema, teclas, linguagens, plugins, conta de IA, notificações ou layout inicial. Essas opções não exigem editar Lua.
+
+No layout inicial, habilite ou desabilite boas-vindas, árvore de arquivos e Agentes. Em terminais estreitos, os painéis continuam disponíveis por atalho.
+
+<CodeBlock code={':ForgeSettings\n:ForgeStartupLayout'} />
+
+## Forge Mint
+
+Use `:ForgeThemes` e escolha **forge-mint** para fundos quase pretos, detalhes verdes
+e cores próprias de sintaxe. Tokyo Night continua sendo o tema roxo padrão, separado.
+
+<ProductShot
+  src="/screenshots/forge-mint.png"
+  alt="Forge Mint aplicado ao código e às pastas."
+  caption="Tema preto e verde opcional, capturado no editor real."
+/>

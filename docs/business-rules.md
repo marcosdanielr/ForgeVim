@@ -61,10 +61,10 @@ bypass. Owner: Python `providers`, Lua `features.agents.providers`.
 
 | ID | Rule | Owner |
 | --- | --- | --- |
-| BR-WEB-01 | Theme defaults to system. Explicit light/dark preference persists; automatic mode follows later OS changes. Storage failure must not break the page. | scripts/theme.ts; BaseLayout prepaint |
-| BR-WEB-02 | Illustrative demos are labeled and do not execute real tasks or imply future features exist today. | home components; lib/docs.ts |
-| BR-WEB-03 | GitHub and Buy Me a Coffee destinations come from one typed configuration source. | lib/site.ts |
-| BR-WEB-04 | Presentation and docs remain accessible at narrow widths and through keyboard navigation; reduced-motion preference is respected. | global.css; scripts/site.ts |
+| BR-WEB-01 | Theme defaults to system. Explicit light/dark preference persists; automatic mode follows later OS changes. Storage failure must not break the page. | features/preferences/theme.ts; BaseLayout prepaint |
+| BR-WEB-02 | Illustrative demos are labeled and do not execute real tasks or imply future features exist today. | home components; MDX content |
+| BR-WEB-03 | GitHub and Buy Me a Coffee destinations come from one typed configuration source. | config/site.ts |
+| BR-WEB-04 | Presentation and docs remain accessible at narrow widths and through keyboard navigation; reduced-motion preference is respected. | global.css; client.ts |
 | BR-WEB-05 | Site and repository stay private until the owner explicitly changes their audience. | hosting and repository settings |
 
 BR-ED-09: shortcut preferences use stable command IDs, apply immediately, and
@@ -115,7 +115,7 @@ plugin integration, machine setup record, and docs/languages.md.
 - **BR-AG-16**: Hiding chat keeps its owned process live while the editor is open. CLI output and logs remain separate from control JSON; ending an editor session does not imply reattachment later.
 - **BR-ED-14**: Hiding a terminal panel preserves its jobs, buffers, scrollback, and split group. Only explicit job termination or the editor terminal lifecycle can stop it.
 - **BR-ED-15**: Explorer h/l collapses/opens; j/k remains native. Ctrl H/J/K/L stays configurable across normal and Forge terminal modes. Plain source-buffer motions and insert controls remain intact.
-- **BR-ED-16**: Search/replacement scope, match-case, whole-word, and regex are visible options. Opening preview never modifies files; replacement remains an explicit grug-far action.
+- **BR-ED-16**: Search/replacement scope, match-case, whole-word, and regex are visible options. Opening preview never modifies files; replacement requires an explicit one/all action in the Telescope picker.
 - **BR-ED-17**: Existing modified buffers remain available while panels and buffers switch. Startup may add panels around explicit files but must not replace file contents or stdin.
 - **BR-ED-18**: Visible task status comes from persisted real tasks. The UI must not fabricate agent roles, progress, test results, model activity, or system metrics.
 
@@ -183,9 +183,7 @@ real Dart language-server test.
   are distinct from hide/show. Ctrl Space/Ctrl @ provides a legacy NUL fallback
   outside insert mode; insert completion remains unchanged. Terminal headers expose
   New/Split/List with real session counts. Shell jobs survive hiding and switching.
-- **BR-ED-28**: Search preview exposes a separate Apply all action. Opening preview
-  never changes files; application calls the existing pinned engine only after
-  an explicit click or named command. Scope and search flags remain authoritative.
+- **BR-ED-28**: Search preview never changes files. Replace one applies exactly one occurrence, including repeated matches on one line. Replace all requires confirmation and complete search results. Unsaved buffers, changed source lines, and non-writable files block application. Regex applies to search; replacement text is literal.
 
 Owners: `scripts/installer`, `install.sh`, `features/terminal`,
 `features/search/preview`, and the named action registry.
@@ -195,3 +193,5 @@ Owners: `scripts/installer`, `install.sh`, `features/terminal`,
 - **BR-IN-04**: ForgeVim branding and repository URLs do not rename the `forge` command, `forge.nvim` profile, installer ownership marker, manifest product ID, or existing source directories. Previous canonical repository URLs remain compatible with installer reuse.
 
 - **BR-WEB-07**: Automatic website deployment is limited to main and changes to website inputs since the last successful deployment. Missing comparison history builds. Deployment does not change repository visibility or existing editor configuration.
+
+- **BR-ED-30**: The welcome dashboard renders a native ForgeVim wordmark and actionable shortcuts. Narrow windows use a compact wordmark. It starts no model or terminal process, and explicit files and stdin retain their normal startup path.

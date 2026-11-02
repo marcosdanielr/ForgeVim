@@ -2,10 +2,10 @@
 import type { GetStaticPaths } from 'astro';
 
 import DocContent from '@/components/docs/DocContent.astro';
+import { type DocPage, getDocs } from '@/features/docs/content';
 import DocsLayout from '@/layouts/DocsLayout.astro';
-import { type DocPage, getDocs } from '@/lib/docs';
-export const getStaticPaths = (() =>
-  getDocs('en')
+export const getStaticPaths = (async () =>
+  (await getDocs('en'))
     .filter((page) => page.slug !== '')
     .map((page) => ({ params: { slug: page.slug }, props: { page } }))) satisfies GetStaticPaths;
 interface Props {

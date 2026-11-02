@@ -1,0 +1,78 @@
+---
+title: 'Your editor, less ceremony.'
+description: 'Simple daily choices. Lua remains available when you need more control.'
+navigationTitle: 'Configuration'
+locale: 'en'
+route: 'configuration'
+order: 5
+---
+
+import ProductShot from '@/components/ui/ProductShot.astro';
+import CodeBlock from '@/components/ui/CodeBlock.astro';
+
+## Themes, plugins, and shortcuts
+
+Theme selection applies and persists. Tokyo Night is the default; Catppuccin, Rose Pine, and the plain Habamax theme are available too.
+
+Toggle optional plugins or add a trusted GitHub owner/repository. Restart to install or unload choices; :Lazy shows versions and progress. Plugins execute code, so choose repositories you trust.
+
+<CodeBlock code={':ForgeThemes\n:ForgePlugins\n:ForgeKeymaps'} />
+
+## Completion and Copilot
+
+blink.cmp provides LSP, path, snippet, and buffer completion. Copilot is optional. Enable it in the plugin menu, restart, then run :Copilot auth.
+
+Alt L accepts inline Copilot suggestions. Enter accepts a completion-menu item. Tab remains available for snippets and indentation. Copilot completion and agent tasks have separate authentication.
+
+## Personal settings
+
+The config path respects XDG_CONFIG_HOME. Menu preferences live under stdpath("state")/forge/preferences.json and override user defaults. Folder and language icons are enabled by default. Select a Nerd Font in your terminal, such as MesloLGM Nerd Font Mono. Use :ForgeIcons (Leader u i) and restart to switch to plain text.
+
+<CodeBlock
+  code={
+    '-- ~/.config/forge.nvim/lua/user.lua\nreturn {\n  theme = "tokyonight",\n  format_on_save = true,\n  copilot = false,\n  notifications = true,\n  nerd_fonts = true,\n}'
+  }
+/>
+
+## Bottom statusbar
+
+The global bottom bar stays visible across panels. It shows mode, Git branch, errors and warnings, language, encoding, line endings, and cursor position. Counts come from actual buffer diagnostics.
+
+Press K (Shift K) in normal mode for symbol documentation. Press gl or Leader c e for line errors and warnings. Use ]d and [d to move between diagnostics. F1 lists your configured keys; language documentation requires an active LSP.
+
+## Window size and Leader
+
+Pane headers show the shortcut that hides them. Ctrl B toggles Explorer; Leader p a toggles Agents, Leader p c toggles chat, and Leader p l toggles logs. Ctrl backtick toggles terminals.
+
+Focus a split with Ctrl H/J/K/L. Ctrl Shift Left/Right changes its width; Ctrl Shift Up/Down changes its height. Leader w h/l/k/j provides the same actions; Leader w = balances windows. Mouse resizing remains available.
+
+Leader defaults to Space. :ForgeLeader or Settings saves a different key; restart applies it. Leader Leader opens commands. Tab/Shift Tab cycles buffers in normal mode, matching VIMarcos, while terminal Tab completion remains available.
+
+Find files with Leader f f, search project text with Leader f g, and search the current buffer with Leader f b. :ForgeKeymaps changes these keys. :ForgeDiagnosticDisplay selects inline, expanded current-line, or quiet error messages.
+
+## New terminals, pane toggles and replacement
+
+Leader o t toggles the active terminal. Alt Enter or Leader o T creates another shell; Leader o s splits and Leader o o lists sessions. New, Split and List are also clickable in the terminal header. Ctrl Space/Ctrl @ is a legacy-terminal toggle outside insert mode; insert completion is preserved.
+
+Leader p a toggles Agents, Leader p c toggles chat, Leader p l toggles logs, and Ctrl B toggles Explorer. Inside a CLI chat or terminal, press Esc twice before using Leader shortcuts. Spaces and text are sent to the CLI unchanged while typing. Modified window and terminal shortcuts remain available. Hiding a terminal keeps its process running.
+
+Replacement uses a Telescope preview. F2 edits the replacement, Ctrl R applies one occurrence, and Ctrl A applies all after confirmation.
+
+## Configure from the editor
+
+Open Settings with Leader u s. Choose theme, keyboard shortcuts, languages, plugins, account login, notifications, or startup layout. No Lua edit is required for these choices.
+
+Startup layout can enable or disable the welcome screen, files sidebar, and Agents sidebar. Narrow terminals keep panels available by shortcut instead of opening every pane.
+
+<CodeBlock code={':ForgeSettings\n:ForgeStartupLayout'} />
+
+## Forge Mint
+
+Use `:ForgeThemes` and choose **forge-mint** for nearly black surfaces, green accents
+and dedicated syntax colors. Tokyo Night remains the separate purple default.
+
+<ProductShot
+  src="/screenshots/forge-mint.png"
+  alt="Forge Mint applied to code and explorer folders."
+  caption="The optional black-and-green theme, captured in the real editor."
+/>

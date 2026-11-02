@@ -1,0 +1,63 @@
+---
+title: 'Revise. Resolva. Faça commit.'
+description: 'Neogit, Diffview e nvim-tree: interfaces conhecidas, dentro do Neovim. Sem automatizar suas decisões de Git.'
+navigationTitle: 'Git e arquivos'
+locale: 'pt'
+route: 'git'
+order: 3
+---
+
+import ProductShot from '@/components/ui/ProductShot.astro';
+import CodeBlock from '@/components/ui/CodeBlock.astro';
+
+## Árvore de arquivos
+
+Ctrl B ou Leader f e alterna a árvore do projeto. Enter abre um arquivo; a cria, r renomeia, d solicita exclusão com confirmação. Use g? para ver atalhos. A árvore abre ao lado da tela inicial. Ctrl H/L alterna os painéis; h/j/k/l move o cursor.
+
+<CodeBlock code={':ForgeTree'} />
+
+## Stage e commit com Neogit
+
+Use Tab para expandir arquivos, s para stage e u para unstage. A tecla c abre o popup de commit; c novamente abre o editor da mensagem. Revise o conteúdo staged, escreva sua mensagem de commit, salve e feche conforme as instruções do Neogit.
+
+Forge não faz commit ou push automaticamente. Hooks, assinatura e identidade seguem sua configuração Git.
+
+<CodeBlock code={':ForgeGit'} />
+
+## Conflitos em três vias
+
+Abra o merge somente quando houver arquivos em conflito. ]x e [x navegam conflitos. Leader c o aceita ours/current; Leader c t aceita theirs/incoming; Leader c b aceita a base no conflito selecionado.
+
+Edite o resultado diretamente quando precisar combinar os lados. Salve, revise e faça stage apenas dos arquivos resolvidos. :ForgeDiff abre a revisão de alterações a qualquer momento.
+
+<CodeBlock code={':ForgeConflicts'} />
+
+> Escolher um lado é sempre sua decisão. Nenhum conflito é resolvido automaticamente.
+
+## Buscar e substituir
+
+1. Abra `Leader f r` para buscar no projeto ou `Leader f R` para o arquivo atual.
+2. Digite o texto no campo do Telescope. Os resultados aparecem sem alterar arquivos.
+3. Pressione **F2** para informar a substituição. Enter confirma o campo; Esc cancela.
+4. Selecione um resultado com as setas ou Ctrl J/K. A prévia mostra antes e depois.
+5. **Ctrl R** substitui uma ocorrência. **Ctrl A** substitui todas, após confirmação.
+
+| Tecla          | Opção                                  |
+| -------------- | -------------------------------------- |
+| F3             | Diferenciar maiúsculas/minúsculas (Aa) |
+| F4             | Palavra inteira                        |
+| F5             | Busca literal ou expressão regular     |
+| F6             | Arquivo atual ou projeto               |
+| Enter          | Abrir o arquivo do resultado           |
+| Esc duas vezes | Fechar a busca                         |
+
+A substituição é texto literal: `$1` não expande grupos de captura. Campo vazio
+remove a ocorrência selecionada. Arquivos com edições não salvas e resultados
+que mudaram desde a busca são bloqueados. Se houver mais de 2000 linhas de
+resultado, refine a busca antes de substituir tudo.
+
+<ProductShot
+  src="/screenshots/search.png"
+  alt="Janela real de busca e substituição com Telescope."
+  caption="Prévia real: resultados à esquerda, alteração selecionada à direita."
+/>

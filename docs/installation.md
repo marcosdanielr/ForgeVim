@@ -7,15 +7,19 @@ automatically. Node.js, SDKs, language tools, and AI CLIs remain explicit choice
 
 ## Install from a checkout
 
-The repository is private during development. Authenticate Git or use GitHub CLI
-with an account that has access:
+The repository is private during development. Authenticate Git with an account
+that has access before cloning:
 
 ```sh
-gh repo clone marcosdanielr/ForgeVim
+git clone https://github.com/marcosdanielr/ForgeVim.git
 cd ForgeVim
 bash install.sh
 forge .
 ```
+
+If you prefer GitHub CLI authentication, replace the clone command with
+`gh repo clone marcosdanielr/ForgeVim`. GitHub CLI is optional; the installer itself
+requires Git.
 
 The installer validates tools, creates a sparse managed runtime under
 `${XDG_DATA_HOME:-~/.local/share}/forge.nvim/runtime`, installs selected plugins

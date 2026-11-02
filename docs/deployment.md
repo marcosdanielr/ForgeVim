@@ -9,7 +9,7 @@ build, output, and ignored-build commands. No GitHub deployment token is require
 The build runs `pnpm build` and publishes `apps/web/dist`. Automatic Git deployments
 are enabled for main only. The ignore script compares website inputs against
 `VERCEL_GIT_PREVIOUS_SHA`, the last successful deployment for this project and
-branch. It includes the website, imported English language documentation, pnpm
+branch. It includes the website, MDX reader guides, pnpm
 workspace/dependency files, and deployment configuration. Lua/Python-only changes
 do not deploy the site. Several commits between successful deployments are
 compared together, so an editor-only final commit cannot hide earlier site edits.

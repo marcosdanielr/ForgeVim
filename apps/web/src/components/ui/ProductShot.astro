@@ -1,0 +1,24 @@
+---
+interface Props {
+  src: string;
+  alt: string;
+  caption: string;
+  eager?: boolean;
+  height?: number;
+}
+const { src, alt, caption, eager = false, height = 1392 } = Astro.props;
+---
+
+<figure class="product-shot">
+  <a href={src} target="_blank" rel="noopener noreferrer" aria-label={alt}>
+    <img
+      src={src}
+      alt={alt}
+      width="2090"
+      height={height}
+      loading={eager ? 'eager' : 'lazy'}
+      decoding="async"
+    />
+  </a>
+  <figcaption>{caption}</figcaption>
+</figure>

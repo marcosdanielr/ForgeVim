@@ -41,13 +41,13 @@ latency benchmark or a startup SLA.
 
 Astro 7.4.4 (updated after dependency audit), strict TypeScript check, ESLint 10 with explicit-any prohibition and import
 sorting, Prettier with Tailwind class sorting, and the static build pass. The build
-contains both locale trees, including translated domain rules and requirements.
+contains both locale trees with reader guides for installation and daily use.
 Internal rules, requirements, and architecture stay in English under docs/. The website contains bilingual reader guidance for installation and daily use.
 
 Browser QA uses the Codex internal browser. Light/dark/system controls, manual
-locale navigation, demo tabs, docs navigation, and copy controls are checked in the
-visible layout. The first narrow layout was inspected before bilingual additions;
-final responsive QA and any remaining limitation are recorded at handoff.
+locale navigation, docs navigation, and copy controls are checked in the
+visible layout. The redesigned landing page and MDX agent guide were inspected
+in a wide viewport; the landing page was also inspected in a narrow viewport.
 
 All three scoped skills pass the skill-creator validator. GitHub CI configuration
 runs Python 3.9/3.13 core checks, Neovim 0.11.5 smoke, StyLua, and website gates.
@@ -86,7 +86,7 @@ A fresh warm headless sample on macOS arm64 / Neovim 0.12.6 measured median
 98.74 ms across 98.74, 97.19, 104.87, 95.53, 101.8, 88.75, and 99.95 ms. This
 includes launcher and exit, excludes interactive panels/LSPs/debuggers/models, and
 is not directly comparable to the earlier host-load sample or a typing-latency
-claim. Reproduce with scripts/benchmark-startup.py after installing plugins.
+claim. Reproduce with scripts/benchmarks/startup.py after installing plugins.
 
 The November 2 interactive TUI checks additionally cover empty launch, explicit
 file, directory argument, and welcome disabled. All preserve the intended editor
@@ -98,3 +98,7 @@ Resource accounting methodology, fixture boundaries, CPU units, RSS, and macOS
 footprint results are recorded in [performance.md](performance.md). The final
 resource probe validates Mach CPU conversion against both own and child POSIX
 clocks. Shared event-driven status updates retain the active-task polling fallback.
+
+## Reader experience and replacement workflow
+
+The reader site uses Astro MDX collections and genuine Neovim UI captures. Screenshots show an example workspace and a local command-provider task, not authenticated model inference. Browser verification uses the internal browser. The editor checks cover separate theme identity and syntax colors, responsive dashboard wordmarks, individual byte-range replacement, repeated matches on one line, UTF-8, paths with spaces, stale results, unsaved buffers, and the installed Telescope picker. Copilot configuration is present but provider authentication and live completion are not verified by these checks.
