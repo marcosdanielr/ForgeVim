@@ -60,10 +60,19 @@ local function exercise()
   end
   assert(require("forge.features.themes").apply("tokyonight"))
   local original_editor = vim.api.nvim_get_hl(0, { name = "Normal", link = false })
+  local original_string = vim.api.nvim_get_hl(0, { name = "String", link = false })
   local original_folder = vim.api.nvim_get_hl(0, { name = "NvimTreeFolderIcon", link = false })
   for _ = 1, 2 do
     assert(require("forge.features.themes").apply("forge-mint"))
     assert(vim.g.colors_name == "forge-mint", "Mint theme lost its identity")
+    assert(
+      vim.api.nvim_get_hl(0, { name = "String", link = false }).fg == 0xa6e3a1,
+      "Mint syntax colors missing"
+    )
+    assert(
+      vim.api.nvim_get_hl(0, { name = "@function", link = false }).fg == 0xc1f29d,
+      "Mint Tree-sitter colors missing"
+    )
     for _, group in ipairs({
       "NvimTreeFolderIcon",
       "NvimTreeOpenedFolderIcon",
@@ -73,12 +82,16 @@ local function exercise()
       "NvimTreeOpenedFolderName",
     }) do
       assert(
-        vim.api.nvim_get_hl(0, { name = group, link = false }).fg == 0x83d9b3,
+        vim.api.nvim_get_hl(0, { name = group, link = false }).fg == 0x69e598,
         "Mint folder color missing: " .. group
       )
     end
-    assert(vim.api.nvim_get_hl(0, { name = "Normal", link = false }).bg == 0x10151f)
+    assert(vim.api.nvim_get_hl(0, { name = "Normal", link = false }).bg == 0x050907)
     assert(require("forge.features.themes").apply("tokyonight"))
+    assert(
+      vim.deep_equal(vim.api.nvim_get_hl(0, { name = "String", link = false }), original_string),
+      "Mint syntax leaked into Tokyo Night"
+    )
     assert(
       vim.deep_equal(vim.api.nvim_get_hl(0, { name = "Normal", link = false }), original_editor),
       "Mint changed Tokyo Night editor colors"
@@ -189,6 +202,46 @@ local function exercise()
     "Explicit apply action did not replace text"
   )
   vim.fn.delete(fixture)
+  local search_file = vim.fn.tempname() .. " space.txt"
+  vim.fn.writefile({ "needle needle" }, search_file)
+  local form = {
+    root = vim.fs.dirname(search_file),
+    file = search_file,
+    project = false,
+    search = "needle",
+    replacement = "done",
+    match_case = false,
+    regex = false,
+  }
+  local picker = require("forge.features.search.form").preview(form)
+  assert(
+    vim.wait(5000, function()
+      return form.ready and #form.rows == 1
+    end),
+    "Telescope replacement did not find results"
+  )
+  assert(vim.fn.readfile(search_file)[1] == "needle needle", "Opening search changed source")
+  require("forge.features.search.picker").apply(false)
+  assert(
+    vim.wait(5000, function()
+      return form.ready and vim.fn.readfile(search_file)[1] == "done needle"
+    end),
+    "Picker Replace one failed"
+  )
+  local confirm = vim.fn.confirm
+  vim.fn.confirm = function()
+    return 2
+  end
+  require("forge.features.search.picker").apply(true)
+  vim.fn.confirm = confirm
+  assert(
+    vim.wait(5000, function()
+      return vim.fn.readfile(search_file)[1] == "done done"
+    end),
+    "Picker Replace all failed"
+  )
+  require("telescope.actions").close(picker.prompt_bufnr)
+  vim.fn.delete(search_file)
   assert(#errors == 0, table.concat(errors, "\n"))
 end
 

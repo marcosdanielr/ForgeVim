@@ -76,33 +76,14 @@ local function exercise()
   end
 
   vim.cmd.edit(root .. "/sample.txt")
-  local form = require("forge.features.search.form").open(false)
-  assert(
-    form.file == root .. "/sample.txt" and not form.project,
-    vim.inspect({ file = form.file, expected = root .. "/sample.txt", project = form.project })
-  )
-  assert(vim.bo.filetype == "forge-search")
-  assert(
-    text(form.buffer):find("Match case", 1, true) and text(form.buffer):find("Whole word", 1, true)
-  )
-  local original_open = package.loaded["grug-far"]
-  local captured
-  package.loaded["grug-far"] = {
-    open = function(options)
-      captured = options
-    end,
-  }
+  local form = require("forge.features.search.form").state(false)
+  assert(form.file == root .. "/sample.txt" and not form.project)
   form.search, form.replacement, form.match_case, form.whole_word = "alpha", "omega", true, true
-  require("forge.features.search.form").preview(form)
-  package.loaded["grug-far"] = original_open
-  assert(captured.prefills.search == "alpha" and captured.prefills.replacement == "omega")
-  assert(captured.prefills.paths:find("sample.txt", 1, true), "File scope escaped to project")
-  assert(captured.prefills.flags:find("--case-sensitive", 1, true))
-  assert(captured.prefills.flags:find("--word-regexp", 1, true))
-  assert(
-    vim.fn.readfile(root .. "/sample.txt")[1]:find("alpha", 1, true),
-    "Preview changed source files"
-  )
+  local command = require("forge.features.search.matches").command(form, form.search)
+  assert(command[#command] == form.file, "File scope escaped to project")
+  assert(vim.tbl_contains(command, "--case-sensitive"))
+  assert(vim.tbl_contains(command, "--word-regexp"))
+  dofile(require("forge").root .. "/tests/nvim/replacement.lua")()
   if vim.fn.executable("rg") == 1 then
     local function count(pattern, settings)
       local arguments = { "rg", "--count-matches" }

@@ -9,6 +9,9 @@ local function instance()
 end
 
 function M.apply()
+  if require("forge.features.search.picker").apply(true) then
+    return
+  end
   local preview = instance()
   if preview then
     preview:replace()
