@@ -64,6 +64,7 @@ function M.open(id, options)
   local text = require("forge.features.panels.text")
   local buffer =
     text.create(specification.title, require("forge.core.project").root(), specification.filetype)
+  vim.bo[buffer].bufhidden = "wipe"
   text.write(buffer, specification.lines)
   local namespace = vim.api.nvim_create_namespace("forge-empty")
   for row, line in ipairs(specification.lines) do

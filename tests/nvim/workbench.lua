@@ -44,6 +44,14 @@ return function(source)
   require("forge.features.shortcuts").save(tree_action, nil)
   require("forge.features.workbench.activity").toggle()
   assert(not windows.get("activity"), "Navigation did not hide")
+  assert(not vim.api.nvim_buf_is_valid(navigation.buffer), "Stateless navigation buffer leaked")
+  require("forge.features.workbench.activity").toggle()
+  local restored = assert(windows.get("activity"))
+  assert(
+    column(restored.window) == column(windows.get("agents").window),
+    "Restoring navigation created a duplicate sidebar"
+  )
+  require("forge.features.workbench.activity").toggle()
   windows.focus_editor()
   vim.api.nvim_win_set_buf(editor, source)
   require("forge.features.workbench.frame").refresh_buffers()

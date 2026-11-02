@@ -55,6 +55,7 @@ function M.open(anchor)
   end
   local text = require("forge.features.panels.text")
   local buffer = text.create("Navigation", require("forge.core.project").root(), "forge-navigation")
+  vim.bo[buffer].bufhidden = "wipe"
   M.render(buffer)
   for _, key in ipairs({ "<CR>", "<2-LeftMouse>" }) do
     vim.keymap.set("n", key, function()
@@ -73,6 +74,9 @@ function M.open(anchor)
     buffer,
     { title = "Workspace", position = "left", anchor = anchor, size = 22, focus = false }
   )
+  if windows.get("agents") then
+    M.reanchor(anchor)
+  end
 end
 
 function M.reanchor(tree)
