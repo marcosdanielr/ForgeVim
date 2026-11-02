@@ -14,6 +14,15 @@ local function exercise()
       assert(vim.fn.maparg(previous .. "fz", "n") == "", "Old Leader mapping survived restart")
     end
   end
+  assert(vim.fn.maparg(expected .. "pa", "t") == "", "Configured Leader intercepted chat typing")
+  local keymaps = require("forge.core.keymaps")
+  local action =
+    { command = "ForgeTerminalTextFixture", label = "Terminal text fixture", terminal = true }
+  for _, key in ipairs({ " pa", "<Space>pa", "abc", "<leader>pa", "<localleader>pa" }) do
+    keymaps.apply(action, { key })
+    assert(vim.fn.maparg(key, "t") == "", "Printable terminal shortcut installed: " .. key)
+  end
+  keymaps.apply(action, {})
   local leader = require("forge.features.leader")
   assert(leader.normalize("<Space>") == " ")
   assert(not leader.normalize(""))

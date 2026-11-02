@@ -107,10 +107,15 @@ return function(source)
       if action.command == command then
         assert(action.terminal, "Panel toggle unavailable inside terminal: " .. command)
         local key = require("forge.features.shortcuts").keys(action)[1]
-        assert(
-          vim.fn.maparg(key, "t"):find(command, 1, true),
-          "Terminal toggle did not bind: " .. command
-        )
+        if key:lower():find("<leader>", 1, true) then
+          assert(vim.fn.maparg(key, "t") == "", "Leader intercepted terminal text: " .. command)
+          assert(vim.fn.maparg(key, "n") ~= "", "Normal-mode panel toggle missing")
+        else
+          assert(
+            vim.fn.maparg(key, "t"):find(command, 1, true),
+            "Modified terminal shortcut missing"
+          )
+        end
         found = true
       end
     end

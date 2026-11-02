@@ -2,6 +2,19 @@ local M = {}
 
 local applied = {}
 
+-- Printable prefixes belong to the shell/chat, including a user-selected Leader.
+local function terminal_safe(key)
+  local expanded = key
+    :gsub("<[Ll][Ee][Aa][Dd][Ee][Rr]>", function()
+      return vim.g.mapleader or "\\"
+    end)
+    :gsub("<[Ll][Oo][Cc][Aa][Ll][Ll][Ee][Aa][Dd][Ee][Rr]>", function()
+      return vim.g.maplocalleader or "\\"
+    end)
+  local first = vim.api.nvim_replace_termcodes(expanded, true, true, true):byte()
+  return first and (first < 32 or first == 127 or first == 128)
+end
+
 function M.apply(action, keys)
   local modes = action.terminal and { "n", "t" } or { "n" }
   for _, mode in ipairs(modes) do
@@ -12,7 +25,11 @@ function M.apply(action, keys)
       end
     end
     for _, key in ipairs(keys) do
-      if mode == "t" and not vim.tbl_contains(action.terminal_exclude or {}, key) then
+      if
+        mode == "t"
+        and terminal_safe(key)
+        and not vim.tbl_contains(action.terminal_exclude or {}, key)
+      then
         vim.keymap.set(
           mode,
           key,

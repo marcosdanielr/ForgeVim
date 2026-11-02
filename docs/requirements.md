@@ -115,3 +115,5 @@ because the underlying protocol could eventually support it.
 - **FR-41**: Replacement preview has a visible Apply all action backed by the
   pinned engine. Tests prove preview preserves files and explicit application
   changes only the requested fixture.
+
+- **FR-42**: CLI chats and terminals receive spaces and printable text unchanged. Leader shortcuts require terminal-normal mode; modified window/terminal keys remain available while typing.

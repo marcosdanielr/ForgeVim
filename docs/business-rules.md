@@ -179,7 +179,7 @@ real Dart language-server test.
   failure restores previous distribution source. Setup is bounded and only its
   owned process group may be terminated. Runtime editor startup gains no Python
   process from installer support.
-- **BR-ED-27**: Pane toggles work in normal and Forge terminal modes. New terminals
+- **BR-ED-27**: Pane toggles with modified keys work in normal and Forge terminal modes. Leader and other printable-prefix mappings remain normal-mode only so spaces and text reach CLI chats and shells unchanged. New terminals
   are distinct from hide/show. Ctrl Space/Ctrl @ provides a legacy NUL fallback
   outside insert mode; insert completion remains unchanged. Terminal headers expose
   New/Split/List with real session counts. Shell jobs survive hiding and switching.

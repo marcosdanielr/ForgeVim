@@ -32,7 +32,7 @@ with tempfile.TemporaryDirectory(prefix="forge-terminal-input-") as temporary:
         fcntl.ioctl(0, termios.TIOCSWINSZ, struct.pack("HHHH", 38, 120, 0, 0))
         os.chdir(project)
         os.execve(root / "bin/forge", [str(root / "bin/forge"), "-c", "lua dofile(vim.env.FORGE_INPUT_SCRIPT)"], environment)
-    inputs = {"ready": b"\x00", "opened": b"\x1b\r", "multiple": b" pa", "agents_shown": b" pa", "agents_hidden": b"\x00", "hidden": b"\x00"}
+    inputs = {"ready": b"\x00", "opened": b"\x1b\r", "multiple": b"printf '%s' ' pa pc pl pn ot test spaces' > typed.txt\r", "text_preserved": b"\x00", "hidden": b"\x00"}
     sent, transcript, status = set(), bytearray(), None
     deadline = time.monotonic() + 20
     try:

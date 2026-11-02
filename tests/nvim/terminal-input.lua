@@ -28,12 +28,15 @@ timer:start(
         assert(vim.w[panel.window].forge_panel_title:find("2/2", 1, true), "Terminal count missing")
         stage = 3
         record("multiple")
-      elseif stage == 3 and windows.get("agents") then
-        stage = 4
-        record("agents_shown")
-      elseif stage == 4 and not windows.get("agents") and panel then
+      elseif stage == 3 and vim.fn.filereadable("typed.txt") == 1 then
+        assert(
+          vim.fn.readfile("typed.txt")[1] == " pa pc pl pn ot test spaces",
+          "Chat/shell text changed"
+        )
+        assert(not windows.get("agents"), "Typing Leader text opened Agents")
+        assert(not windows.get("chat"), "Typing Leader text opened Chat")
         stage = 5
-        record("agents_hidden")
+        record("text_preserved")
       elseif stage == 5 and not panel then
         assert(
           vim.fn.jobwait({ vim.b[first].terminal_job_id, vim.b[second].terminal_job_id }, 0)[1]
