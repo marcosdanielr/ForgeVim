@@ -1,5 +1,5 @@
 local windows = require("forge.features.panels.windows")
-local first, second
+local first, second, divider, resized_window
 local stage = 0
 local function record(value)
   vim.fn.writefile({ tostring(value) }, vim.env.FORGE_INPUT_RESULT)
@@ -50,6 +50,30 @@ timer:start(
         assert(vim.fn.maparg("<C-Space>", "i") == "", "Terminal key replaced insert completion")
         vim.fn.jobstop(vim.b[first].terminal_job_id)
         vim.fn.jobstop(vim.b[second].terminal_job_id)
+        vim.cmd("stopinsert")
+        windows.focus_editor()
+        vim.cmd("only")
+        vim.o.splitright = true
+        vim.cmd("vsplit")
+        resized_window = vim.api.nvim_get_current_win()
+        divider = vim.api.nvim_win_get_position(resized_window)[2]
+        stage = 7
+        record("resize_left")
+      elseif stage == 7 and vim.api.nvim_win_get_position(resized_window)[2] == divider - 3 then
+        stage = 8
+        record("resize_right")
+      elseif stage == 8 and vim.api.nvim_win_get_position(resized_window)[2] == divider then
+        vim.cmd("only")
+        vim.o.splitbelow = true
+        vim.cmd("split")
+        resized_window = vim.api.nvim_get_current_win()
+        divider = vim.api.nvim_win_get_position(resized_window)[1]
+        stage = 9
+        record("resize_up")
+      elseif stage == 9 and vim.api.nvim_win_get_position(resized_window)[1] == divider - 2 then
+        stage = 10
+        record("resize_down")
+      elseif stage == 10 and vim.api.nvim_win_get_position(resized_window)[1] == divider then
         timer:stop()
         timer:close()
         record("passed")

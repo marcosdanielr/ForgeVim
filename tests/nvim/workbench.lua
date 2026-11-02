@@ -23,6 +23,22 @@ return function(source)
   assert(vim.api.nvim_win_get_height(0) == height + 2, "Window did not grow taller")
   resize.height(-2)
   assert(vim.api.nvim_win_get_height(0) == height, "Window height did not restore")
+  -- The rightmost chat must move its left divider in the same h/l direction.
+  local right = windows.get("chat").window
+  vim.api.nvim_set_current_win(right)
+  local column = vim.api.nvim_win_get_position(right)[2]
+  resize.width(-3)
+  assert(vim.api.nvim_win_get_position(right)[2] == column - 3, "Right pane h moved divider right")
+  resize.width(3)
+  assert(vim.api.nvim_win_get_position(right)[2] == column, "Right pane l did not restore divider")
+  -- The lower output pane must move its top divider in the same k/j direction.
+  local lower = windows.get("terminal").window
+  vim.api.nvim_set_current_win(lower)
+  local row = vim.api.nvim_win_get_position(lower)[1]
+  resize.height(-2)
+  assert(vim.api.nvim_win_get_position(lower)[1] == row - 2, "Lower pane k moved divider down")
+  resize.height(2)
+  assert(vim.api.nvim_win_get_position(lower)[1] == row, "Lower pane j did not restore divider")
   assert(
     vim.fn.maparg("<C-S-Right>", "t"):find("ForgeWindowWider", 1, true),
     "Terminal resize mapping missing"

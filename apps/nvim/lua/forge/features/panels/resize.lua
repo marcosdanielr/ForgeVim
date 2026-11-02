@@ -1,3 +1,4 @@
+-- Resize moves a visible divider in the requested direction, regardless of focus.
 local M = {}
 
 local function split()
@@ -8,16 +9,28 @@ local function split()
   return true
 end
 
-function M.width(amount)
-  if split() then
-    vim.cmd("vertical resize " .. string.format("%+d", amount))
+local function resize(axis, direction, positive, negative)
+  if not split() then
+    return
   end
+  local current = vim.fn.winnr()
+  local amount = direction
+  if vim.fn.winnr(positive) == current then
+    if vim.fn.winnr(negative) == current then
+      return vim.notify("No " .. axis .. " divider to move", vim.log.levels.INFO)
+    end
+    amount = -amount
+  end
+  local command = axis == "vertical" and "vertical resize " or "resize "
+  vim.cmd(command .. string.format("%+d", amount))
 end
 
-function M.height(amount)
-  if split() then
-    vim.cmd("resize " .. string.format("%+d", amount))
-  end
+function M.width(direction)
+  resize("vertical", direction, "l", "h")
+end
+
+function M.height(direction)
+  resize("horizontal", direction, "j", "k")
 end
 
 function M.equalize()
