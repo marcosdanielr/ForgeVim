@@ -36,6 +36,22 @@ function M.diff()
   vim.cmd("DiffviewOpen -C" .. vim.fn.fnameescape(require("forge.core.project").root()))
 end
 
+function M.choose_conflict()
+  local choices = {
+    { label = "Current / ours", side = "ours" },
+    { label = "Incoming / theirs", side = "theirs" },
+    { label = "Common base", side = "base" },
+  }
+  require("forge.features.picker").select(choices, {
+    prompt = "Choose the selected conflict side; review and save the result",
+    format_item = function(choice)
+      return choice.label
+    end,
+  }, function(choice)
+    require("diffview.actions").conflict_choose(choice.side)()
+  end)
+end
+
 function M.conflicts()
   local root = require("forge.core.project").root()
   vim.system(

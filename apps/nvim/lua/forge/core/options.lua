@@ -21,6 +21,7 @@ function M.setup()
     timeoutlen = 400,
     completeopt = "menu,menuone,noselect",
     mouse = "a",
+    hidden = true,
     exrc = false, -- Never execute project-local editor configuration automatically.
   }
   for name, value in pairs(options) do

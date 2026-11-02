@@ -48,7 +48,8 @@ return {
     opts = function()
       local icons = require("forge.core.config").options.nerd_fonts
       return {
-        view = { width = 34 },
+        view = { width = 30 },
+        on_attach = require("forge.features.explorer").attach,
         update_focused_file = { enable = true },
         renderer = {
           indent_markers = { enable = true },

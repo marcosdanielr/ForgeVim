@@ -39,6 +39,19 @@ local function exercise()
   assert(vim.bo.filetype == "NvimTree", "Ctrl H did not focus file tree")
   vim.fn.maparg("<C-l>", "n", false, true).callback()
   assert(vim.api.nvim_get_current_buf() == workspace, "Ctrl L did not restore workspace")
+  local path = require("forge").root .. "/README.md"
+  local document = vim.fn.bufadd(path)
+  vim.fn.bufload(document)
+  require("nvim-tree.api").tree.find_file({ buf = document, open = true, focus = true })
+  assert(
+    vim.wait(3000, function()
+      local node = require("nvim-tree.api").tree.get_node_under_cursor()
+      return node and node.absolute_path == path
+    end),
+    "Explorer could not select source file"
+  )
+  vim.fn.maparg("l", "n", false, true).callback()
+  assert(vim.api.nvim_get_current_buf() == document, "Explorer l did not open file in editor")
   require("nvim-tree.api").tree.close()
   require("forge.features.git").history()
   assert(

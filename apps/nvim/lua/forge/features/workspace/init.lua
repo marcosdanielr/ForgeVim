@@ -16,9 +16,14 @@ function M.open()
   vim.wo[window].relativenumber = false
   vim.wo[window].signcolumn = "no"
   vim.wo[window].wrap = false
+  local snapshot = { branch = "Reading project status...", changed = 0, conflicts = 0 }
+  local function redraw()
+    require("forge.features.workspace.view").render(buffer, root, snapshot)
+  end
   local function refresh()
-    require("forge.features.workspace.snapshot").load(root, function(snapshot)
-      require("forge.features.workspace.view").render(buffer, root, snapshot)
+    require("forge.features.workspace.snapshot").load(root, function(updated)
+      snapshot = updated
+      redraw()
     end)
   end
   local first_row = require("forge.features.workspace.view").render(buffer, root, {
@@ -33,19 +38,15 @@ function M.open()
     })
   end
   vim.keymap.set("n", "<CR>", function()
-    local command = vim.b[buffer].forge_workspace_rows[vim.api.nvim_win_get_cursor(0)[1]]
+    local command = vim.b[buffer].forge_workspace_rows[tostring(vim.api.nvim_win_get_cursor(0)[1])]
     if command then
       vim.cmd(command)
     end
   end, { buffer = buffer, desc = "Open workspace action" })
   vim.keymap.set("n", "R", refresh, { buffer = buffer, desc = "Refresh project status" })
   vim.api.nvim_win_set_cursor(window, { first_row or 1, 2 })
-  if vim.env.FORGE_OFFLINE ~= "1" then
-    require("nvim-tree.api").tree.open({ path = root, focus = false })
-    vim.api.nvim_set_current_win(window)
-  end
   local group = vim.api.nvim_create_augroup("ForgeWorkspaceBuffer" .. buffer, { clear = true })
-  vim.api.nvim_create_autocmd("VimResized", { group = group, callback = refresh })
+  vim.api.nvim_create_autocmd({ "VimResized", "WinResized" }, { group = group, callback = redraw })
   vim.api.nvim_create_autocmd("BufWinLeave", {
     group = group,
     buffer = buffer,
@@ -66,6 +67,8 @@ function M.open()
       vim.api.nvim_del_augroup_by_id(group)
     end,
   })
+  vim.b[buffer].forge_root = root
+  require("forge.features.layout").open()
   refresh()
   return buffer
 end
@@ -84,18 +87,38 @@ function M.setup()
     group = group,
     once = true,
     callback = function()
-      if
-        not require("forge.core.config").options.workspace
-        or stdin
-        or vim.fn.argc() > 0
-        or #vim.api.nvim_list_uis() == 0
-        or vim.bo.modified
-        or vim.api.nvim_buf_get_name(0) ~= ""
-        or vim.bo.buftype ~= ""
-      then
+      local saved = require("forge.core.state").read().workspace
+      local enabled = saved
+      if enabled == nil then
+        enabled = require("forge.core.config").options.workspace
+      end
+      if stdin or #vim.api.nvim_list_uis() == 0 then
         return
       end
-      vim.schedule(M.open)
+      local name = vim.api.nvim_buf_get_name(0)
+      if vim.fn.argc() == 1 and vim.fn.isdirectory(name) == 1 then
+        vim.cmd.tcd(vim.fn.fnameescape(name))
+        if enabled then
+          vim.schedule(M.open)
+        else
+          vim.cmd("enew")
+          vim.schedule(function()
+            require("forge.features.layout").open()
+          end)
+        end
+      elseif vim.fn.argc() > 0 and vim.bo.buftype == "" then
+        vim.schedule(function()
+          require("forge.features.layout").open()
+        end)
+      elseif not vim.bo.modified and name == "" and vim.bo.buftype == "" then
+        if enabled then
+          vim.schedule(M.open)
+        else
+          vim.schedule(function()
+            require("forge.features.layout").open()
+          end)
+        end
+      end
     end,
   })
 end

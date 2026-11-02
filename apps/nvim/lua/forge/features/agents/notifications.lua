@@ -18,12 +18,8 @@ function M.enabled()
 end
 
 local function stop(root)
-  local watcher = watchers[root]
-  if watcher then
-    watcher.timer:stop()
-    watcher.timer:close()
-    watchers[root] = nil
-  end
+  watchers[root] = nil
+  require("forge.features.agents.watch").unsubscribe(root, "notifications")
 end
 
 function M.toggle()
@@ -50,47 +46,30 @@ function M.track(task)
     watchers[root].tasks[task.id] = task.status
     return
   end
-  local watcher =
-    { tasks = { [task.id] = task.status }, timer = assert(vim.uv.new_timer()), busy = false }
+  local watcher = { tasks = { [task.id] = task.status } }
   watchers[root] = watcher
-  watcher.timer:start(
-    100,
-    2000,
-    vim.schedule_wrap(function()
-      if watcher.busy or not watchers[root] then
-        return
-      end
-      watcher.busy = true
-      require("forge.features.agents.client").request(
-        { "list" },
-        function(tasks)
-          watcher.busy = false
-          if not watchers[root] or not M.enabled() then
-            return
-          end
-          for _, current in ipairs(tasks) do
-            if watcher.tasks[current.id] and not active[current.status] then
-              local message = messages[current.status]
-              if message then
-                local level = (current.status == "failed" or current.status == "interrupted")
-                    and vim.log.levels.WARN
-                  or vim.log.levels.INFO
-                vim.notify(current.provider .. " " .. current.id .. ": " .. message, level)
-              end
-              watcher.tasks[current.id] = nil
-            end
-          end
-          if next(watcher.tasks) == nil then
-            stop(root)
-          end
-        end,
-        root,
-        function()
-          stop(root)
+  require("forge.features.agents.watch").subscribe(root, "notifications", function(tasks)
+    if watchers[root] ~= watcher or not M.enabled() then
+      return
+    end
+    for _, current in ipairs(tasks) do
+      if watcher.tasks[current.id] and not active[current.status] then
+        local message = messages[current.status]
+        if message then
+          local level = (current.status == "failed" or current.status == "interrupted")
+              and vim.log.levels.WARN
+            or vim.log.levels.INFO
+          vim.notify(current.provider .. " " .. current.id .. ": " .. message, level)
         end
-      )
-    end)
-  )
+        watcher.tasks[current.id] = nil
+      end
+    end
+    if next(watcher.tasks) == nil then
+      stop(root)
+    end
+  end, function()
+    stop(root)
+  end)
 end
 
 return M

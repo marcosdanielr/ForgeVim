@@ -21,18 +21,7 @@ function M.buffer()
 end
 
 function M.replace(project)
-  local options = { prefills = {}, engine = "ripgrep" }
-  if not project then
-    local file = vim.api.nvim_buf_get_name(0)
-    if file == "" then
-      return vim.notify("Save this buffer before file replacement", vim.log.levels.WARN)
-    end
-    options.prefills.paths = vim.fn.fnameescape(file)
-  end
-  options.prefills.flags = "--glob !.forge --glob !.git"
-  local root = require("forge.core.project").root()
-  require("grug-far").open(options)
-  vim.cmd.lcd(vim.fn.fnameescape(root))
+  require("forge.features.search.form").open(project)
 end
 
 return M

@@ -14,7 +14,9 @@ function M.render(buffer, root, snapshot)
     lines[#lines + 1] = padding .. text
     highlights[#lines] = group or "Comment"
   end
-  line("")
+  if not compact then
+    line("")
+  end
   if compact then
     line("F O R G E  /  NEOVIM WORKSPACE", "Title")
   else
@@ -43,13 +45,15 @@ function M.render(buffer, root, snapshot)
       "Title"
     )
   end
-  line("")
-  line("Your code. Your agents. Your decision.", "Normal")
-  line("")
+  if not compact then
+    line("")
+    line("Your code. Your agents. Your decision.", "Normal")
+    line("")
+  end
   line(vim.fs.basename(root) .. "  /  " .. snapshot.branch, "Directory")
   line(string.format("%d changed paths    %d conflicts", snapshot.changed, snapshot.conflicts))
   line("")
-  local groups = { "CODE & REVIEW", "GIT & AGENTS", "MAKE IT YOURS" }
+  local groups = { "CODE", "SOURCE CONTROL", "WORKSPACE" }
   for index, action in ipairs(require("forge.features.workspace.actions")) do
     if index == 1 or index == 5 or index == 9 then
       if not compact then
@@ -61,14 +65,19 @@ function M.render(buffer, root, snapshot)
       end
     end
     line("[" .. action.key .. "]  " .. action.label, "Function")
-    rows[#lines] = action.command
+    rows[tostring(#lines)] = action.command
   end
   line("")
-  line("Enter opens the selected action. Or press its letter.")
-  line("Space Space  All commands    Ctrl B  Files    R  Refresh")
-  line("Ctrl H / J / K / L  Focus panels    h / j / k / l  Move cursor")
-  line("")
-  line("Review any author's changes. You decide what gets committed.", "NonText")
+  if compact then
+    line("Enter activates   F1 Help   Ctrl B Files")
+    line("Ctrl H/J/K/L focuses adjacent panels")
+  else
+    line("Enter opens the selected action. Or press its letter.")
+    line("Space Space  All commands    F1  Getting started    R  Refresh")
+    line("Ctrl H / J / K / L  Focus panels    h / j / k / l  Move cursor")
+    line("")
+    line("Review any author's changes. You decide what gets committed.", "NonText")
+  end
   vim.bo[buffer].modifiable = true
   vim.api.nvim_buf_set_lines(buffer, 0, -1, false, lines)
   vim.bo[buffer].modifiable = false
@@ -81,7 +90,7 @@ function M.render(buffer, root, snapshot)
     })
   end
   for row = 1, #lines do
-    if rows[row] then
+    if rows[tostring(row)] then
       return row
     end
   end

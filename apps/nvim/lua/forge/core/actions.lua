@@ -13,7 +13,131 @@ end
 
 return {
   {
+    command = "ForgeNewFile",
+    label = "Create a file",
+    keys = { "<C-n>", "<leader>fn" },
+    run = feature("features.buffers", "new_file"),
+  },
+  {
+    command = "ForgeStartupLayout",
+    label = "Configure startup panels",
+    keys = { "<leader>uL" },
+    run = feature("features.settings", "layout"),
+  },
+  {
+    command = "ForgeChat",
+    label = "Toggle CLI chat",
+    keys = { "<leader>pc" },
+    terminal = true,
+    run = feature("features.agents.chat", "toggle"),
+  },
+  {
+    command = "ForgeChatNew",
+    label = "New isolated CLI chat",
+    keys = { "<leader>aC" },
+    run = feature("features.agents.chat", "new"),
+  },
+  {
+    command = "ForgeTerminal",
+    label = "Toggle integrated terminal",
+    keys = { "<C-`>", "<leader>ot", "<leader>pt" },
+    terminal = true,
+    run = feature("features.terminal", "toggle"),
+  },
+  {
+    command = "ForgeTerminalNew",
+    label = "New integrated terminal",
+    keys = { "<C-S-`>", "<leader>oT" },
+    terminal = true,
+    run = feature("features.terminal", "new"),
+  },
+  {
+    command = "ForgeTerminals",
+    label = "Choose terminal",
+    keys = { "<leader>oo" },
+    terminal = true,
+    run = feature("features.terminal", "choose"),
+  },
+  {
+    command = "ForgeBufferNext",
+    label = "Next buffer / terminal",
+    keys = { "<C-Tab>", "<C-PageDown>", "<leader>bn" },
+    terminal = true,
+    run = feature("features.buffers", "cycle_next"),
+  },
+  {
+    command = "ForgeBufferPrevious",
+    label = "Previous buffer / terminal",
+    keys = { "<C-S-Tab>", "<C-PageUp>", "<leader>bp" },
+    terminal = true,
+    run = feature("features.buffers", "cycle_previous"),
+  },
+  {
+    command = "ForgeBuffers",
+    label = "Choose open buffer",
+    keys = { "<leader>bb" },
+    run = feature("features.buffers", "choose"),
+  },
+  {
+    command = "ForgePanelReview",
+    label = "Toggle changes review",
+    keys = { "<leader>pr" },
+    run = feature("features.layout", "review"),
+  },
+  {
+    command = "ForgePanelDebug",
+    label = "Toggle debug panels",
+    keys = { "<leader>pd" },
+    run = feature("features.layout", "debug"),
+  },
+  {
+    command = "ForgePanelLogs",
+    label = "Toggle agent logs",
+    keys = { "<leader>pl" },
+    run = feature("features.layout", "logs"),
+  },
+  {
+    command = "ForgeLayout",
+    label = "Restore workspace panels",
+    keys = { "<leader>pw" },
+    run = feature("features.layout", "open"),
+  },
+  {
+    command = "ForgeSettings",
+    label = "Open settings",
+    keys = { "<leader>us" },
+    run = feature("features.settings", "open"),
+  },
+  {
+    command = "ForgeHelp",
+    label = "Getting started and shortcuts",
+    keys = { "<F1>" },
+    run = feature("features.help", "open"),
+  },
+  {
+    command = "ForgeConflictChoose",
+    label = "Choose side at merge conflict",
+    keys = { "<leader>cm" },
+    run = feature("features.git", "choose_conflict"),
+  },
+  {
+    command = "ForgeTerminalSplit",
+    label = "Split integrated terminal",
+    keys = { "<C-S-5>", "<leader>os" },
+    terminal = true,
+    run = feature("features.terminal", "new", true),
+  },
+  {
+    command = "ForgeProblems",
+    label = "Show project diagnostics",
+    keys = { "<C-S-m>", "<leader>pp" },
+    run = function()
+      vim.diagnostic.setqflist({ open = true })
+    end,
+  },
+  {
     command = "ForgeWindowLeft",
+    terminal = true,
     label = "Focus left window",
     keys = { "<C-h>" },
     run = function()
@@ -22,6 +146,7 @@ return {
   },
   {
     command = "ForgeWindowDown",
+    terminal = true,
     label = "Focus down window",
     keys = { "<C-j>" },
     run = function()
@@ -30,6 +155,7 @@ return {
   },
   {
     command = "ForgeWindowUp",
+    terminal = true,
     label = "Focus up window",
     keys = { "<C-k>" },
     run = function()
@@ -38,6 +164,7 @@ return {
   },
   {
     command = "ForgeWindowRight",
+    terminal = true,
     label = "Focus right window",
     keys = { "<C-l>" },
     run = function()
@@ -175,7 +302,7 @@ return {
   {
     command = "ForgeTree",
     label = "Toggle file tree",
-    keys = { "<C-b>", "<leader>fe" },
+    keys = { "<C-b>", "<leader>fe", "<leader>pe" },
     run = feature("features.git", "tree"),
   },
   {
@@ -289,7 +416,7 @@ return {
   {
     command = "ForgeAgents",
     label = "List and review agents",
-    keys = { "<leader>aa" },
+    keys = { "<leader>aa", "<leader>pa" },
     run = feature("features.agents", "choose"),
   },
   {

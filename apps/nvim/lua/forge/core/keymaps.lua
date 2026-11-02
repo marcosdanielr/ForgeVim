@@ -3,18 +3,30 @@ local M = {}
 local applied = {}
 
 function M.apply(action, keys)
-  for _, key in ipairs(applied[action.command] or {}) do
-    local mapping = vim.fn.maparg(key, "n", false, true)
-    if mapping.desc == action.label then
-      pcall(vim.keymap.del, "n", key)
+  local modes = action.terminal and { "n", "t" } or { "n" }
+  for _, mode in ipairs(modes) do
+    for _, key in ipairs(applied[action.command] or {}) do
+      local mapping = vim.fn.maparg(key, mode, false, true)
+      if mapping.desc == action.label then
+        pcall(vim.keymap.del, mode, key)
+      end
+    end
+    for _, key in ipairs(keys) do
+      if mode == "t" then
+        vim.keymap.set(
+          mode,
+          key,
+          "<C-\\><C-n><cmd>" .. action.command .. "<cr>",
+          { desc = action.label }
+        )
+      else
+        vim.keymap.set(mode, key, function()
+          require("forge.core.commands").execute(action)
+        end, { desc = action.label })
+      end
     end
   end
   applied[action.command] = keys
-  for _, key in ipairs(keys) do
-    vim.keymap.set("n", key, function()
-      require("forge.core.commands").execute(action)
-    end, { desc = action.label })
-  end
 end
 
 function M.setup()

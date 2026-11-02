@@ -4,6 +4,7 @@ function M.setup()
   local defaults = {
     theme = "tokyonight",
     workspace = true,
+    startup_panels = { files = true, agents = true },
     format_on_save = true,
     copilot = false,
     notifications = true,
