@@ -166,3 +166,8 @@ Reader documentation lives in typed Astro MDX collections under `apps/web/src/co
 Developer tools are grouped under `scripts/verify`, `scripts/benchmarks`, `scripts/setup`, and `scripts/deploy`. The stable `scripts/install.py` entry point and installer package retain their installation contract. See `scripts/README.md` for commands.
 
 Search replacement uses a native multi-field floating dialog, an asynchronous ripgrep query, and a byte-range replacement service. The dialog owns its focus and lifetime independently of Telescope, whose BufLeave lifecycle cannot support a separate editable replacement field. Search changes debounce for 100 ms and cancel older queries. Each result represents one occurrence. The query caps results at 2000 occurrences and disables Replace all for truncated results. Visible one/all buttons accept mouse and keyboard; all-action confirmation initially selects Cancel. Replacement preflights every affected file before mutation, preserves UTF-8 byte boundaries, and writes through native buffers. File-write errors are reported; multi-file writes are not a cross-file filesystem transaction. The legacy grug-far adapter remains available for its existing direct workflow.
+
+Search navigation separates visual focus order (`search/navigation`), source
+location highlighting (`search/location`), and mutations. Next/Previous changes
+selection only. Terminal lists render session events through `terminal/tree`;
+there is no process polling, new service, or extra shell for this presentation.

@@ -12,7 +12,7 @@ import CodeBlock from '@/components/ui/CodeBlock.astro';
 
 ## File tree
 
-Ctrl B or Leader f e toggles the project tree. Enter opens a file; a creates, r renames, and d requests deletion with confirmation. g? shows shortcuts. The tree opens beside the welcome screen. Ctrl H/L moves between panels; h/j/k/l moves the cursor.
+Leader b, Ctrl B, or Leader f e toggles the project tree. Enter opens a file; a creates, r renames, and d requests deletion with confirmation. g? shows shortcuts. The tree opens beside the welcome screen. Ctrl H/L moves between panels; h/j/k/l moves the cursor.
 
 <CodeBlock code={':ForgeTree'} />
 
@@ -34,38 +34,44 @@ Edit the result directly to combine both sides. Save, review, and stage only res
 
 > Choosing a side is your decision. No conflict is resolved automatically.
 
-## Find and replace
+## Find, navigate, and replace
 
-1. Press **Leader f r** for the project, or **Leader f R** for the current file.
-2. Type in **Find**. Results appear without changing files.
-3. Press **Tab** and type the new text in **Replace with**. Both fields stay visible.
-4. Select an occurrence in the results using the mouse, or Tab to results and use the arrows.
-5. Click **Replace one** to change that occurrence. Click **Replace all**, then confirm, to change every result.
+1. Press **Ctrl F** or **Leader f b** to find in this file. **Leader f r** searches the project.
+2. Type in **Find**, press **Tab**, then type in **Replace with**.
+3. Press **Tab** to visit each checkbox and button. **Space** or **Enter** toggles the focused option.
+4. Use **Previous** and **Next / skip** to inspect occurrences without changing them.
+5. Choose **Replace one** to change this occurrence and advance. The window stays open. Repeat or skip as needed.
+6. Choose **Replace all** only when you want every match changed. Confirm explicitly; Cancel is the default.
 
-Prefer the keyboard? Tab to **Actions**, select a button with Left/Right, and
-press Enter. **Cancel** is initially selected in the confirmation, so Enter alone
-does not replace everything.
+The selected occurrence is highlighted in the source split without taking your
+focus. **Enter in Find, Replace with, or results moves to the next match**; it
+does not close the dialog. File search includes unsaved text. Save before applying
+replacements so pending work is never silently written.
 
-| Key              | Action                                    |
-| ---------------- | ----------------------------------------- |
-| Tab / Shift Tab  | Move between fields, results, and buttons |
-| Ctrl R           | Replace one occurrence                    |
-| Ctrl A           | Ask to replace all                        |
-| F2               | Focus Replace with                        |
-| F3               | Toggle match case (Aa)                    |
-| F4               | Toggle whole word                         |
-| F5               | Toggle regex search                       |
-| F6               | Toggle file/project scope                 |
-| Enter in results | Open the selected file                    |
-| Esc              | Leave typing; press again to close        |
+| Key                        | Action                                 |
+| -------------------------- | -------------------------------------- |
+| Tab / Shift Tab            | Visit each field, checkbox, and button |
+| Space / Enter on an option | Toggle that option                     |
+| Enter / F3                 | Next match without replacing           |
+| Shift Enter / Shift F3     | Previous match                         |
+| Ctrl R                     | Replace selected match and advance     |
+| Ctrl A                     | Ask to replace all                     |
+| Ctrl Enter in results      | Open result and close the dialog       |
+| F2                         | Focus Replace with                     |
+| F8 / Alt C                 | Toggle match case (Aa)                 |
+| F4 / Alt W                 | Toggle whole word                      |
+| F5 / Alt R                 | Toggle regex search                    |
+| F6                         | Toggle file/project scope              |
+| Esc                        | Leave typing; press again to close     |
 
-The options are also clickable. Replacement text is literal: `$1` does not
-expand capture groups. An empty replacement deletes the selected match. Files
-with unsaved edits and results that changed after searching are blocked. With
-more than 2000 occurrences, refine the query before replacing all.
+In results, **y** replaces and advances, **n** skips, and **N** goes back.
+
+Replacement is literal: `$1` does not expand groups. Empty replacement removes
+the match. Changed results and unsaved target buffers block application. Refine
+searches with more than 2000 occurrences before replacing all.
 
 <ProductShot
   src="/screenshots/search.png"
-  alt="Actual ForgeVim replacement dialog with Find, Replace with, results, preview, and buttons."
-  caption="Both fields and the one/all actions remain visible while you work."
+  alt="Actual find and replace dialog with options and Previous, Next, Replace one, and Replace all buttons."
+  caption="Tab visits each control. Navigate, skip, or replace without leaving the dialog."
 />

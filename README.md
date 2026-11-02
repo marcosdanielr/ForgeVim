@@ -208,7 +208,7 @@ It stays visible when you focus the tree, chat, or terminal.
 
 ## Git and file tree
 
-`:ForgeTree` (Ctrl B / Leader f e) opens nvim-tree. `:ForgeGit` (Leader g g) opens
+`:ForgeTree` (Leader b / Ctrl B / Leader f e) opens nvim-tree. `:ForgeGit` (Leader g g) opens
 Neogit for staging hunks and committing. `:ForgeDiff` reviews current changes;
 `:ForgeConflicts` opens a three-way Diffview merge only when conflicts exist.
 See [Git workflow](docs/git-workflow.md) for keys and explicit decision rules.
@@ -245,7 +245,7 @@ available by shortcut. Mouse focus, split resizing, and panel double-clicks work
 
 | Action | Default keys |
 | --- | --- |
-| Toggle navigation / files | Leader p n / Ctrl B; Leader p e |
+| Toggle navigation / files | Leader p n / Leader b; Ctrl B / Leader p e |
 | Toggle Agents | Leader p a |
 | Toggle CLI chat / create conversation | Leader p c / Leader a C |
 | Toggle terminal / new terminal | Ctrl backtick / Ctrl Shift backtick; Leader o t / Leader o T |
@@ -279,16 +279,26 @@ message UI or an autonomous multi-agent plan/DAG.
 
 ## Search and replace
 
-Leader f r opens project search; Leader f R targets the current file. The floating
-dialog keeps **Find**, **Replace with**, search options, results, and actions visible.
-Use Tab to move between fields. Select an occurrence, then click **Replace one** or
-**Replace all**. Keyboard users can Tab to Actions, use Left/Right, and press Enter.
-Replace all asks for confirmation; Cancel is selected initially. Ctrl R and Ctrl A
-remain optional one/all shortcuts. F3 toggles case matching, F4 whole words, F5
-regex search, and F6 file/project scope. Replacement text is literal; capture
-expansion is not provided. Unsaved buffers and changed search results are protected.
-Refine searches with more than 2000 occurrences before Replace all. Esc leaves
-Insert mode; a further Esc closes the dialog.
+Ctrl F or Leader f b opens file Find/Replace; Leader f r searches the project.
+Type in Find and Replace with. Tab follows visual order and visits every option
+and button; Shift Tab goes backward. Space or Enter toggles the focused option.
+Enter/F3 goes to the next occurrence; Shift Enter/Shift F3 goes to the previous.
+Previous and Next / skip never edit files. Replace one (or Ctrl R) changes the
+selected occurrence and advances without closing. Repeat to confirm changes one
+at a time; skip anything you want to keep. Replace all asks for confirmation.
+Ctrl Enter opens the selected result and leaves the dialog. F8/Alt C toggles case,
+F4 whole words, F5 regex search, and F6 file/project scope. Replacement is literal.
+File search reads current buffer text, including unsaved edits. Save pending edits
+before replacement; project search reads disk. More than 2000 occurrences blocks
+Replace all. Escape leaves typing; another Escape closes.
+
+Leader b immediately toggles the tree; Ctrl B remains an alternative. Buffer
+cycling uses Tab / Shift Tab or Leader ] / Leader [; Leader f B lists buffers.
+
+The terminal list opens beside running shells when space permits. Leader o o
+focuses it; j/k selects a row and Enter opens that terminal. n creates, s splits,
+and q hides only the list. Leader o t hides/restores the whole terminal group
+without stopping jobs. Leader o T creates and Leader o s splits from any pane.
 
 ## Performance checks
 

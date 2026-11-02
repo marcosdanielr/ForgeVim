@@ -124,3 +124,11 @@ divider positions. This validates Neovim decoding; Terminal.app still needs to
 transmit those sequences. A fresh chat module reads persisted output from the
 local service without launching another provider. This is output recovery, not
 provider session resumption or PTY reattachment.
+
+## Sequential search and terminal list
+
+The real PTY regression opens Ctrl F, visits every option by Tab, toggles with
+Space, navigates Next/Previous, and repeats Replace one without closing. Source
+location is revealed without taking focus. Installed integration verifies search
+reads unsaved text while replacement protects it. Native panel fixtures cover
+terminal-list selection and group hide/restore without stopping shells.

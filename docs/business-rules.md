@@ -195,3 +195,14 @@ Owners: `scripts/installer`, `install.sh`, `features/terminal`,
 - **BR-WEB-07**: Automatic website deployment is limited to main and changes to website inputs since the last successful deployment. Missing comparison history builds. Deployment does not change repository visibility or existing editor configuration.
 
 - **BR-ED-30**: The welcome dashboard renders a native ForgeVim wordmark and actionable shortcuts. Narrow windows use a compact wordmark. It starts no model or terminal process, and explicit files and stdin retain their normal startup path.
+
+- **BR-ED-29**: Find/Replace Tab order follows visual order and visits every option
+  and button. Space toggles options without triggering Leader commands. Next and
+  Previous never modify files. Replace one advances without closing. Opening a
+  result is a separate explicit action. File search may read unsaved buffer text;
+  replacement still requires saved targets.
+- **BR-ED-30**: Leader b toggles the file tree without a longer default b-prefix
+  mapping. Buffer aliases must not delay that toggle.
+- **BR-ED-31**: The terminal list reflects actual tab-local sessions. Selecting a
+  visible session preserves its split. Hiding the list or terminal group never
+  kills a job. The list starts no provider, shell, or polling timer.

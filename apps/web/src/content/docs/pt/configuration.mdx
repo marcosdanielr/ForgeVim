@@ -46,7 +46,7 @@ No modo normal, K (Shift K) mostra informações do símbolo. gl ou Leader c e m
 
 ## Tamanho das janelas e Leader
 
-O cabeçalho de cada painel mostra o atalho para ocultá-lo. Ctrl B alterna o Explorer; Leader p a alterna Agentes, Leader p c alterna o chat e Leader p l alterna os logs. Ctrl crase alterna os terminais.
+O cabeçalho de cada painel mostra o atalho para ocultá-lo. Leader b (ou Ctrl B) alterna o Explorer; Leader p a alterna Agentes, Leader p c alterna o chat e Leader p l alterna os logs. Ctrl crase alterna os terminais.
 
 Foque uma janela com Ctrl H/J/K/L. Ctrl Shift Esquerda/Direita altera a largura; Ctrl Shift Cima/Baixo altera a altura. Leader w h/l/k/j oferece as mesmas ações; Leader w = equilibra as janelas. O mouse continua disponível para redimensionar.
 
@@ -58,7 +58,7 @@ Leader f f busca arquivos, Leader f g busca texto no projeto e Leader f b busca 
 
 Leader o t mostra ou oculta o terminal atual. Alt Enter ou Leader o T cria outro shell; Leader o s divide e Leader o o lista as sessões. New, Split e List também ficam clicáveis no cabeçalho. Ctrl Space/Ctrl @ alterna o terminal fora do modo de inserção; o autocomplete em inserção é preservado.
 
-Leader p a alterna Agentes, Leader p c alterna chat, Leader p l alterna logs e Ctrl B alterna Explorer. Dentro do chat ou terminal, pressione Esc duas vezes antes de usar atalhos Leader. Durante a digitação, espaços e texto chegam intactos à CLI. Atalhos modificados de janela e terminal continuam disponíveis. Ocultar mantém o processo rodando.
+Leader p a alterna Agentes, Leader p c alterna chat, Leader p l alterna logs e Leader b (ou Ctrl B) alterna Explorer. Dentro do chat ou terminal, pressione Esc duas vezes antes de usar atalhos Leader. Durante a digitação, espaços e texto chegam intactos à CLI. Atalhos modificados de janela e terminal continuam disponíveis. Ocultar mantém o processo rodando.
 
 A substituição mantém Find e Replace with visíveis em uma janela flutuante. Tab alterna campos, resultados e botões individuais/completos, que também aceitam clique. Ctrl R aplica uma ocorrência; Ctrl A pede confirmação para todas.
 
@@ -79,4 +79,22 @@ e cores próprias de sintaxe. Tokyo Night continua sendo o tema roxo padrão, se
   src="/screenshots/forge-mint.png"
   alt="Forge Mint aplicado ao código e às pastas."
   caption="Tema preto e verde opcional, capturado no editor real."
+/>
+
+## Terminais no canto da tela
+
+A lista aparece ao lado do painel inferior em telas com pelo menos 80 colunas.
+**Leader o o** foca a lista. Use **j/k** e **Enter** para escolher uma sessão; **n**
+cria um terminal, **s** abre split e **q** esconde somente a lista. Escolher um
+terminal visível foca o split existente. Sessões ocultas mantêm seus buffers.
+
+**Leader o t** esconde/restaura o grupo todo. **Leader o T** cria e **Leader o s**
+abre split. Dentro do shell, Esc Esc sai da digitação; então Tab/Shift Tab alterna
+as sessões e os atalhos Leader ficam disponíveis. Se faltar espaço, o split pode
+ocultar os logs dos agentes para preservar a largura dos terminais.
+
+<ProductShot
+  src="/screenshots/terminals.png"
+  alt="Lista real ao lado de dois terminais em splits."
+  caption="Um split nativo lista as sessões reais e destaca a ativa. A lista não cria outro shell nem consulta processos continuamente."
 />
