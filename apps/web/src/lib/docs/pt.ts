@@ -12,7 +12,7 @@ export const docsPt: readonly DocPage[] = [
         title: 'Um workspace pronto para usar',
         paragraphs: [
           'Ao abrir o Forge, você encontra Tokyo Night, arquivos à esquerda, status do Git e ações com teclas visíveis. Pressione a letra indicada ou navegue com j/k e Enter.',
-          'Para editar um arquivo aberto, pressione i. Esc volta ao modo normal; Ctrl S salva. Ctrl H/J/K/L alterna os painéis. Espaço Espaço abre a paleta de comandos.',
+          'Para editar um arquivo aberto, pressione i. Esc volta ao modo normal; Ctrl S salva. Ctrl H/J/K/L alterna os painéis. Leader Leader abre a paleta de comandos.',
         ],
       },
       {
@@ -40,7 +40,7 @@ export const docsPt: readonly DocPage[] = [
             ['f na tela inicial', 'Encontre e abra um arquivo do projeto.'],
             ['g na tela inicial', 'Revise, selecione e faça commit das alterações.'],
             ['a na tela inicial', 'Acompanhe agentes e revise os resultados.'],
-            ['Espaço Espaço', 'Busque todos os comandos disponíveis.'],
+            ['Leader Leader', 'Busque todos os comandos disponíveis.'],
             [':ForgeLanguages', 'Escolha e instale ferramentas por linguagem.'],
             [':ForgeHealth', 'Verifique dependências do editor e do núcleo de agentes.'],
           ],
@@ -51,7 +51,7 @@ export const docsPt: readonly DocPage[] = [
         title: 'Abra seu projeto',
         code: 'cd /caminho/do/projeto\n/caminho/forge.nvim/bin/forge',
         paragraphs: [
-          'O editor continua sendo Neovim: use :edit, :split, :terminal, macros, registros e os movimentos que você já conhece. A tecla líder é Espaço.',
+          'O editor continua sendo Neovim: use :edit, :split, :terminal, macros, registros e os movimentos que você já conhece. Leader é Espaço por padrão. Altere em :ForgeLeader e reinicie.',
         ],
       },
     ],
@@ -68,15 +68,15 @@ export const docsPt: readonly DocPage[] = [
         table: {
           headers: ['Atalho', 'Alternativa', 'Ação'],
           rows: [
-            ['Ctrl P', 'Espaço f f', 'Buscar arquivos no projeto.'],
-            ['Ctrl Shift F', 'Espaço f g', 'Buscar texto no projeto.'],
-            ['Ctrl F', 'Espaço f b', 'Buscar no buffer.'],
-            ['Ctrl Shift H', 'Espaço f r', 'Substituir texto no projeto.'],
-            ['—', 'Espaço f R', 'Substituir texto no arquivo.'],
-            ['F2', 'Espaço c r', 'Renomear símbolo usando LSP.'],
+            ['Ctrl P', 'Leader f f', 'Buscar arquivos no projeto.'],
+            ['Ctrl Shift F', 'Leader f g', 'Buscar texto no projeto.'],
+            ['Ctrl F', 'Leader f b', 'Buscar no buffer.'],
+            ['Ctrl Shift H', 'Leader f r', 'Substituir texto no projeto.'],
+            ['—', 'Leader f R', 'Substituir texto no arquivo.'],
+            ['F2', 'Leader c r', 'Renomear símbolo usando LSP.'],
             ['Ctrl S', ':write', 'Salvar buffer.'],
-            ['Alt Shift F', 'Espaço c f', 'Formatar código.'],
-            ['Ctrl Shift P', 'Espaço Espaço', 'Abrir paleta de comandos.'],
+            ['Alt Shift F', 'Leader c f', 'Formatar código.'],
+            ['Ctrl Shift P', 'Leader Leader', 'Abrir paleta de comandos.'],
             ['Ctrl Space', '—', 'Abrir sugestões de autocomplete.'],
           ],
         },
@@ -88,12 +88,12 @@ export const docsPt: readonly DocPage[] = [
           rows: [
             ['gd / F12', 'Ir à definição, inclusive em outro arquivo.'],
             ['grr / Shift F12', 'Encontrar referências.'],
-            ['K / Espaço c h', 'Mostrar documentação de classe, variável ou função.'],
-            ['Espaço c s', 'Mostrar assinatura da função.'],
+            ['K / Leader c h', 'Mostrar documentação de classe, variável ou função.'],
+            ['Leader c s', 'Mostrar assinatura da função.'],
             ['gi / gy', 'Ir à implementação / definição do tipo.'],
-            ['gl / Espaço c e', 'Ler diagnósticos da linha.'],
+            ['gl / Leader c e', 'Ler diagnósticos da linha.'],
             [']d / [d', 'Próximo / anterior diagnóstico.'],
-            ['Espaço f s', 'Pesquisar símbolos do documento.'],
+            ['Leader f s', 'Pesquisar símbolos do documento.'],
           ],
         },
       },
@@ -102,14 +102,14 @@ export const docsPt: readonly DocPage[] = [
         table: {
           headers: ['Atalho', 'Alternativa', 'Ação'],
           rows: [
-            ['F5', 'Espaço d c', 'Iniciar ou continuar debug.'],
-            ['F9', 'Espaço d b', 'Alternar breakpoint.'],
-            ['F10', 'Espaço d o', 'Avançar sem entrar.'],
-            ['F11', 'Espaço d i', 'Entrar na chamada.'],
-            ['Shift F11', 'Espaço d O', 'Sair da chamada.'],
-            ['Shift F5', 'Espaço d q', 'Encerrar debug.'],
-            ['—', 'Espaço a n', 'Iniciar agente Codex.'],
-            ['—', 'Espaço a a', 'Listar e revisar agentes.'],
+            ['F5', 'Leader d c', 'Iniciar ou continuar debug.'],
+            ['F9', 'Leader d b', 'Alternar breakpoint.'],
+            ['F10', 'Leader d o', 'Avançar sem entrar.'],
+            ['F11', 'Leader d i', 'Entrar na chamada.'],
+            ['Shift F11', 'Leader d O', 'Sair da chamada.'],
+            ['Shift F5', 'Leader d q', 'Encerrar debug.'],
+            ['—', 'Leader a n', 'Iniciar agente Codex.'],
+            ['—', 'Leader a a', 'Listar e revisar agentes.'],
           ],
         },
       },
@@ -137,12 +137,12 @@ export const docsPt: readonly DocPage[] = [
         table: {
           headers: ['Ação', 'Teclas'],
           rows: [
-            ['Arquivos / Agentes / Chat', 'Ctrl B / Espaço p a / Espaço p c'],
-            ['Próximo / anterior buffer', 'Ctrl Tab / Ctrl Shift Tab; Espaço b n / Espaço b p'],
-            ['Terminal / novo terminal', 'Ctrl crase / Ctrl Shift crase; Espaço o t / Espaço o T'],
-            ['Dividir / escolher terminal', 'Ctrl Shift 5 / Espaço o s; Espaço o o'],
-            ['Revisão / debug / logs', 'Espaço p r / Espaço p d / Espaço p l'],
-            ['Configuração / painéis iniciais', 'Espaço u s / Espaço u L'],
+            ['Arquivos / Agentes / Chat', 'Ctrl B / Leader p a / Leader p c'],
+            ['Próximo / anterior buffer', 'Ctrl Tab / Ctrl Shift Tab; Leader b n / Leader b p'],
+            ['Terminal / novo terminal', 'Ctrl crase / Ctrl Shift crase; Leader o t / Leader o T'],
+            ['Dividir / escolher terminal', 'Ctrl Shift 5 / Leader o s; Leader o o'],
+            ['Revisão / debug / logs', 'Leader p r / Leader p d / Leader p l'],
+            ['Configuração / painéis iniciais', 'Leader u s / Leader u L'],
           ],
         },
       },
@@ -197,7 +197,7 @@ export const docsPt: readonly DocPage[] = [
       {
         title: 'Converse com seu CLI autenticado',
         paragraphs: [
-          'Conecte sua conta e use :ForgeChatNew ou Espaço a C. Escolha o provedor e dê um nome à conversa. O CLI oficial abre num terminal lateral: escreva seu pedido e use o histórico, as próximas mensagens e as permissões do próprio provedor.',
+          'Conecte sua conta e use :ForgeChatNew ou Leader a C. Escolha o provedor e dê um nome à conversa. O CLI oficial abre num terminal lateral: escreva seu pedido e use o histórico, as próximas mensagens e as permissões do próprio provedor.',
           'Salve os arquivos e faça commit ou stash antes. O chat usa uma worktree própria. Ocultar o painel mantém o processo ativo enquanto o Forge estiver aberto. Saia do CLI, selecione sua tarefa em Agentes e revise as alterações antes de aceitar.',
           'O terminal pertence à sessão atual do editor. Logs e worktrees continuam disponíveis depois de fechar; o Forge não promete reanexar um terminal antigo nem substitui a retomada nativa do provedor.',
         ],
@@ -215,7 +215,7 @@ export const docsPt: readonly DocPage[] = [
         title: 'Temas e plugins',
         code: ':ForgeThemes\n:ForgePlugins',
         paragraphs: [
-          'O tema escolhido é aplicado e salvo. Habamax mantém a aparência inicial próxima do Neovim; Tokyo Night, Catppuccin e Rose Pine também estão disponíveis.',
+          'O tema escolhido é aplicado e salvo. Tokyo Night é o padrão; Catppuccin, Rose Pine e o tema simples Habamax também estão disponíveis.',
           'O menu de plugins permite alternar extras ou adicionar owner/repository. Reinicie o Forge para instalar ou descarregar plugins. :Lazy mostra versões e progresso. Plugins adicionados são código executável: escolha repositórios confiáveis.',
         ],
       },
@@ -235,6 +235,23 @@ export const docsPt: readonly DocPage[] = [
         ],
       },
       {
+        title: 'Ícones e barra inferior',
+        paragraphs: [
+          'Ícones de pastas e linguagens vêm habilitados. Selecione uma Nerd Font no terminal, como MesloLGM Nerd Font Mono. Para usar texto simples, execute :ForgeIcons (Leader u i) e reinicie o Forge.',
+          'A barra inferior permanece visível entre os painéis. Mostra modo, branch, erros, avisos, linguagem, codificação, fim de linha e posição do cursor. Os contadores vêm dos diagnósticos reais do buffer.',
+          'No modo normal, K (Shift K) mostra informações do símbolo. gl ou Leader c e mostra erros e avisos da linha. ]d e [d navegam pelos diagnósticos. F1 lista suas teclas configuradas; a documentação de símbolos exige um LSP ativo.',
+        ],
+      },
+      {
+        title: 'Tamanho das janelas e Leader',
+        paragraphs: [
+          'O cabeçalho de cada painel mostra o atalho para ocultá-lo. Ctrl B alterna o Explorer; Leader p a alterna Agentes, Leader p c alterna o chat e Leader p l alterna os logs. Ctrl crase alterna os terminais.',
+          'Foque uma janela com Ctrl H/J/K/L. Ctrl Shift Esquerda/Direita altera a largura; Ctrl Shift Cima/Baixo altera a altura. Leader w h/l/k/j oferece as mesmas ações; Leader w = equilibra as janelas. O mouse continua disponível para redimensionar.',
+          'Leader é Espaço por padrão. :ForgeLeader ou Configurações salva outra tecla; reiniciar aplica a troca. Leader Leader abre comandos. Tab/Shift Tab alterna buffers no modo normal, como no VIMarcos, preservando o Tab de autocomplete nos terminais.',
+          'Leader f f busca arquivos, Leader f g busca texto no projeto e Leader f b busca no buffer atual. :ForgeKeymaps altera essas teclas. :ForgeDiagnosticDisplay escolhe mensagens inline, expandidas na linha atual ou exibição discreta de erros.',
+        ],
+      },
+      {
         title: 'Atualizações reproduzíveis',
         paragraphs: [
           'O projeto inclui lazy-lock.json. Na primeira execução, o Forge copia esse lock para o estado local; atualizações feitas por :Lazy não alteram o checkout da distribuição.',
@@ -244,7 +261,7 @@ export const docsPt: readonly DocPage[] = [
       {
         title: 'Configure pelo editor',
         paragraphs: [
-          'Espaço u s abre Configurações. Escolha tema, teclas, linguagens, plugins, conta de IA, notificações ou layout inicial. Essas opções não exigem editar Lua.',
+          'Leader u s abre Configurações. Escolha tema, teclas, linguagens, plugins, conta de IA, notificações ou layout inicial. Essas opções não exigem editar Lua.',
           'No layout inicial, habilite ou desabilite boas-vindas, árvore de arquivos e Agentes. Em terminais estreitos, os painéis continuam disponíveis por atalho.',
         ],
         code: ':ForgeSettings\n:ForgeStartupLayout',
@@ -262,7 +279,7 @@ export const docsPt: readonly DocPage[] = [
         title: 'Árvore de arquivos',
         code: ':ForgeTree',
         paragraphs: [
-          'Ctrl B ou Espaço f e alterna a árvore do projeto. Enter abre um arquivo; a cria, r renomeia, d solicita exclusão com confirmação. Use g? para ver atalhos. A árvore abre ao lado da tela inicial. Ctrl H/L alterna os painéis; h/j/k/l move o cursor.',
+          'Ctrl B ou Leader f e alterna a árvore do projeto. Enter abre um arquivo; a cria, r renomeia, d solicita exclusão com confirmação. Use g? para ver atalhos. A árvore abre ao lado da tela inicial. Ctrl H/L alterna os painéis; h/j/k/l move o cursor.',
         ],
       },
       {
@@ -277,7 +294,7 @@ export const docsPt: readonly DocPage[] = [
         title: 'Conflitos em três vias',
         code: ':ForgeConflicts',
         paragraphs: [
-          'Abra o merge somente quando houver arquivos em conflito. ]x e [x navegam conflitos. Espaço c o aceita ours/current; Espaço c t aceita theirs/incoming; Espaço c b aceita a base no conflito selecionado.',
+          'Abra o merge somente quando houver arquivos em conflito. ]x e [x navegam conflitos. Leader c o aceita ours/current; Leader c t aceita theirs/incoming; Leader c b aceita a base no conflito selecionado.',
           'Edite o resultado diretamente quando precisar combinar os lados. Salve, revise e faça stage apenas dos arquivos resolvidos. :ForgeDiff abre a revisão de alterações a qualquer momento.',
         ],
         note: 'Escolher um lado é sempre sua decisão. Nenhum conflito é resolvido automaticamente.',
@@ -285,7 +302,7 @@ export const docsPt: readonly DocPage[] = [
       {
         title: 'Buscar e substituir com opções visíveis',
         paragraphs: [
-          'Ctrl Shift H ou Espaço f r abre busca e substituição no projeto. Espaço f R limita ao arquivo atual. Preencha Search e Replace, escolha File ou Project e ajuste Match case, Whole word e Regex.',
+          'Ctrl Shift H ou Leader f r abre busca e substituição no projeto. Leader f R limita ao arquivo atual. Preencha Search e Replace, escolha File ou Project e ajuste Match case, Whole word e Regex.',
           'Pressione p para pré-visualizar. Isso não altera arquivos. Revise os resultados e use as ações visíveis do grug-far; g? mostra ajuda. Com as teclas padrão, vírgula seguida de r aplica a substituição.',
         ],
         code: ':ForgeReplace\n:ForgeBufferReplace',

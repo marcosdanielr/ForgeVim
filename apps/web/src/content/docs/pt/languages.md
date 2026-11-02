@@ -6,7 +6,7 @@ FlutterTools carrega apenas para Dart ou por comando explícito.
 
 ## Configuração guiada
 
-1. Abra `:ForgeLanguages` (Espaço u l).
+1. Abra `:ForgeLanguages` (Leader u l).
 2. Escolha o perfil e confira seu estado on/off.
 3. Use **Show requirements** para ver SDKs disponíveis e ausentes.
 4. Instale o SDK/runtime seguindo a documentação oficial da linguagem.
@@ -49,11 +49,11 @@ evitando dois servidores para o mesmo projeto.
 
 | Comando              | Atalho          | Ação                 |
 | -------------------- | --------------- | -------------------- |
-| :ForgeFlutterDevices | Espaço D d      | Escolher dispositivo |
-| :ForgeFlutterRun     | Espaço D r      | Executar/debugar     |
-| :ForgeFlutterReload  | Espaço D h      | Hot reload           |
-| :ForgeFlutterRestart | Espaço D R      | Hot restart          |
-| :ForgeFlutterOutline | Espaço D o      | Árvore de widgets    |
+| :ForgeFlutterDevices | Leader D d      | Escolher dispositivo |
+| :ForgeFlutterRun     | Leader D r      | Executar/debugar     |
+| :ForgeFlutterReload  | Leader D h      | Hot reload           |
+| :ForgeFlutterRestart | Leader D R      | Hot restart          |
+| :ForgeFlutterOutline | Leader D o      | Árvore de widgets    |
 | :FlutterQuit         | FlutterCommands | Encerrar app         |
 
 F9 marca breakpoint e F5 usa a configuração DAP Dart/Flutter. Tudo pode ser

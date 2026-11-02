@@ -12,7 +12,7 @@ export const docsEn: readonly DocPage[] = [
         title: 'A workspace ready to use',
         paragraphs: [
           'Open Forge to find a Tokyo Night workspace, project files on the left, Git status, and actions with visible keys. Press a displayed letter or move with j/k and press Enter.',
-          'To edit an opened file, press i. Press Esc to return to normal mode; Ctrl S saves. Ctrl H/J/K/L focuses another panel. Space Space opens the command palette.',
+          'To edit an opened file, press i. Press Esc to return to normal mode; Ctrl S saves. Ctrl H/J/K/L focuses another panel. Leader Leader opens the command palette.',
         ],
       },
       {
@@ -40,7 +40,7 @@ export const docsEn: readonly DocPage[] = [
             ['f on the welcome screen', 'Find and open a project file.'],
             ['g on the welcome screen', 'Review, stage, and commit changes.'],
             ['a on the welcome screen', 'Inspect agents and review their results.'],
-            ['Space Space', 'Search all available commands.'],
+            ['Leader Leader', 'Search all available commands.'],
             [':ForgeLanguages', 'Choose and install tools by language.'],
             [':ForgeHealth', 'Check editor and agent prerequisites.'],
           ],
@@ -50,7 +50,7 @@ export const docsEn: readonly DocPage[] = [
       {
         title: 'Open your project',
         paragraphs: [
-          'This is still Neovim. Use :edit, :split, :terminal, macros, registers, and your familiar motions. The leader key is Space.',
+          'This is still Neovim. Use :edit, :split, :terminal, macros, registers, and your familiar motions. Leader defaults to Space. Change it in :ForgeLeader and restart.',
         ],
         code: 'cd /path/to/project\n/path/to/forge.nvim/bin/forge',
       },
@@ -68,20 +68,20 @@ export const docsEn: readonly DocPage[] = [
         table: {
           headers: ['Shortcut', 'Alternative', 'Action'],
           rows: [
-            ['Ctrl P', 'Space f f', 'Find project files.'],
-            ['Ctrl Shift F', 'Space f g', 'Search project text.'],
-            ['Ctrl F', 'Space f b', 'Search this buffer.'],
-            ['Ctrl Shift H', 'Space f r', 'Replace project text.'],
-            ['—', 'Space f R', 'Replace current-file text.'],
-            ['F2', 'Space c r', 'Rename an LSP symbol.'],
+            ['Ctrl P', 'Leader f f', 'Find project files.'],
+            ['Ctrl Shift F', 'Leader f g', 'Search project text.'],
+            ['Ctrl F', 'Leader f b', 'Search this buffer.'],
+            ['Ctrl Shift H', 'Leader f r', 'Replace project text.'],
+            ['—', 'Leader f R', 'Replace current-file text.'],
+            ['F2', 'Leader c r', 'Rename an LSP symbol.'],
             ['Ctrl S', ':write', 'Save buffer.'],
-            ['Alt Shift F', 'Space c f', 'Format code.'],
-            ['Ctrl Shift P', 'Space Space', 'Open command palette.'],
+            ['Alt Shift F', 'Leader c f', 'Format code.'],
+            ['Ctrl Shift P', 'Leader Leader', 'Open command palette.'],
             ['Ctrl Space', '—', 'Show code completion.'],
-            ['Ctrl B', 'Space f e', 'Toggle file tree.'],
+            ['Ctrl B', 'Leader f e', 'Toggle file tree.'],
             ['Ctrl H/J/K/L', 'Ctrl W then h/j/k/l', 'Focus an adjacent window.'],
-            ['Space u w', ':ForgeWorkspace', 'Return to the workspace.'],
-            ['Space g h', ':ForgeGitHistory', 'Open the commit graph; Enter reviews a commit.'],
+            ['Leader u w', ':ForgeWorkspace', 'Return to the workspace.'],
+            ['Leader g h', ':ForgeGitHistory', 'Open the commit graph; Enter reviews a commit.'],
           ],
         },
       },
@@ -92,12 +92,12 @@ export const docsEn: readonly DocPage[] = [
           rows: [
             ['gd / F12', 'Go to definition, including another file.'],
             ['grr / Shift F12', 'Find symbol references.'],
-            ['K / Space c h', 'Show class, variable, or function documentation.'],
-            ['Space c s', 'Show function signature.'],
+            ['K / Leader c h', 'Show class, variable, or function documentation.'],
+            ['Leader c s', 'Show function signature.'],
             ['gi / gy', 'Go to implementation / type definition.'],
-            ['gl / Space c e', 'Read line diagnostics.'],
+            ['gl / Leader c e', 'Read line diagnostics.'],
             [']d / [d', 'Go to next / previous diagnostic.'],
-            ['Space f s', 'Find document symbols.'],
+            ['Leader f s', 'Find document symbols.'],
           ],
         },
       },
@@ -106,15 +106,15 @@ export const docsEn: readonly DocPage[] = [
         table: {
           headers: ['Shortcut', 'Alternative', 'Action'],
           rows: [
-            ['F5', 'Space d c', 'Start or continue debugging.'],
-            ['F9', 'Space d b', 'Toggle breakpoint.'],
-            ['F10', 'Space d o', 'Step over.'],
-            ['F11', 'Space d i', 'Step into.'],
-            ['Shift F11', 'Space d O', 'Step out.'],
-            ['Shift F5', 'Space d q', 'Stop debugging.'],
-            ['—', 'Space a n', 'Start agent task.'],
-            ['—', 'Space a a', 'List and review agents.'],
-            ['—', 'Space a c', 'Connect provider account.'],
+            ['F5', 'Leader d c', 'Start or continue debugging.'],
+            ['F9', 'Leader d b', 'Toggle breakpoint.'],
+            ['F10', 'Leader d o', 'Step over.'],
+            ['F11', 'Leader d i', 'Step into.'],
+            ['Shift F11', 'Leader d O', 'Step out.'],
+            ['Shift F5', 'Leader d q', 'Stop debugging.'],
+            ['—', 'Leader a n', 'Start agent task.'],
+            ['—', 'Leader a a', 'List and review agents.'],
+            ['—', 'Leader a c', 'Connect provider account.'],
           ],
         },
       },
@@ -141,15 +141,15 @@ export const docsEn: readonly DocPage[] = [
         table: {
           headers: ['Action', 'Keys'],
           rows: [
-            ['Files / Agents / Chat', 'Ctrl B / Space p a / Space p c'],
-            ['Next / previous buffer', 'Ctrl Tab / Ctrl Shift Tab; Space b n / Space b p'],
+            ['Files / Agents / Chat', 'Ctrl B / Leader p a / Leader p c'],
+            ['Next / previous buffer', 'Ctrl Tab / Ctrl Shift Tab; Leader b n / Leader b p'],
             [
               'Terminal / new terminal',
-              'Ctrl backtick / Ctrl Shift backtick; Space o t / Space o T',
+              'Ctrl backtick / Ctrl Shift backtick; Leader o t / Leader o T',
             ],
-            ['Split / choose terminal', 'Ctrl Shift 5 / Space o s; Space o o'],
-            ['Review / debug / logs', 'Space p r / Space p d / Space p l'],
-            ['Settings / startup panels', 'Space u s / Space u L'],
+            ['Split / choose terminal', 'Ctrl Shift 5 / Leader o s; Leader o o'],
+            ['Review / debug / logs', 'Leader p r / Leader p d / Leader p l'],
+            ['Settings / startup panels', 'Leader u s / Leader u L'],
           ],
         },
       },
@@ -204,7 +204,7 @@ export const docsEn: readonly DocPage[] = [
       {
         title: 'Chat with your existing CLI account',
         paragraphs: [
-          'Connect your account, then run :ForgeChatNew or press Space a C. Choose a provider and name the conversation. The official CLI opens in a side terminal; type your request there and use its normal follow-ups and permission prompts.',
+          'Connect your account, then run :ForgeChatNew or press Leader a C. Choose a provider and name the conversation. The official CLI opens in a side terminal; type your request there and use its normal follow-ups and permission prompts.',
           'Save files and commit or stash first. Chat uses its own worktree. Hiding the pane keeps it live while Forge is open. Exit the CLI, select its task in Agents, and choose Review changes before accepting.',
           'These terminals belong to the current editor session. Logs and worktrees remain available after closing; Forge does not promise to reattach an old terminal or replace provider-native resume controls.',
         ],
@@ -221,7 +221,7 @@ export const docsEn: readonly DocPage[] = [
       {
         title: 'Themes, plugins, and shortcuts',
         paragraphs: [
-          'Theme selection applies and persists. Habamax keeps the initial look close to stock Neovim; Tokyo Night, Catppuccin, and Rose Pine are available too.',
+          'Theme selection applies and persists. Tokyo Night is the default; Catppuccin, Rose Pine, and the plain Habamax theme are available too.',
           'Toggle optional plugins or add a trusted GitHub owner/repository. Restart to install or unload choices; :Lazy shows versions and progress. Plugins execute code, so choose repositories you trust.',
         ],
         code: ':ForgeThemes\n:ForgePlugins\n:ForgeKeymaps',
@@ -236,9 +236,25 @@ export const docsEn: readonly DocPage[] = [
       {
         title: 'Personal settings',
         paragraphs: [
-          'The config path respects XDG_CONFIG_HOME. Menu preferences live under stdpath("state")/forge/preferences.json and override user defaults. Nerd Fonts are optional; enable nerd_fonts only after selecting a patched font in your terminal.',
+          'The config path respects XDG_CONFIG_HOME. Menu preferences live under stdpath("state")/forge/preferences.json and override user defaults. Folder and language icons are enabled by default. Select a Nerd Font in your terminal, such as MesloLGM Nerd Font Mono. Use :ForgeIcons (Leader u i) and restart to switch to plain text.',
         ],
-        code: '-- ~/.config/forge.nvim/lua/user.lua\nreturn {\n  theme = "tokyonight",\n  format_on_save = true,\n  copilot = false,\n  notifications = true,\n  nerd_fonts = false,\n}',
+        code: '-- ~/.config/forge.nvim/lua/user.lua\nreturn {\n  theme = "tokyonight",\n  format_on_save = true,\n  copilot = false,\n  notifications = true,\n  nerd_fonts = true,\n}',
+      },
+      {
+        title: 'Bottom statusbar',
+        paragraphs: [
+          'The global bottom bar stays visible across panels. It shows mode, Git branch, errors and warnings, language, encoding, line endings, and cursor position. Counts come from actual buffer diagnostics.',
+          'Press K (Shift K) in normal mode for symbol documentation. Press gl or Leader c e for line errors and warnings. Use ]d and [d to move between diagnostics. F1 lists your configured keys; language documentation requires an active LSP.',
+        ],
+      },
+      {
+        title: 'Window size and Leader',
+        paragraphs: [
+          'Pane headers show the shortcut that hides them. Ctrl B toggles Explorer; Leader p a toggles Agents, Leader p c toggles chat, and Leader p l toggles logs. Ctrl backtick toggles terminals.',
+          'Focus a split with Ctrl H/J/K/L. Ctrl Shift Left/Right changes its width; Ctrl Shift Up/Down changes its height. Leader w h/l/k/j provides the same actions; Leader w = balances windows. Mouse resizing remains available.',
+          'Leader defaults to Space. :ForgeLeader or Settings saves a different key; restart applies it. Leader Leader opens commands. Tab/Shift Tab cycles buffers in normal mode, matching VIMarcos, while terminal Tab completion remains available.',
+          'Find files with Leader f f, search project text with Leader f g, and search the current buffer with Leader f b. :ForgeKeymaps changes these keys. :ForgeDiagnosticDisplay selects inline, expanded current-line, or quiet error messages.',
+        ],
       },
       {
         title: 'Reproducible updates',
@@ -250,7 +266,7 @@ export const docsEn: readonly DocPage[] = [
       {
         title: 'Configure from the editor',
         paragraphs: [
-          'Open Settings with Space u s. Choose theme, keyboard shortcuts, languages, plugins, account login, notifications, or startup layout. No Lua edit is required for these choices.',
+          'Open Settings with Leader u s. Choose theme, keyboard shortcuts, languages, plugins, account login, notifications, or startup layout. No Lua edit is required for these choices.',
           'Startup layout can enable or disable the welcome screen, files sidebar, and Agents sidebar. Narrow terminals keep panels available by shortcut instead of opening every pane.',
         ],
         code: ':ForgeSettings\n:ForgeStartupLayout',
@@ -267,7 +283,7 @@ export const docsEn: readonly DocPage[] = [
       {
         title: 'File tree',
         paragraphs: [
-          'Ctrl B or Space f e toggles the project tree. Enter opens a file; a creates, r renames, and d requests deletion with confirmation. g? shows shortcuts. The tree opens beside the welcome screen. Ctrl H/L moves between panels; h/j/k/l moves the cursor.',
+          'Ctrl B or Leader f e toggles the project tree. Enter opens a file; a creates, r renames, and d requests deletion with confirmation. g? shows shortcuts. The tree opens beside the welcome screen. Ctrl H/L moves between panels; h/j/k/l moves the cursor.',
         ],
         code: ':ForgeTree',
       },
@@ -282,7 +298,7 @@ export const docsEn: readonly DocPage[] = [
       {
         title: 'Three-way conflict resolution',
         paragraphs: [
-          'The command checks for unmerged files before opening the merge. ]x and [x navigate conflicts. Space c o chooses ours/current, Space c t chooses theirs/incoming, and Space c b chooses the base at the selected conflict.',
+          'The command checks for unmerged files before opening the merge. ]x and [x navigate conflicts. Leader c o chooses ours/current, Leader c t chooses theirs/incoming, and Leader c b chooses the base at the selected conflict.',
           'Edit the result directly to combine both sides. Save, review, and stage only resolved files. :ForgeDiff opens working-tree review at any time.',
         ],
         code: ':ForgeConflicts',
@@ -291,7 +307,7 @@ export const docsEn: readonly DocPage[] = [
       {
         title: 'Find and replace with visible options',
         paragraphs: [
-          'Ctrl Shift H or Space f r opens project search and replace. Space f R targets the current file. Set Search and Replace, choose File or Project, and toggle Match case, Whole word, and Regex.',
+          'Ctrl Shift H or Leader f r opens project search and replace. Leader f R targets the current file. Set Search and Replace, choose File or Project, and toggle Match case, Whole word, and Regex.',
           'Press p to preview. The preview does not change files. Review matches, then use grug-far’s visible action keys; g? shows help. With default keys, comma followed by r applies replacement.',
         ],
         code: ':ForgeReplace\n:ForgeBufferReplace',
