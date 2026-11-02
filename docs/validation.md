@@ -42,7 +42,7 @@ latency benchmark or a startup SLA.
 Astro 7.4.4 (updated after dependency audit), strict TypeScript check, ESLint 10 with explicit-any prohibition and import
 sorting, Prettier with Tailwind class sorting, and the static build pass. The build
 contains both locale trees, including translated domain rules and requirements.
-Rule/requirement identifier sets match between English and Portuguese.
+Internal rules, requirements, and architecture stay in English under docs/. The website contains bilingual reader guidance for installation and daily use.
 
 Browser QA uses the Codex internal browser. Light/dark/system controls, manual
 locale navigation, demo tabs, docs navigation, and copy controls are checked in the
@@ -56,3 +56,18 @@ A workflow file alone is not evidence that hosted CI has passed.
 Production dependency audit after the Astro update reports zero known
 vulnerabilities. This does not establish absence of unknown issues or replace
 reviewing dependency updates.
+
+## Workspace and pnpm follow-up
+
+The offline native smoke additionally verifies workspace Git status, preservation
+of h/j/k/l, restoration of window options after leaving the welcome buffer, and
+Ctrl H/J/K/L focus across horizontal and vertical splits. Installed plugin
+integration passes after the workspace change. pnpm 12.4.1 imports the npm lock
+and installs the workspace with a frozen lockfile. These checks do not establish
+feature parity with Orca or verify continuous provider conversations.
+
+An interactive TUI with a fresh test profile also reports one attached UI, the
+forge-workspace buffer, a visible nvim-tree, and tokyonight-night. Installed plugin
+smoke covers tree/workspace focus and opening a commit diff from the commit graph.
+The pnpm website type check, lint, format check, and 15-page bilingual build pass
+after removing internal architecture, domain rule, and requirements pages.

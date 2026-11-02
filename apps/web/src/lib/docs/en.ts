@@ -9,6 +9,13 @@ export const docsEn: readonly DocPage[] = [
       'Install Forge without replacing your current configuration. Open the editor, choose your tools, and get to work.',
     sections: [
       {
+        title: 'A workspace ready to use',
+        paragraphs: [
+          'Open Forge to find a Tokyo Night workspace, project files on the left, Git status, and actions with visible keys. Press a displayed letter or move with j/k and press Enter.',
+          'To edit an opened file, press i. Press Esc to return to normal mode; Ctrl S saves. Ctrl H/J/K/L focuses another panel. Space Space opens the command palette.',
+        ],
+      },
+      {
         title: 'Before you begin',
         bullets: [
           'macOS or Linux with Neovim 0.11 or later.',
@@ -26,11 +33,14 @@ export const docsEn: readonly DocPage[] = [
         code: 'git clone https://github.com/marcosdanielr/forge.nvim.git\ncd forge.nvim\n./bin/forge',
       },
       {
-        title: 'Your first three commands',
+        title: 'Your first steps',
         table: {
           headers: ['Command', 'Result'],
           rows: [
-            [':Forge', 'A searchable command palette.'],
+            ['f on the welcome screen', 'Find and open a project file.'],
+            ['g on the welcome screen', 'Review, stage, and commit changes.'],
+            ['a on the welcome screen', 'Inspect agents and review their results.'],
+            ['Space Space', 'Search all available commands.'],
             [':ForgeLanguages', 'Choose and install tools by language.'],
             [':ForgeHealth', 'Check editor and agent prerequisites.'],
           ],
@@ -42,7 +52,7 @@ export const docsEn: readonly DocPage[] = [
         paragraphs: [
           'This is still Neovim. Use :edit, :split, :terminal, macros, registers, and your familiar motions. The leader key is Space.',
         ],
-        code: 'cd /path/to/project\n/path/to/forge.nvim/bin/forge .',
+        code: 'cd /path/to/project\n/path/to/forge.nvim/bin/forge',
       },
     ],
   },
@@ -69,6 +79,9 @@ export const docsEn: readonly DocPage[] = [
             ['Ctrl Shift P', 'Space Space', 'Open command palette.'],
             ['Ctrl Space', '—', 'Show code completion.'],
             ['Ctrl B', 'Space f e', 'Toggle file tree.'],
+            ['Ctrl H/J/K/L', 'Ctrl W then h/j/k/l', 'Focus an adjacent window.'],
+            ['Space u w', ':ForgeWorkspace', 'Return to the workspace.'],
+            ['Space g h', ':ForgeGitHistory', 'Open the commit graph; Enter reviews a commit.'],
           ],
         },
       },
@@ -150,7 +163,7 @@ export const docsEn: readonly DocPage[] = [
       {
         title: 'Review the result',
         paragraphs: [
-          'SHA-256 identifies the review snapshot. Acceptance fails if its bytes change, the target becomes dirty, or HEAD changes after review. After accepting and committing one task, review sibling results against the current target. Independent patches can apply unchanged; conflicting patches remain blocked.',
+          'If the task result or your project changes after review, review again before accepting. Save and commit your changes before applying another task. Forge checks for conflicts and leaves conflicting results available for inspection.',
         ],
         code: ':ForgeAgents',
         bullets: [
@@ -211,7 +224,7 @@ export const docsEn: readonly DocPage[] = [
         paragraphs: [
           'The config path respects XDG_CONFIG_HOME. Menu preferences live under stdpath("state")/forge/preferences.json and override user defaults. Nerd Fonts are optional; enable nerd_fonts only after selecting a patched font in your terminal.',
         ],
-        code: '-- ~/.config/forge.nvim/lua/user.lua\nreturn {\n  theme = "habamax",\n  format_on_save = true,\n  copilot = false,\n  notifications = true,\n  nerd_fonts = false,\n}',
+        code: '-- ~/.config/forge.nvim/lua/user.lua\nreturn {\n  theme = "tokyonight",\n  format_on_save = true,\n  copilot = false,\n  notifications = true,\n  nerd_fonts = false,\n}',
       },
       {
         title: 'Reproducible updates',
@@ -223,61 +236,6 @@ export const docsEn: readonly DocPage[] = [
     ],
   },
   {
-    slug: 'architecture',
-    navigationTitle: 'Architecture',
-    title: 'Small where it matters.',
-    description:
-      'Cohesive modules. No custom renderer, permanent daemon, or extra implementation language without evidence.',
-    sections: [
-      {
-        title: 'Monorepo boundaries',
-        table: {
-          headers: ['Directory', 'Responsibility'],
-          rows: [
-            ['apps/nvim', 'Lua editor, commands, features, and language profiles.'],
-            ['packages/agent-core', 'Agent policy, lifecycle, Git, SQLite, and processes.'],
-            ['packages/protocol', 'Versioned JSON boundary.'],
-            ['apps/web', 'Astro presentation and bilingual documentation.'],
-            ['.agents/skills', 'Scoped editor, core, and site workflows.'],
-          ],
-        },
-      },
-      {
-        title: 'Why Python for agents?',
-        paragraphs: [
-          'Lua owns editing. Git, ripgrep, language servers, and debug adapters perform heavy work in native processes. Python coordinates their I/O on demand with its standard library.',
-          'Editor requests are asynchronous. A worker exists only during a task. Rust can replace a specific boundary later if measurements justify it. No universal performance guarantee is claimed.',
-        ],
-      },
-      {
-        title: 'Contribute',
-        paragraphs: [
-          'Read AGENTS.md and CLAUDE.md. Use small English Conventional Commits. TypeScript uses Astro strictest, explicit any is prohibited, ESLint sorts imports, and Prettier sorts Tailwind classes.',
-          'Agent tests use local fake providers and no paid model calls. Real language tests cover Pyright, StyLua, and debugpy; they do not establish every runtime or account integration.',
-        ],
-        code: 'make test\nmake smoke\nnpm ci\nnpm run check\nnpm run lint\nnpm run format:check\nnpm run build',
-      },
-    ],
-  },
-  {
-    slug: 'business-rules',
-    navigationTitle: 'Business rules',
-    title: 'Explicit rules. Predictable behavior.',
-    description:
-      'The domain contract, with rule IDs, owners, and evidence. The same versioned source is shared with code and contributor agents.',
-    sections: [],
-    source: 'business-rules',
-  },
-  {
-    slug: 'requirements',
-    navigationTitle: 'Requirements',
-    title: 'What we deliver. How to prove it.',
-    description:
-      'Functional and non-functional requirements, acceptance criteria, and limitations. Maintained beside the code.',
-    sections: [],
-    source: 'requirements',
-  },
-  {
     slug: 'git',
     navigationTitle: 'Git and files',
     title: 'Review. Resolve. Commit.',
@@ -287,14 +245,14 @@ export const docsEn: readonly DocPage[] = [
       {
         title: 'File tree',
         paragraphs: [
-          'Ctrl B or Space f e toggles the project tree. Enter opens a file; a creates, r renames, and d requests deletion with confirmation. g? shows shortcuts. The tree opens only on demand.',
+          'Ctrl B or Space f e toggles the project tree. Enter opens a file; a creates, r renames, and d requests deletion with confirmation. g? shows shortcuts. The tree opens beside the welcome screen. Ctrl H/L moves between panels; h/j/k/l moves the cursor.',
         ],
         code: ':ForgeTree',
       },
       {
         title: 'Stage and commit',
         paragraphs: [
-          'Tab expands files, s stages, and u unstages. Press c for the commit popup, then c to open the message editor. Review staged content, write a short English Conventional Commit, save, and close as Neogit instructs.',
+          'Tab expands files, s stages, and u unstages. Press c for the commit popup, then c to open the message editor. Review staged content, write your commit message, save, and close as Neogit instructs.',
           'Forge never commits or pushes automatically. Hooks, signing, and identity follow your Git configuration. Prefer lazygit? :ForgeLazygit opens your installed CLI in a native terminal tab.',
         ],
         code: ':ForgeGit',

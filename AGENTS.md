@@ -24,8 +24,8 @@ Read the relevant module and `docs/architecture.md` before structural changes.
 Use `.agents/skills/forge-editor` for editor changes and
 `.agents/skills/forge-agent-core` for agent lifecycle changes. Run `make test` and
 `make smoke` (Neovim >= 0.11). Run `make format-check` when StyLua is available.
-For site changes run `npm run check`, `npm run lint`, `npm run format:check`, and
-`npm run build`. Never use TypeScript any. Keep `utils/cn.ts` for class merging;
+For site changes run `pnpm check`, `pnpm lint`, `pnpm format:check`, and
+`pnpm build`. Never use TypeScript any. Keep `utils/cn.ts` for class merging;
 ESLint sorts imports and Prettier sorts Tailwind classes. Use the forge-web skill.
 Do not claim live Copilot, model, LSP, or debugger verification from mocked tests.
 
@@ -41,7 +41,15 @@ Domain contract: [business rules](docs/business-rules.md).
 Acceptance criteria: [requirements](docs/requirements.md).
 Update rules, owning code, and focused tests together when behavior changes.
 
-Use English for code, comments, skills, and contributor instructions. Site and
-reader docs support English and Portuguese. English is the static default; browser
+Use English for code, comments, skills, and contributor instructions. Repository documentation is English only. Website reader content supports English and Portuguese; translations belong under `apps/web/src/content`, never under `docs`. English is the static default; browser
 language may select Portuguese and explicit user selection persists. Keep both
-locale routes and their domain rule IDs synchronized.
+locale routes synchronized. Website docs teach installation and daily use; internal
+domain rules, acceptance criteria, architecture, and contributor checks stay in `docs/`.
+
+## Skill discovery
+
+`.agents/skills` owns every skill. `.claude/skills` and `.gemini/skills` are relative
+symlinks to that directory, not copies. Edit only the canonical directory.
+Claude discovers skills through `.claude/skills`; mentioning a path in CLAUDE.md
+does not replace native skill discovery. Gemini also supports `.agents/skills`
+directly; its link is retained for CLI compatibility.

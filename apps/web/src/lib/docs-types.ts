@@ -12,7 +12,7 @@ export interface DocSection {
 }
 export interface DocPage {
   navigationTitle: string;
-  source?: 'business-rules' | 'requirements' | 'languages';
+  source?: 'languages';
   slug: string;
   title: string;
   description: string;

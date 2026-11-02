@@ -24,19 +24,19 @@ recebem automaticamente todos os SDKs, emuladores, imagens ou serviços.
 
 ## Perfis
 
-| ID | Linguagens | Pré-requisitos | LSP / formatação | Debug |
-| --- | --- | --- | --- | --- |
-| typescript | TS, JS, React TSX/JSX | Node.js | ts_ls / prettierd ou prettier | vscode-js-debug |
-| web | HTML, CSS, SCSS | Node.js | html + cssls / prettier | Browser não configurado |
-| dart | Flutter e Dart | Flutter SDK com Dart | FlutterTools dartls / dart format | DAP do SDK |
-| go | Go e módulos | Go | gopls / goimports + gofmt | Delve |
-| python | Python | Python e Node.js | Pyright / isort + Black | debugpy |
-| rust | Rust | Cargo, rustfmt, compilador | rust-analyzer / rustfmt | codelldb |
-| lua | Lua | Runtime Lua | lua_ls / StyLua | Não configurado |
-| php | PHP | PHP, Composer e Node.js | phpactor / Pint ou PHP-CS-Fixer | Xdebug; extensão necessária |
-| native | C/C++ | Compilador | clangd / clang-format | codelldb |
-| astro | Astro | Node.js | astro / prettierd | Não configurado |
-| java/kotlin/ruby/shell/data | Formatação opcional | Confira requisitos no menu | Conform | Não configurado |
+| ID                          | Linguagens            | Pré-requisitos             | LSP / formatação                  | Debug                       |
+| --------------------------- | --------------------- | -------------------------- | --------------------------------- | --------------------------- |
+| typescript                  | TS, JS, React TSX/JSX | Node.js                    | ts_ls / prettierd ou prettier     | vscode-js-debug             |
+| web                         | HTML, CSS, SCSS       | Node.js                    | html + cssls / prettier           | Browser não configurado     |
+| dart                        | Flutter e Dart        | Flutter SDK com Dart       | FlutterTools dartls / dart format | DAP do SDK                  |
+| go                          | Go e módulos          | Go                         | gopls / goimports + gofmt         | Delve                       |
+| python                      | Python                | Python e Node.js           | Pyright / isort + Black           | debugpy                     |
+| rust                        | Rust                  | Cargo, rustfmt, compilador | rust-analyzer / rustfmt           | codelldb                    |
+| lua                         | Lua                   | Runtime Lua                | lua_ls / StyLua                   | Não configurado             |
+| php                         | PHP                   | PHP, Composer e Node.js    | phpactor / Pint ou PHP-CS-Fixer   | Xdebug; extensão necessária |
+| native                      | C/C++                 | Compilador                 | clangd / clang-format             | codelldb                    |
+| astro                       | Astro                 | Node.js                    | astro / prettierd                 | Não configurado             |
+| java/kotlin/ruby/shell/data | Formatação opcional   | Confira requisitos no menu | Conform                           | Não configurado             |
 
 React usa o mesmo perfil TS/JS. Dependências, tipos React, tsconfig, ESLint e builds
 pertencem ao projeto. Prettier usa configuração e plugins locais quando presentes.
@@ -47,14 +47,14 @@ Instale Flutter estável; Dart já vem incluído. Ative o perfil **Flutter / Dar
 FlutterTools gerencia dartls; Forge não ativa outro dartls pelo nvim-lspconfig,
 evitando dois servidores para o mesmo projeto.
 
-| Comando | Atalho | Ação |
-| --- | --- | --- |
-| :ForgeFlutterDevices | Espaço D d | Escolher dispositivo |
-| :ForgeFlutterRun | Espaço D r | Executar/debugar |
-| :ForgeFlutterReload | Espaço D h | Hot reload |
-| :ForgeFlutterRestart | Espaço D R | Hot restart |
-| :ForgeFlutterOutline | Espaço D o | Árvore de widgets |
-| :FlutterQuit | FlutterCommands | Encerrar app |
+| Comando              | Atalho          | Ação                 |
+| -------------------- | --------------- | -------------------- |
+| :ForgeFlutterDevices | Espaço D d      | Escolher dispositivo |
+| :ForgeFlutterRun     | Espaço D r      | Executar/debugar     |
+| :ForgeFlutterReload  | Espaço D h      | Hot reload           |
+| :ForgeFlutterRestart | Espaço D R      | Hot restart          |
+| :ForgeFlutterOutline | Espaço D o      | Árvore de widgets    |
+| :FlutterQuit         | FlutterCommands | Encerrar app         |
 
 F9 marca breakpoint e F5 usa a configuração DAP Dart/Flutter. Tudo pode ser
 remapeado em `:ForgeKeymaps`. DevTools e guias de widgets não abrem sozinhos.

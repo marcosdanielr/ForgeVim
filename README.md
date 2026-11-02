@@ -28,6 +28,20 @@ To work on a different project, run `/path/to/forge.nvim/bin/forge` from that
 project. The launcher does not change your working directory. On this machine,
 the checkout is `/Volumes/DEV_SSD/Projects/forge.nvim`.
 
+## Ready-to-use workspace
+
+An empty interactive launch opens a Tokyo Night workspace with the project tree,
+Git status, visible actions, and keyboard hints. Press `f` to find a file, `g` for
+source control, `r` to review changes, or `a` for agents. Press the displayed letter
+or move with `j`/`k` and press Enter. Existing files and piped input open normally.
+Return with `:ForgeWorkspace` (Space u w). Set `workspace = false` to disable the
+welcome screen. Themes and saved user preferences remain customizable.
+
+Use Ctrl H/J/K/L in normal mode to focus left/down/up/right windows, including the
+file tree. Native h/j/k/l cursor movement and Ctrl W window commands remain intact.
+Terminal input keeps its own controls; leave terminal mode before using normal-mode
+window shortcuts.
+
 ## Editor workflows
 
 | Action | Shortcut | Terminal fallback |
@@ -40,6 +54,9 @@ the checkout is `/Volumes/DEV_SSD/Projects/forge.nvim`.
 | Replace current file text | — | Space f R |
 | Rename symbol with LSP | F2 | Space c r |
 | Format | Alt Shift F | Space c f |
+| Commit graph | Space g h | `:ForgeGitHistory` |
+| Commit staged changes | Space g c | `:ForgeCommit` |
+| Review any changes | Space g d | `:ForgeDiff` |
 | Save | Ctrl S | `:write` |
 | Debug start/continue | F5 | Space d c |
 | Breakpoint | F9 | Space d b |
@@ -57,7 +74,7 @@ Restart to install or unload choices; `:Lazy` manages installed dependencies.
 `:ForgeKeymaps` lets you add/replace shortcuts for named actions, inspect current
 keys, detect conflicts, and restore defaults. Changes apply immediately and
 persist without editing Lua. Native single-key motions and Ctrl W are protected.
-`:ForgeThemes` applies and persists a theme. The default is native `habamax`.
+`:ForgeThemes` applies and persists a theme. The default is Tokyo Night (night). Empty interactive launches open the project workspace and file tree.
 
 blink.cmp provides LSP, path, snippet, and buffer completion. Copilot is opt-in:
 enable it in `:ForgePlugins`, restart, then run `:Copilot auth`. Alt L accepts an
@@ -126,7 +143,8 @@ Create `~/.config/forge.nvim/lua/user.lua` (or its XDG equivalent):
 
 ```lua
 return {
-  theme = "habamax",
+  theme = "tokyonight",
+  workspace = true,
   format_on_save = true,
   copilot = false,
   notifications = true,
@@ -156,12 +174,13 @@ Use short English Conventional Commits.
 make test
 make smoke
 make format-check # requires StyLua
-npm ci
-npm run format
-npm run lint
-npm run check
-npm run build
-npm run dev
+# pnpm 12.4.1 (see packageManager in package.json)
+pnpm install --frozen-lockfile
+pnpm format
+pnpm lint
+pnpm check
+pnpm build
+pnpm dev
 ```
 
 `make smoke` uses temporary XDG directories and a fake agent to prove editor/core
@@ -200,3 +219,8 @@ Language profiles are off by default for new users. Use `:ForgeLanguages` to ena
 install, disable, inspect SDK requirements, or add SDK bin paths. The complete
 [language setup guide](docs/languages.md) explains every profile and debugger.
 The owner machine preset is separate from distribution defaults.
+
+Contributor and technical documentation in `docs/` is English only. Portuguese
+reader translations live under `apps/web/src/content/docs/pt` and are rendered
+only by the website. Skills live once in `.agents/skills`; the provider-specific
+skill directories are symlinks for discovery, not duplicate files.

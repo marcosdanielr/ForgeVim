@@ -9,6 +9,13 @@ export const docsPt: readonly DocPage[] = [
       'Instale o Forge sem substituir sua configuração atual. Abra o editor, escolha suas ferramentas e comece a trabalhar.',
     sections: [
       {
+        title: 'Um workspace pronto para usar',
+        paragraphs: [
+          'Ao abrir o Forge, você encontra Tokyo Night, arquivos à esquerda, status do Git e ações com teclas visíveis. Pressione a letra indicada ou navegue com j/k e Enter.',
+          'Para editar um arquivo aberto, pressione i. Esc volta ao modo normal; Ctrl S salva. Ctrl H/J/K/L alterna os painéis. Espaço Espaço abre a paleta de comandos.',
+        ],
+      },
+      {
         title: 'Antes de começar',
         bullets: [
           'macOS ou Linux com Neovim 0.11 ou superior.',
@@ -26,11 +33,14 @@ export const docsPt: readonly DocPage[] = [
         ],
       },
       {
-        title: 'Os primeiros três comandos',
+        title: 'Seus primeiros passos',
         table: {
           headers: ['Comando', 'Resultado'],
           rows: [
-            [':Forge', 'Paleta pesquisável de comandos.'],
+            ['f na tela inicial', 'Encontre e abra um arquivo do projeto.'],
+            ['g na tela inicial', 'Revise, selecione e faça commit das alterações.'],
+            ['a na tela inicial', 'Acompanhe agentes e revise os resultados.'],
+            ['Espaço Espaço', 'Busque todos os comandos disponíveis.'],
             [':ForgeLanguages', 'Escolha e instale ferramentas por linguagem.'],
             [':ForgeHealth', 'Verifique dependências do editor e do núcleo de agentes.'],
           ],
@@ -39,7 +49,7 @@ export const docsPt: readonly DocPage[] = [
       },
       {
         title: 'Abra seu projeto',
-        code: 'cd /caminho/do/projeto\n/caminho/forge.nvim/bin/forge .',
+        code: 'cd /caminho/do/projeto\n/caminho/forge.nvim/bin/forge',
         paragraphs: [
           'O editor continua sendo Neovim: use :edit, :split, :terminal, macros, registros e os movimentos que você já conhece. A tecla líder é Espaço.',
         ],
@@ -156,7 +166,7 @@ export const docsPt: readonly DocPage[] = [
           'Pressione q para fechar a revisão sem decidir.',
         ],
         paragraphs: [
-          'O hash SHA-256 identifica o snapshot revisado. O aceite falha se o agente alterou o resultado, se o checkout ficou sujo ou se o HEAD mudou após a revisão. Dois agentes sobre a mesma base podem executar em paralelo; depois de aplicar e commitar um deles, revise os resultados restantes contra o destino atual. Patches independentes podem aplicar sem mudanças; patches conflitantes continuam bloqueados.',
+          'Se o resultado da tarefa ou seu projeto mudar após a revisão, revise novamente antes de aceitar. Salve e faça commit das suas alterações antes de aplicar outra tarefa. O Forge verifica conflitos e mantém os resultados conflitantes disponíveis para inspeção.',
         ],
       },
       {
@@ -208,7 +218,7 @@ export const docsPt: readonly DocPage[] = [
       },
       {
         title: 'Configuração pessoal',
-        code: '-- ~/.config/forge.nvim/lua/user.lua\nreturn {\n  theme = "habamax",\n  format_on_save = true,\n  copilot = false,\n}',
+        code: '-- ~/.config/forge.nvim/lua/user.lua\nreturn {\n  theme = "tokyonight",\n  format_on_save = true,\n  copilot = false,\n}',
         paragraphs: [
           'O diretório respeita XDG_CONFIG_HOME quando definido. Preferências escolhidas nos menus ficam em stdpath("state")/forge/preferences.json. A escolha salva de tema e plugins tem prioridade sobre os defaults pessoais.',
         ],
@@ -223,61 +233,6 @@ export const docsPt: readonly DocPage[] = [
     ],
   },
   {
-    slug: 'architecture',
-    navigationTitle: 'Arquitetura',
-    title: 'Pequeno onde importa.',
-    description:
-      'Módulos com responsabilidade clara. Sem renderer próprio, daemon permanente ou linguagem adicional sem evidência.',
-    sections: [
-      {
-        title: 'Fronteiras do monorepo',
-        table: {
-          headers: ['Diretório', 'Responsabilidade'],
-          rows: [
-            ['apps/nvim', 'Editor Lua, comandos, features e perfis de linguagem.'],
-            ['packages/agent-core', 'Ciclo de vida dos agentes, Git, SQLite e processos.'],
-            ['packages/protocol', 'Contrato JSON versionado para clientes.'],
-            ['apps/web', 'Apresentação e documentação em Astro.'],
-            ['.agents/skills', 'Workflows para contribuir no editor, núcleo e site.'],
-          ],
-        },
-      },
-      {
-        title: 'Por que Python nos agentes?',
-        paragraphs: [
-          'Lua executa o editor. Git, ripgrep, LSPs e DAPs executam o trabalho pesado em processos próprios. Python coordena esse I/O sob demanda usando a biblioteca padrão.',
-          'Chamadas do editor são assíncronas. Um worker existe apenas durante uma tarefa. Rust pode substituir uma fronteira específica no futuro se medições mostrarem necessidade. Não há promessa de performance sem benchmark.',
-        ],
-      },
-      {
-        title: 'Trabalhe no projeto',
-        code: 'make test\nmake smoke\nnpm ci\nnpm run check\nnpm run lint\nnpm run format:check\nnpm run build',
-        paragraphs: [
-          'Leia AGENTS.md e CLAUDE.md antes de contribuir. Commits seguem Conventional Commits, em inglês e com escopo pequeno. TypeScript usa configuração strictest e proíbe any explícito. Importações e classes Tailwind têm ordenação automática.',
-          'Testes locais de agentes usam providers falsos e não consomem modelos pagos. Testes de plumbing não provam autenticação do Copilot nem funcionamento de todos os adaptadores em projetos reais.',
-        ],
-      },
-    ],
-  },
-  {
-    slug: 'business-rules',
-    navigationTitle: 'Regras de negócio',
-    source: 'business-rules',
-    title: 'Regras explícitas. Comportamento previsível.',
-    description:
-      'Contrato técnico com identificadores, responsáveis e evidências. Especificação com identificadores estáveis, responsáveis e evidências, traduzida da fonte principal em inglês.',
-    sections: [],
-  },
-  {
-    slug: 'requirements',
-    navigationTitle: 'Requisitos',
-    source: 'requirements',
-    title: 'O que entregamos. Como provar.',
-    description:
-      'Requisitos funcionais e não funcionais, critérios de aceite e limitações. Critérios verificáveis e limitações, mantidos junto do código.',
-    sections: [],
-  },
-  {
     slug: 'git',
     navigationTitle: 'Git e arquivos',
     title: 'Revise. Resolva. Faça commit.',
@@ -288,14 +243,14 @@ export const docsPt: readonly DocPage[] = [
         title: 'Árvore de arquivos',
         code: ':ForgeTree',
         paragraphs: [
-          'Ctrl B ou Espaço f e alterna a árvore do projeto. Enter abre um arquivo; a cria, r renomeia, d solicita exclusão com confirmação. Use g? para ver atalhos. A árvore não abre permanentemente no startup.',
+          'Ctrl B ou Espaço f e alterna a árvore do projeto. Enter abre um arquivo; a cria, r renomeia, d solicita exclusão com confirmação. Use g? para ver atalhos. A árvore abre ao lado da tela inicial. Ctrl H/L alterna os painéis; h/j/k/l move o cursor.',
         ],
       },
       {
         title: 'Stage e commit com Neogit',
         code: ':ForgeGit',
         paragraphs: [
-          'Use Tab para expandir arquivos, s para stage e u para unstage. A tecla c abre o popup de commit; c novamente abre o editor da mensagem. Revise o conteúdo staged, escreva um Conventional Commit curto em inglês, salve e feche conforme as instruções do Neogit.',
+          'Use Tab para expandir arquivos, s para stage e u para unstage. A tecla c abre o popup de commit; c novamente abre o editor da mensagem. Revise o conteúdo staged, escreva sua mensagem de commit, salve e feche conforme as instruções do Neogit.',
           'Forge não faz commit ou push automaticamente. Hooks, assinatura e identidade seguem sua configuração Git.',
         ],
       },
