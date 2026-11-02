@@ -78,3 +78,25 @@ F1 abre um guia com seus atalhos configurados. Ctrl H/J/K/L alterna os painéis 
 | Dividir / escolher terminal     | Ctrl Shift 5 / Leader o s; Leader o o                  |
 | Revisão / debug / logs          | Leader p r / Leader p d / Leader p l                   |
 | Configuração / painéis iniciais | Leader u s / Leader u L                                |
+
+## Redimensionar painéis
+
+Foque o painel com Ctrl H/J/K/L. Ctrl Shift + setas move a divisória na direção
+da seta. Leader w h/l move para esquerda/direita; Leader w k/j, para cima/baixo.
+Leader w = equilibra os tamanhos. A direção é a mesma dos dois lados da divisória.
+
+### Terminal do macOS
+
+Se apenas o Leader funciona, abra Terminal > Ajustes > Perfis > Teclado. Adicione
+Control + Shift com cada seta, escolha **Enviar sequência de escape** e informe:
+
+| Seta     | Sequência (sem o Escape inicial) |
+| -------- | -------------------------------- |
+| Esquerda | `[1;6D`                          |
+| Direita  | `[1;6C`                          |
+| Cima     | `[1;6A`                          |
+| Baixo    | `[1;6B`                          |
+
+Se o macOS abrir o Mission Control, revise esse atalho nos ajustes de Teclado
+do sistema. O ForgeVim não recebe teclas interceptadas pelo sistema operacional.
+Veja as [instruções da Apple](https://support.apple.com/guide/terminal/trml108/mac).

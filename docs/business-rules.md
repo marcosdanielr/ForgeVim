@@ -150,7 +150,7 @@ Owners: `features/workbench`, `features/chrome`, `features/layout`,
   LSP hover; gl opens actual line diagnostics. Presentation does not rewrite,
   suppress, or fabricate Dart analyzer findings.
 - **BR-ED-24**: Pane headers display their configured hide key from a cache. Header
-  redraw never reads preferences. Resizing targets the focused native split and
+  redraw never reads preferences. Resizing moves the right/bottom divider when available, otherwise the left/top divider. Direction is screen-relative, independent of the focused side. It
   preserves source buffers, terminal jobs, window navigation, and mouse resizing.
 - **BR-ED-25**: Shortcut notation uses Leader. Its default is Space; persisted
   Leader preferences override user.lua. A change takes effect only after restart,

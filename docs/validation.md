@@ -115,3 +115,12 @@ Installed-plugin integration also covers repeated matches on one line.
 The Vercel project previously used apps/web as its root while the checked-in
 configuration expects the repository root. Project settings were aligned with
 vercel.json and the rebuilt production deployment reached Ready.
+
+## Directional divider controls and saved chat output
+
+Native-window checks cover divider movement from left/right and upper/lower
+panes. A real PTY injects the xterm Ctrl Shift arrow sequences and verifies actual
+divider positions. This validates Neovim decoding; Terminal.app still needs to
+transmit those sequences. A fresh chat module reads persisted output from the
+local service without launching another provider. This is output recovery, not
+provider session resumption or PTY reattachment.

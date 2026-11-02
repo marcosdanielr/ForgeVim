@@ -106,3 +106,14 @@ If the project or result changed after review, review again. Conflicting results
 `:ForgeNotifications` toggles task notifications inside the editor.
 Copilot is separate: enable it in `:ForgePlugins`, restart, then run `:Copilot auth`.
 **Alt L** accepts a Copilot suggestion. Normal LSP completion works without Copilot.
+
+## Reopen saved output
+
+Reopen the same original Git project, run `:ForgeAgents`, select the conversation,
+and press **L** or choose **View saved conversation output**. Task records and raw
+CLI output persist under the project's ignored `.forge` directory. The output
+viewer loads the last 256 KiB; these logs are not a normalized chat transcript.
+
+Hiding chat keeps the process running while ForgeVim remains open. Closing the
+editor ends that terminal attachment. ForgeVim can show saved output afterward,
+but it does not yet resume a provider conversation or restore a live PTY.

@@ -81,3 +81,25 @@ Press F1 for a guide that reflects your configured shortcuts. Ctrl H/J/K/L moves
 | Split / choose terminal   | Ctrl Shift 5 / Leader o s; Leader o o                        |
 | Review / debug / logs     | Leader p r / Leader p d / Leader p l                         |
 | Settings / startup panels | Leader u s / Leader u L                                      |
+
+## Resize panes
+
+Focus a pane with Ctrl H/J/K/L. Ctrl Shift arrows move its divider in the arrow
+direction. Leader w h/l moves it left/right; Leader w k/j moves it up/down.
+Leader w = balances sizes. The direction stays the same from either side of a divider.
+
+### Terminal on macOS
+
+If only Leader works, configure Terminal > Settings > Profiles > Keyboard. Add
+Control + Shift with each arrow, choose **Send Escape Sequence**, and enter:
+
+| Arrow | Escape sequence (without the initial Escape) |
+| ----- | -------------------------------------------- |
+| Left  | `[1;6D`                                      |
+| Right | `[1;6C`                                      |
+| Up    | `[1;6A`                                      |
+| Down  | `[1;6B`                                      |
+
+If macOS opens Mission Control instead, review that shortcut in macOS Keyboard
+settings. ForgeVim cannot receive a key that the operating system handles first.
+See [Apple's custom-key instructions](https://support.apple.com/guide/terminal/trml108/mac).

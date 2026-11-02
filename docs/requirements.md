@@ -93,8 +93,8 @@ because the underlying protocol could eventually support it.
   expanded current-line, or quiet display in Settings.
 - **FR-34**: Each Forge pane header shows its current hide shortcut, even when the
   navigation rail is hidden. Changing a named shortcut updates header hints.
-- **FR-35**: Ctrl Shift arrows resize the focused split. Leader w h/l decreases/
-  increases width, Leader w k/j increases/decreases height, and Leader w = invokes
+- **FR-35**: Ctrl Shift arrows move a visible divider in the arrow direction. Leader w h/l
+  moves the divider left/right, Leader w k/j moves it up/down, and Leader w = invokes
   native balancing. Terminal jobs and source buffers survive resizing.
 - **FR-36**: Leader is configurable through Settings or user.lua; Space remains the
   default. Restart applies new and restored values without losing custom symbolic

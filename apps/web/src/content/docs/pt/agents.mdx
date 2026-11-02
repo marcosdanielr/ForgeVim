@@ -106,3 +106,14 @@ Se o projeto ou o resultado mudou após a revisão, revise novamente. Resultados
 `:ForgeNotifications` ativa/desativa avisos de tarefas dentro do editor.
 Copilot é independente: habilite-o em `:ForgePlugins`, reinicie e execute `:Copilot auth`.
 **Alt L** aceita uma sugestão do Copilot. O autocomplete normal do LSP funciona sem ele.
+
+## Reabrir saída salva
+
+Reabra o mesmo projeto Git original, execute `:ForgeAgents`, selecione a conversa
+e pressione **L**, ou escolha **View saved conversation output**. Os registros e
+a saída bruta da CLI ficam no diretório ignorado `.forge` do projeto. O painel
+carrega os últimos 256 KiB; esses logs não são uma transcrição organizada do chat.
+
+Esconder o chat mantém o processo enquanto o ForgeVim está aberto. Fechar o editor
+encerra a conexão com aquele terminal. Depois é possível consultar a saída salva,
+mas o ForgeVim ainda não retoma a conversa no provedor nem restaura um PTY ativo.
