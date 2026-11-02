@@ -134,7 +134,7 @@ return {
   {
     command = "ForgeBufferNext",
     label = "Next buffer / terminal",
-    keys = { "<Tab>", "<C-Tab>", "<C-PageDown>", "<leader>bn" },
+    keys = { "<Tab>", "<C-Tab>", "<C-PageDown>", "<leader>]" },
     terminal_exclude = { "<Tab>" },
     terminal = true,
     run = feature("features.buffers", "cycle_next"),
@@ -142,7 +142,7 @@ return {
   {
     command = "ForgeBufferPrevious",
     label = "Previous buffer / terminal",
-    keys = { "<S-Tab>", "<C-S-Tab>", "<C-PageUp>", "<leader>bp" },
+    keys = { "<S-Tab>", "<C-S-Tab>", "<C-PageUp>", "<leader>[" },
     terminal_exclude = { "<S-Tab>" },
     terminal = true,
     run = feature("features.buffers", "cycle_previous"),
@@ -150,7 +150,7 @@ return {
   {
     command = "ForgeBuffers",
     label = "Choose open buffer",
-    keys = { "<leader>bb" },
+    keys = { "<leader>fB" },
     run = feature("features.buffers", "choose"),
   },
   {
@@ -382,7 +382,7 @@ return {
     command = "ForgeTree",
     terminal = true,
     label = "Toggle file tree",
-    keys = { "<C-b>", "<leader>fe", "<leader>pe" },
+    keys = { "<leader>b", "<C-b>", "<leader>fe", "<leader>pe" },
     run = feature("features.git", "tree"),
   },
   {
@@ -435,7 +435,7 @@ return {
   },
   {
     command = "ForgeBufferSearch",
-    label = "Search current buffer",
+    label = "Find and replace current file",
     keys = { "<C-f>", "<leader>fb" },
     run = feature("features.search", "buffer"),
   },

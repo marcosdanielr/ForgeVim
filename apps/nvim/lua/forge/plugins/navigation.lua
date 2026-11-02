@@ -31,7 +31,6 @@ return {
         { "<leader>g", group = "Git and review" },
         { "<leader>p", group = "Panels" },
         { "<leader>o", group = "Terminals" },
-        { "<leader>b", group = "Buffers" },
         { "<leader>a", group = "Agents" },
         { "<leader>d", group = "Debug" },
         { "<leader>u", group = "Preferences" },

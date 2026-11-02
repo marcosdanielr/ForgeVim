@@ -10,6 +10,17 @@ return function(source)
     assert(vim.bo[panel.buffer].buftype ~= "terminal", "Startup launched a process")
     assert(vim.wo[panel.window].winbar:find("workbench.frame", 1, true), "Missing panel frame")
   end
+  local leader = vim.g.mapleader
+  assert(
+    vim.fn.maparg(leader .. "b", "n", false, true).desc == "Toggle file tree",
+    "Leader b does not toggle the tree"
+  )
+  for _, mapping in ipairs(vim.api.nvim_get_keymap("n")) do
+    assert(
+      not mapping.lhs:find(leader .. "b", 1, true) or #mapping.lhs <= #leader + 1,
+      "A longer Leader b mapping delays the tree toggle"
+    )
+  end
   local resize = require("forge.features.panels.resize")
   local navigation_window = windows.get("activity").window
   vim.api.nvim_set_current_win(navigation_window)
