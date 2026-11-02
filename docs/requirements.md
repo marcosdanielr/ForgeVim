@@ -9,7 +9,7 @@ roadmap intent. Business constraints are in [business rules](https://github.com/
 | ID | Requirement and acceptance | Status | Verification |
 | --- | --- | --- | --- |
 | FR-01 | Launch an isolated Neovim app without replacing existing configuration. Native operators/registers still work. | Implemented | make smoke |
-| FR-02 | Expose a searchable command palette, themes, and plugin choices without mandatory Lua editing. Choices persist. | Implemented | Plugin integration and state smoke |
+| FR-02 | Expose a searchable command palette, themes, and plugin choices without mandatory Lua editing. Choices persist. Forge Mint has a separate identity and does not alter Tokyo Night after theme switching. | Implemented | Plugin integration and state smoke |
 | FR-03 | Find files/text by file or Git project; preview textual replacement; rename symbols through LSP. | Implemented | Telescope/grug-far integration; real Pyright rename smoke |
 | FR-04 | Provide LSP/path/snippet/buffer autocomplete and opt-in Copilot inline suggestions. | Implemented; live Copilot auth unverified | Blink API integration; user authentication required |
 | FR-05 | Preserve VIMarcos language formatter inventory and expose opt-in tool installation. | Implemented | Conform integration; real StyLua formatting smoke |

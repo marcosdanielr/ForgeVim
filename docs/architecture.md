@@ -126,7 +126,7 @@ with Explorer and the existing agent/terminal panels according to available scre
 space and saved startup preferences. Every pane is a native split; there is no
 second renderer or GUI runtime. Winbars provide window headers; one global statusline stays at the bottom.
 User-selected themes remain authoritative; the default Tokyo Night palette adds
-contrasting editor and panel surfaces. The chat pane hosts the official CLI after
+contrasting editor and panel surfaces. `colors/forge-mint.lua` exposes an optional, separate theme that reuses Tokyo Night syntax without changing its configuration. Mint surfaces and explorer folder highlights are scoped to that theme identity. The chat pane hosts the official CLI after
 an explicit conversation action; its welcome state does not imply a custom
 orchestrator or model connection. No plan or progress is invented for presentation.
 

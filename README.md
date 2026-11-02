@@ -77,7 +77,7 @@ Restart to install or unload choices; `:Lazy` manages installed dependencies.
 `:ForgeKeymaps` lets you add/replace shortcuts for named actions, inspect current
 keys, detect conflicts, and restore defaults. Changes apply immediately and
 persist without editing Lua. Native single-key motions and Ctrl W are protected.
-`:ForgeThemes` applies and persists a theme. The default is Tokyo Night (night). Empty interactive launches open the project workspace and file tree.
+`:ForgeThemes` applies and persists a theme. The default is Tokyo Night (night). Choose `forge-mint` for graphite surfaces and mint accents, including explorer folders. Switching back restores Tokyo Night. Empty interactive launches open the project workspace and file tree.
 
 blink.cmp provides LSP, path, snippet, and buffer completion. Copilot is opt-in:
 enable it in `:ForgePlugins`, restart, then run `:Copilot auth`. Alt L accepts an

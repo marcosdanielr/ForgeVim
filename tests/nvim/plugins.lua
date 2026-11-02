@@ -58,6 +58,39 @@ local function exercise()
   for _, theme in ipairs({ "habamax", "tokyonight", "catppuccin", "rose-pine" }) do
     assert(require("forge.features.themes").apply(theme))
   end
+  assert(require("forge.features.themes").apply("tokyonight"))
+  local original_editor = vim.api.nvim_get_hl(0, { name = "Normal", link = false })
+  local original_folder = vim.api.nvim_get_hl(0, { name = "NvimTreeFolderIcon", link = false })
+  for _ = 1, 2 do
+    assert(require("forge.features.themes").apply("forge-mint"))
+    assert(vim.g.colors_name == "forge-mint", "Mint theme lost its identity")
+    for _, group in ipairs({
+      "NvimTreeFolderIcon",
+      "NvimTreeOpenedFolderIcon",
+      "NvimTreeClosedFolderIcon",
+      "NvimTreeFolderName",
+      "NvimTreeEmptyFolderName",
+      "NvimTreeOpenedFolderName",
+    }) do
+      assert(
+        vim.api.nvim_get_hl(0, { name = group, link = false }).fg == 0x83d9b3,
+        "Mint folder color missing: " .. group
+      )
+    end
+    assert(vim.api.nvim_get_hl(0, { name = "Normal", link = false }).bg == 0x10151f)
+    assert(require("forge.features.themes").apply("tokyonight"))
+    assert(
+      vim.deep_equal(vim.api.nvim_get_hl(0, { name = "Normal", link = false }), original_editor),
+      "Mint changed Tokyo Night editor colors"
+    )
+    assert(
+      vim.deep_equal(
+        vim.api.nvim_get_hl(0, { name = "NvimTreeFolderIcon", link = false }),
+        original_folder
+      ),
+      "Mint leaked into Tokyo Night folders"
+    )
+  end
   local workspace = require("forge.features.workspace").open()
   assert(vim.bo.filetype == "forge-workspace" and not vim.bo.modifiable)
   assert(require("nvim-tree.api").tree.is_visible(), "Workspace file tree did not open")

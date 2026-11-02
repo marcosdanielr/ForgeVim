@@ -1,5 +1,5 @@
 local M = {}
-local themes = { "habamax", "default", "tokyonight", "catppuccin", "rose-pine" }
+local themes = { "habamax", "default", "tokyonight", "forge-mint", "catppuccin", "rose-pine" }
 
 function M.apply(name)
   local ok, error = pcall(vim.cmd.colorscheme, name)
