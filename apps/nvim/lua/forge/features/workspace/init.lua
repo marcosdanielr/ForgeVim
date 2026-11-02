@@ -20,6 +20,7 @@ function M.open(options)
   vim.api.nvim_buf_set_name(buffer, "Forge Workspace " .. buffer)
   vim.bo[buffer].bufhidden = "wipe"
   vim.bo[buffer].filetype = "forge-workspace"
+  vim.b[buffer].forge_workspace_dashboard = options.dashboard or nil
   local window = vim.api.nvim_get_current_win()
   local previous = {}
   for _, name in ipairs({ "number", "relativenumber", "signcolumn", "wrap" }) do
@@ -31,9 +32,12 @@ function M.open(options)
   vim.wo[window].wrap = false
   local snapshot = { branch = "Reading project status...", changed = 0, conflicts = 0 }
   local function redraw()
-    require("forge.features.workspace.view").render(buffer, root, snapshot)
+    require("forge.features.workspace.view").render(buffer, root, snapshot, options.dashboard)
   end
   local function refresh()
+    if options.dashboard then
+      return
+    end
     require("forge.features.workspace.snapshot").load(root, function(updated)
       snapshot = updated
       redraw()
@@ -43,7 +47,7 @@ function M.open(options)
     branch = "Reading project status...",
     changed = 0,
     conflicts = 0,
-  })
+  }, options.dashboard)
   for _, action in ipairs(require("forge.features.workspace.actions")) do
     vim.keymap.set("n", action.key, "<cmd>" .. action.command .. "<cr>", {
       buffer = buffer,
@@ -84,6 +88,9 @@ function M.open(options)
     end,
   })
   vim.b[buffer].forge_root = root
+  if options.dashboard then
+    require("forge.features.chrome").refresh(true)
+  end
   if not options.dashboard then
     require("forge.features.layout").open()
   end

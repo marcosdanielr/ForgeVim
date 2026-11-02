@@ -1,7 +1,7 @@
 local M = {}
 local namespace = vim.api.nvim_create_namespace("forge-workspace")
 
-function M.render(buffer, root, snapshot)
+function M.render(buffer, root, snapshot, dashboard)
   if not vim.api.nvim_buf_is_valid(buffer) then
     return
   end
@@ -24,15 +24,19 @@ function M.render(buffer, root, snapshot)
   line("")
   line("Native editing. Agents within reach.", "Normal")
   line("")
-  line(vim.fs.basename(root), "Directory")
-  line(
-    snapshot.branch
-      .. "  ·  "
-      .. snapshot.changed
-      .. " changed paths  ·  "
-      .. snapshot.conflicts
-      .. " conflicts"
-  )
+  if dashboard then
+    line("No project open", "Directory")
+    line("Run forge . from a project directory to load its workspace.")
+  else
+    line(vim.fs.basename(root), "Directory")
+    line(
+      snapshot.branch
+        .. "  ·  "
+        .. snapshot.changed
+        .. " changed paths  ·  "
+        .. snapshot.conflicts
+    )
+  end
   line("")
   local groups = { "CODE", "SOURCE CONTROL", "WORKSPACE" }
   for index, action in ipairs(require("forge.features.workspace.actions")) do

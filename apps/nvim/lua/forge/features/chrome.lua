@@ -1,6 +1,14 @@
 local M = {}
 
 function M.refresh(force)
+  local buffer = vim.api.nvim_get_current_buf()
+  if vim.b[buffer].forge_workspace_dashboard then
+    vim.t.forge_chrome_root = nil
+    vim.t.forge_chrome_project = "No project open"
+    vim.t.forge_chrome_branch = ""
+    vim.cmd("redrawtabline")
+    return
+  end
   local root = require("forge.core.project").root()
   local tab = vim.api.nvim_get_current_tabpage()
   if not force and vim.t.forge_chrome_root == root then
