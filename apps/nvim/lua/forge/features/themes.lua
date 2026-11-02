@@ -12,7 +12,7 @@ end
 
 function M.restore()
   local selected = require("forge.core.state").read().theme
-  if not M.apply(selected or "habamax") then
+  if not M.apply(selected or require("forge.core.config").options.theme) then
     M.apply("habamax")
   end
 end

@@ -79,3 +79,12 @@ Language profiles are explicit opt-in. An installed server alone never starts
 without an enabled profile and matching filetype. FlutterTools is the sole owner
 of Dart LSP/DAP. SDK prerequisites and per-editor PATH choices are documented in
 [language setup](languages.md), with a separate owner-machine preset.
+
+## Native workspace presentation
+
+`features/workspace` separates action metadata, read-only asynchronous Git status,
+and buffer rendering. Empty interactive launches show this buffer beside nvim-tree;
+explicit input and headless operation preserve the normal startup path. The panel
+starts no Python worker or model call. `features/chrome` supplies a native statusline
+with mode and discoverable command/workspace hints. Review and Git operations reuse
+Neogit, Diffview, and the existing agent snapshot boundary.

@@ -99,3 +99,10 @@ second dartls for the same profile. DevTools and widget guides stay opt-in.
 BR-LANG-05: personal SDK paths affect Forge and its children only. Never rewrite
 global shell profiles from language selection. Evidence: native profile smoke,
 plugin integration, machine setup record, and docs/languages.md.
+
+## Workspace defaults
+
+- **BR-ED-11**: An empty interactive launch opens the native workspace and file tree. Explicit files, stdin, modified buffers, and headless runs are never replaced. Users can disable the welcome screen.
+- **BR-ED-12**: Tokyo Night is the fresh-install default; saved theme preferences and user.lua remain authoritative. Missing themes fall back to habamax.
+- **BR-ED-13**: Native h/j/k/l and Ctrl W navigation remain available. Ctrl H/J/K/L focus adjacent windows in normal mode only and remain configurable.
+- **BR-GIT-05**: General review includes changes from any author. Opening a graph, diff, commit popup, or conflict view never commits or pushes automatically.

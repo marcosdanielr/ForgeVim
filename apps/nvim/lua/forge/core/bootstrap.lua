@@ -32,7 +32,7 @@ function M.setup(directory)
     spec = { { import = "forge.plugins" }, require("forge.features.plugins").spec() },
     lockfile = lock,
     defaults = { lazy = true },
-    install = { colorscheme = { "habamax" } },
+    install = { colorscheme = { "tokyonight", "habamax" } },
     checker = { enabled = false },
     change_detection = { notify = false },
     performance = {

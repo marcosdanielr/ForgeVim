@@ -32,6 +32,31 @@ local function exercise()
   for _, theme in ipairs({ "habamax", "tokyonight", "catppuccin", "rose-pine" }) do
     assert(require("forge.features.themes").apply(theme))
   end
+  local workspace = require("forge.features.workspace").open()
+  assert(vim.bo.filetype == "forge-workspace" and not vim.bo.modifiable)
+  assert(require("nvim-tree.api").tree.is_visible(), "Workspace file tree did not open")
+  vim.fn.maparg("<C-h>", "n", false, true).callback()
+  assert(vim.bo.filetype == "NvimTree", "Ctrl H did not focus file tree")
+  vim.fn.maparg("<C-l>", "n", false, true).callback()
+  assert(vim.api.nvim_get_current_buf() == workspace, "Ctrl L did not restore workspace")
+  require("nvim-tree.api").tree.close()
+  require("forge.features.git").history()
+  assert(
+    vim.wait(5000, function()
+      return vim.api.nvim_buf_get_name(0):find("Forge commit graph", 1, true) ~= nil
+    end),
+    "Commit graph did not open"
+  )
+  vim.cmd("normal! gg")
+  vim.fn.search("%x%x%x%x%x%x%x", "W")
+  vim.fn.maparg("<CR>", "n", false, true).callback()
+  assert(
+    vim.wait(5000, function()
+      return require("diffview.lib").get_current_view() ~= nil
+    end),
+    "Commit graph did not open commit review"
+  )
+  vim.cmd("DiffviewClose")
   require("forge.features.git").tree()
   assert(require("nvim-tree.api").tree.is_visible(), "File tree did not open")
   require("nvim-tree.api").tree.close()

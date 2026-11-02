@@ -10,7 +10,7 @@ and integration tests improve reproducibility, not a blanket security guarantee.
 
 `:ForgeTree` / Ctrl B / Space f e toggles the project tree. Enter opens a file;
 `a` creates, `r` renames, and `d` requests deletion using nvim-tree's confirmation.
-Press `g?` for its context help. A tree is not opened permanently at startup.
+Press `g?` for its context help. An empty interactive launch opens the project tree beside the workspace. Ctrl B toggles it; Ctrl H/L focuses either side.
 Nerd Font file/folder icons are disabled unless explicitly enabled by the user.
 
 ## Stage and commit
@@ -42,3 +42,14 @@ any time. Consult `:h diffview-usage` and the plugin help for complete commands.
 `:ForgeLazygit` / Space g L opens an installed lazygit CLI in a native terminal tab.
 Forge does not install or replace that CLI. Use Escape twice to leave terminal
 input mode; the underlying lazygit keyboard workflow remains unchanged.
+
+## Visible entry points
+
+`:ForgeWorkspace` exposes source control, review, commit, conflict, and agent actions
+with visible keys. `:ForgeGitHistory` shows up to 200 recent commits across local
+refs as a graph; Enter opens the selected commit in Diffview and q closes it.
+`:ForgeCommit` opens Neogit’s commit popup for staged changes. It does not stage,
+commit, push, or bypass hooks automatically. Use Neogit status to choose files or
+hunks, inspect the staged diff, then write the commit message explicitly.
+`:ForgeDiff` reviews working-tree changes regardless of whether a human, formatter,
+or agent produced them. Isolated agent acceptance retains its separate snapshot gate.

@@ -13,6 +13,56 @@ end
 
 return {
   {
+    command = "ForgeWindowLeft",
+    label = "Focus left window",
+    keys = { "<C-h>" },
+    run = function()
+      vim.cmd.wincmd("h")
+    end,
+  },
+  {
+    command = "ForgeWindowDown",
+    label = "Focus down window",
+    keys = { "<C-j>" },
+    run = function()
+      vim.cmd.wincmd("j")
+    end,
+  },
+  {
+    command = "ForgeWindowUp",
+    label = "Focus up window",
+    keys = { "<C-k>" },
+    run = function()
+      vim.cmd.wincmd("k")
+    end,
+  },
+  {
+    command = "ForgeWindowRight",
+    label = "Focus right window",
+    keys = { "<C-l>" },
+    run = function()
+      vim.cmd.wincmd("l")
+    end,
+  },
+  {
+    command = "ForgeWorkspace",
+    label = "Open project workspace",
+    keys = { "<leader>uw" },
+    run = feature("features.workspace", "open"),
+  },
+  {
+    command = "ForgeGitHistory",
+    label = "Show commit graph",
+    keys = { "<leader>gh" },
+    run = feature("features.git", "history"),
+  },
+  {
+    command = "ForgeCommit",
+    label = "Commit staged changes",
+    keys = { "<leader>gc" },
+    run = feature("features.git", "commit"),
+  },
+  {
     command = "ForgeFlutterCommands",
     label = "Flutter command menu",
     keys = { "<leader>Dm" },

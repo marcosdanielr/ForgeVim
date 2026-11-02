@@ -28,6 +28,7 @@ return {
       icons = { mappings = require("forge.core.config").options.nerd_fonts },
       spec = {
         { "<leader>f", group = "Find" },
+        { "<leader>g", group = "Git and review" },
         { "<leader>a", group = "Agents" },
         { "<leader>d", group = "Debug" },
         { "<leader>u", group = "Preferences" },

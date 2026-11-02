@@ -37,8 +37,8 @@ roadmap intent. Business constraints are in [business rules](https://github.com/
 | NFR-03 Integrity | Never apply a changed snapshot, dirty target, changed base, or reserved state. No automatic commit/push. | Agent regression suite |
 | NFR-04 Process safety | Use argument arrays without shell interpolation. Only the owning worker terminates its provider group. Never recover by killing an unverified PID. | Providers/Git/worker ownership and cancellation tests |
 | NFR-05 Maintainability | Cohesive modules own UI, application policy, persistence, Git, providers, and language config. Rules have IDs and test references. | AGENTS.md; architecture; business-rules |
-| NFR-06 Type/code quality | Website uses Astro strictest TypeScript, no explicit any, ESLint import sorting, Prettier Tailwind sorting, and cn class merging. | npm run check/lint/format:check |
-| NFR-07 Reproducibility | Commit plugin and npm lockfiles. CI runs focused core/editor/web checks. | lazy-lock.json; package-lock.json; CI |
+| NFR-06 Type/code quality | Website uses Astro strictest TypeScript, no explicit any, ESLint import sorting, Prettier Tailwind sorting, and cn class merging. | pnpm check/lint/format:check |
+| NFR-07 Reproducibility | Commit plugin and pnpm lockfiles. CI runs focused core/editor/web checks. | lazy-lock.json; pnpm-lock.yaml; CI |
 | NFR-08 Accessibility | Semantic navigation, focus-visible, skip link, keyboard-operable demo tabs, copy feedback, readable narrow layout, reduced-motion support. | Browser QA and component review |
 | NFR-09 Privacy | New repo/site private; no embedded credentials, telemetry, remote fonts, or model auto-start. .forge logs remain local and excluded from Git. | Hosting/repo state and source review |
 | NFR-10 Portability | Initial support is macOS/Linux, Neovim 0.11+, Python 3.9+. Windows/mobile are not claimed. | CI matrix plus macOS local checks |
@@ -50,3 +50,9 @@ For a new capability, add or update its requirement, rule, owner, and focused
 acceptance proof in the same change. Mark unverified runtime integration as such.
 Avoid claiming a future mobile client or conversational agent interface exists
 because the underlying protocol could eventually support it.
+
+## Workspace acceptance
+
+- **FR-20**: Fresh interactive launch presents Tokyo Night, file tree, project status, visible action keys, and command hints. Explicit input and native editing remain intact.
+- **FR-21**: Users can open a commit graph, inspect a selected commit, review working-tree changes, open a staged commit popup, and resolve conflicts from the workspace.
+- **FR-22**: Ctrl H/J/K/L changes visible-window focus in normal mode while native cursor and Ctrl W navigation remain intact.

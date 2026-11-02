@@ -4,6 +4,34 @@ function M.status()
   require("neogit").open({ cwd = require("forge.core.project").root() })
 end
 
+function M.commit()
+  require("neogit").open({ "commit", cwd = require("forge.core.project").root() })
+end
+
+function M.history()
+  local root = require("forge.core.project").root()
+  vim.system(
+    { "git", "-C", root, "log", "--graph", "--oneline", "--decorate", "--all", "-200" },
+    { text = true },
+    function(result)
+      vim.schedule(function()
+        if result.code ~= 0 then
+          return vim.notify(result.stderr, vim.log.levels.WARN)
+        end
+        local buffer =
+          require("forge.features.picker").buffer("Forge commit graph", result.stdout, "git")
+        vim.keymap.set("n", "<CR>", function()
+          local hash = vim.api.nvim_get_current_line():match("%f[%x](%x%x%x%x%x%x%x+)%f[^%x]")
+          if hash then
+            vim.cmd("DiffviewOpen -C" .. vim.fn.fnameescape(root) .. " " .. hash .. "^!")
+          end
+        end, { buffer = buffer, desc = "Review commit changes" })
+        vim.notify("Enter reviews the commit under the cursor; q closes the graph")
+      end)
+    end
+  )
+end
+
 function M.diff()
   vim.cmd("DiffviewOpen -C" .. vim.fn.fnameescape(require("forge.core.project").root()))
 end

@@ -2,7 +2,8 @@ local M = { options = {} }
 
 function M.setup()
   local defaults = {
-    theme = "habamax",
+    theme = "tokyonight",
+    workspace = true,
     format_on_save = true,
     copilot = false,
     notifications = true,

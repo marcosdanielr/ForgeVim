@@ -10,6 +10,35 @@ local function exercise()
   assert(vim.fn.getreg('"') == "one", "Native register changed")
   vim.bo.modified = false
   vim.cmd("enew")
+  local original_number = vim.wo.number
+  local workspace = require("forge.features.workspace").open()
+  assert(vim.bo.filetype == "forge-workspace")
+  assert(
+    vim.wait(5000, function()
+      local text = table.concat(vim.api.nvim_buf_get_lines(workspace, 0, -1, false), "\n")
+      return text:find("changed paths", 1, true) and not text:find("Reading project", 1, true)
+    end),
+    "Workspace Git snapshot timed out"
+  )
+  for _, key in ipairs({ "h", "j", "k", "l" }) do
+    assert(vim.fn.maparg(key, "n") == "", "Workspace overrides native cursor key " .. key)
+  end
+  vim.cmd("enew")
+  assert(vim.wo.number == original_number, "Workspace leaked window options into editor")
+  vim.cmd("vsplit")
+  local right = vim.api.nvim_get_current_win()
+  vim.fn.maparg("<C-h>", "n", false, true).callback()
+  local left = vim.api.nvim_get_current_win()
+  assert(left ~= right, "Ctrl H did not focus the left pane")
+  vim.fn.maparg("<C-l>", "n", false, true).callback()
+  assert(vim.api.nvim_get_current_win() == right, "Ctrl L did not restore the right pane")
+  vim.cmd("split")
+  local bottom = vim.api.nvim_get_current_win()
+  vim.fn.maparg("<C-k>", "n", false, true).callback()
+  assert(vim.api.nvim_get_current_win() ~= bottom, "Ctrl K did not focus the upper pane")
+  vim.fn.maparg("<C-j>", "n", false, true).callback()
+  assert(vim.api.nvim_get_current_win() == bottom, "Ctrl J did not restore the lower pane")
+  vim.cmd("only")
   local state = require("forge.core.state")
   state.write({ plugins = {}, theme = "habamax" })
   assert(state.read().theme == "habamax")

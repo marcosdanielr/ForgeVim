@@ -51,7 +51,11 @@ return {
         view = { width = 34 },
         update_focused_file = { enable = true },
         renderer = {
-          icons = { show = { file = icons, folder = icons, folder_arrow = icons, git = icons } },
+          indent_markers = { enable = true },
+          icons = {
+            show = { file = icons, folder = icons, folder_arrow = true, git = icons },
+            glyphs = { folder = { arrow_closed = "▸", arrow_open = "▾" } },
+          },
         },
         actions = { open_file = { quit_on_open = false } },
       }

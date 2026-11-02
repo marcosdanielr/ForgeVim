@@ -12,6 +12,8 @@ function M.setup(directory)
   require("forge.core.commands").setup()
   require("forge.core.keymaps").setup()
   require("forge.core.bootstrap").setup(directory)
+  require("forge.features.chrome").setup()
+  require("forge.features.workspace").setup()
 end
 
 return M
