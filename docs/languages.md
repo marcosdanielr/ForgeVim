@@ -80,6 +80,33 @@ flutter run -d chrome
 Flutter can offer available targets. `flutter run -d web-server` serves a web app
 for another browser, with more limited debugging support.
 
+## Optional Flutter menus
+
+Flutter tooling remains opt-in through the Dart language profile. To use Telescope
+for Flutter commands and Dart code actions, create this personal file outside the
+repository: `~/.config/forge.nvim/after/ftplugin/dart.lua` (or the corresponding
+`$XDG_CONFIG_HOME/forge.nvim` path).
+
+```lua
+if not require("forge.languages.selection").enabled("dart") then
+  return
+end
+require("telescope").load_extension("flutter")
+require("telescope").load_extension("ui-select")
+```
+
+Restart Forge and open a Dart file. Use `Leader D m` for the Flutter command menu,
+`Leader c a` on a widget for available Dart actions such as wrapping or extraction,
+and `Leader D o` to show or hide the outline. In the outline, `j`/`k` navigate,
+Enter jumps to source, and `q` closes it. The outline navigates the current file;
+it is not an editor for inserting widgets. Available actions depend on cursor
+position and the connected Dart analysis server.
+
+The `ui-select` extension changes `vim.ui.select` menus for the remainder of the
+editor session after opening Dart. This file does not start an app, DevTools,
+an emulator, or another analysis server. Delete it and restart to restore the
+standard configuration. Personal files are not committed or replaced by updates.
+
 ## Debug prerequisites
 
 Python uses VIRTUAL_ENV when set. Go needs a module and Delve. Build Rust/C/C++
