@@ -1,6 +1,6 @@
 # Architecture
 
-Forge.nvim keeps Neovim as the editor and adds focused Lua modules. Plugin specs
+ForgeVim keeps Neovim as the editor and adds focused Lua modules. Plugin specs
 are dependency declarations; feature modules own workflows. Language modules own
 LSP, formatting, and debug configuration. No custom renderer, TUI, permanent
 Python service, or alternate editing model is introduced.

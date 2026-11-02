@@ -1,6 +1,6 @@
 export const english = {
   skip: 'Skip to content',
-  'nav.home': 'Forge.nvim — home',
+  'nav.home': 'ForgeVim — home',
   'nav.main': 'Main navigation',
   'nav.workflow': 'Workflow',
   'nav.docs': 'Documentation',
@@ -76,7 +76,7 @@ export const english = {
   'support.help': 'Help keep Forge moving.',
   'footer.note': 'For people who think through a keyboard.',
   'footer.motto': 'INDEPENDENT. MODULAR. NEOVIM.',
-  'footer.version': 'Forge.nvim / initial release 0.1',
+  'footer.version': 'ForgeVim / initial release 0.1',
   'copy.label': 'Copy command',
   'copy.action': 'Copy',
   'copy.done': 'Copied',
@@ -107,7 +107,7 @@ export type TranslationKey = keyof typeof english;
 
 export const portuguese: Record<TranslationKey, string> = {
   skip: 'Pular para conteúdo',
-  'nav.home': 'Forge.nvim — início',
+  'nav.home': 'ForgeVim — início',
   'nav.main': 'Navegação principal',
   'nav.workflow': 'Fluxo de trabalho',
   'nav.docs': 'Documentação',
@@ -183,7 +183,7 @@ export const portuguese: Record<TranslationKey, string> = {
   'support.help': 'Ajude a manter o Forge em movimento.',
   'footer.note': 'Feito para quem pensa pelo teclado.',
   'footer.motto': 'INDEPENDENTE. MODULAR. NEOVIM.',
-  'footer.version': 'Forge.nvim / versão inicial 0.1',
+  'footer.version': 'ForgeVim / versão inicial 0.1',
   'copy.label': 'Copiar comando',
   'copy.action': 'Copiar',
   'copy.done': 'Copiado',

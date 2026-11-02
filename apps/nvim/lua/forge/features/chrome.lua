@@ -31,7 +31,7 @@ function M.tabline()
     end
   end
   local count = vim.t.forge_active_agent_count or 0
-  return "%#ForgeBadge#  FORGE  %#ForgeSurface#   ◇ Workbench   %#ForgeBorder#│%#ForgeSurface#  "
+  return "%#ForgeBadge#  FORGEVIM  %#ForgeSurface#   ◇ Workbench   %#ForgeBorder#│%#ForgeSurface#  "
     .. project
     .. "  "
     .. branch

@@ -1,4 +1,4 @@
-# Forge.nvim
+# ForgeVim
 
 Read [AGENTS.md](AGENTS.md) for the shared contribution rules. Treat that file as
 the single source of truth; do not duplicate its instructions here.

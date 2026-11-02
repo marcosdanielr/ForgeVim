@@ -14,9 +14,7 @@ interface Props {
 }
 const { locale } = pageLocale(Astro.url.pathname);
 const {
-  title = locale === 'pt'
-    ? 'Forge.nvim — Neovim, no seu ritmo.'
-    : 'Forge.nvim — Neovim, your rhythm.',
+  title = locale === 'pt' ? 'ForgeVim — Neovim, no seu ritmo.' : 'ForgeVim — Neovim, your rhythm.',
   description = locale === 'pt'
     ? 'Seu Neovim, com mais alcance. Debug, busca e agentes em paralelo, com cada alteração sob sua revisão.'
     : site.description,

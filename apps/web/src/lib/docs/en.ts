@@ -30,7 +30,7 @@ export const docsEn: readonly DocPage[] = [
         paragraphs: [
           'The installer prepares selected plugins and creates ~/.local/bin/forge. Add ~/.local/bin to PATH when needed. The launcher sets NVIM_APPNAME=forge.nvim. Plugins, state, and personal settings are separate from ~/.config/nvim. First launch installs the plugin manager and enabled plugins. Following launches use local files.',
         ],
-        code: 'gh repo clone marcosdanielr/forge.nvim\ncd forge.nvim\nbash install.sh\nforge .',
+        code: 'gh repo clone marcosdanielr/forgevim\ncd forgevim\nbash install.sh\nforge .',
       },
       {
         title: 'Your first steps',
@@ -52,7 +52,7 @@ export const docsEn: readonly DocPage[] = [
         paragraphs: [
           'This is still Neovim. Use :edit, :split, :terminal, macros, registers, and your familiar motions. Leader defaults to Space. Change it in :ForgeLeader and restart.',
         ],
-        code: 'cd /path/to/project\n/path/to/forge.nvim/bin/forge',
+        code: 'cd /path/to/project\n/path/to/forgevim/bin/forge',
       },
     ],
   },

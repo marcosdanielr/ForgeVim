@@ -1,6 +1,6 @@
 # Installation
 
-Forge.nvim uses an isolated per-user command, inspired by LunarVim's installer
+ForgeVim uses an isolated per-user command, inspired by LunarVim's installer
 workflow. It requires macOS/Linux, Neovim 0.11+, Git, ripgrep, and Python 3.9+.
 No sudo, system package installation, shell-profile edits, or model login runs
 automatically. Node.js, SDKs, language tools, and AI CLIs remain explicit choices.
@@ -11,8 +11,8 @@ The repository is private during development. Authenticate Git or use GitHub CLI
 with an account that has access:
 
 ```sh
-gh repo clone marcosdanielr/forge.nvim
-cd forge.nvim
+gh repo clone marcosdanielr/forgevim
+cd forgevim
 bash install.sh
 forge .
 ```
@@ -33,7 +33,7 @@ While the repository is private, fetch the bootstrap through your authenticated
 GitHub CLI. Anonymous raw-GitHub downloads will not work for a private repository.
 
 ```sh
-bash <(gh api repos/marcosdanielr/forge.nvim/contents/install.sh -H 'Accept: application/vnd.github.raw+json')
+bash <(gh api repos/marcosdanielr/forgevim/contents/install.sh -H 'Accept: application/vnd.github.raw+json')
 ```
 
 The bootstrap downloads a sparse source copy and delegates to the same installer.
@@ -80,3 +80,5 @@ quoting, repeatability, uninstall/reinstall, failed provisioning, and update rol
 Actual plugin provisioning and installed-command launch are verified separately.
 The workflow is inspired by the [LunarVim installer](https://github.com/LunarVim/LunarVim/blob/master/utils/installer/install.sh);
 its source is not copied or vendored.
+
+ForgeVim retains the `forge` command and the `forge.nvim` XDG profile name for compatibility. Existing personal plugins, logins, settings, installer metadata, and SSD checkout paths remain valid after the repository rename.

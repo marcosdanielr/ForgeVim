@@ -9,7 +9,7 @@ from .paths import InstallPaths, lock
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Install Forge.nvim as an isolated per-user command.")
+    parser = argparse.ArgumentParser(description="Install ForgeVim as an isolated per-user command.")
     parser.add_argument("operation", nargs="?", choices=("install", "doctor", "update", "uninstall"), default="install")
     parser.add_argument("--local", action="store_true", help="Use this checkout directly, including an external SSD")
     parser.add_argument("--prefix", help="Command prefix; defaults to INSTALL_PREFIX or ~/.local")

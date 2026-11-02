@@ -1,7 +1,7 @@
 local M = {}
 
 function M.check()
-  vim.health.start("Forge.nvim")
+  vim.health.start("ForgeVim")
   for _, tool in ipairs({ "git", "rg", "python3" }) do
     if vim.fn.executable(tool) == 1 then
       vim.health.ok(tool .. " available")

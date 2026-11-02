@@ -1,6 +1,6 @@
 # Contributor instructions
 
-Forge.nvim is a Neovim distribution, not a replacement editor. Preserve native modes,
+ForgeVim is a Neovim distribution, not a replacement editor. Preserve native modes,
 motions, buffers, windows, registers, command-line editing, and user configuration.
 
 ## Ownership

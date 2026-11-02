@@ -1,4 +1,4 @@
-# Forge.nvim
+# ForgeVim
 
 Read [AGENTS.md](AGENTS.md) for shared contributor rules. Follow the scoped skills
 under `.agents/skills`. Architecture and domain contracts live in `docs`.

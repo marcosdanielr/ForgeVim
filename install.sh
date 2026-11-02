@@ -21,11 +21,11 @@ for forge_argument in "$@"; do
     exit 1
   fi
 done
-forge_repository="${FORGE_REPOSITORY:-https://github.com/marcosdanielr/forge.nvim.git}"
+forge_repository="${FORGE_REPOSITORY:-https://github.com/marcosdanielr/forgevim.git}"
 forge_staging="$(mktemp -d "${TMPDIR:-/tmp}/forge-bootstrap.XXXXXX")"
 trap 'rm -rf -- "$forge_staging"' EXIT
-if command -v gh >/dev/null 2>&1 && gh auth status --hostname github.com >/dev/null 2>&1 && [ "$forge_repository" = "https://github.com/marcosdanielr/forge.nvim.git" ]; then
-  gh repo clone marcosdanielr/forge.nvim "$forge_staging/source" -- --filter=blob:none --sparse
+if command -v gh >/dev/null 2>&1 && gh auth status --hostname github.com >/dev/null 2>&1 && [ "$forge_repository" = "https://github.com/marcosdanielr/forgevim.git" ]; then
+  gh repo clone marcosdanielr/forgevim "$forge_staging/source" -- --filter=blob:none --sparse
 else
   git clone --filter=blob:none --sparse -- "$forge_repository" "$forge_staging/source"
 fi

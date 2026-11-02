@@ -78,7 +78,7 @@ def install(paths, checkout, local=False, repository=source.REPOSITORY, revision
                 raise RuntimeError("The installed launcher changed. Restore it or use a different prefix; nothing was overwritten.")
         if command != paths.command or bool(existing["local"]) != local or (local and Path(existing["root"]) != checkout):
             raise RuntimeError("A different installation already uses this profile. Keep it or uninstall its launcher first.")
-        if not local and (existing.get("repository") != repository or existing["revision"] != revision):
+        if not local and (source.canonical_repository(existing.get("repository")) != source.canonical_repository(repository) or existing["revision"] != revision):
             raise RuntimeError("A different repository or revision is already installed; existing source was preserved.")
         if not (Path(existing["root"]) / "apps/nvim/init.lua").is_file():
             raise RuntimeError("Installed source is missing; restore its checkout before retrying.")
@@ -107,7 +107,7 @@ def install(paths, checkout, local=False, repository=source.REPOSITORY, revision
         if staging:
             source.clone(repository, root, revision)
         if not (root / "apps/nvim/init.lua").is_file() or not os.access(root / "bin/forge", os.X_OK):
-            raise RuntimeError("The selected source is not a Forge.nvim checkout")
+            raise RuntimeError("The selected source is not a ForgeVim checkout")
         personal = paths.config / "lua/user.lua"
         personal.parent.mkdir(parents=True, exist_ok=True)
         try:

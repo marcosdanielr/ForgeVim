@@ -1,6 +1,6 @@
 ---
 name: forge-editor
-description: Extend Forge.nvim editor features, language profiles, plugins, themes, or keymaps while preserving native Neovim behavior.
+description: Extend ForgeVim editor features, language profiles, plugins, themes, or keymaps while preserving native Neovim behavior.
 ---
 
 Read `AGENTS.md` and `docs/architecture.md`. Find the feature owner before editing.

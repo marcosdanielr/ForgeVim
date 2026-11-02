@@ -63,6 +63,18 @@ class InstallationTests(unittest.TestCase):
         self.assertEqual(load(self.paths.manifest)["root"], str(ROOT))
         self.assertFalse((self.paths.data / "runtime").exists())
 
+    def test_repository_rename_reuses_existing_profile(self):
+        legacy = "https://github.com/marcosdanielr/forge.nvim.git"
+        record = self.install(repository=legacy)
+        record["local"] = False
+        self.paths.manifest.write_text(json.dumps(record))
+        before = self.paths.command.read_bytes()
+        reused = service.install(self.paths, ROOT, local=False, plugins=False)
+        self.assertEqual(reused["repository"], legacy)
+        self.assertEqual(self.paths.command.read_bytes(), before)
+        self.assertEqual(source.canonical_repository(legacy), source.REPOSITORY)
+        self.assertEqual(source.canonical_repository("file:///custom"), "file:///custom")
+
     def test_launcher_quotes_source_and_preserves_arguments_and_cwd(self):
         self.install()
         fake = self.directory / "fake nvim"

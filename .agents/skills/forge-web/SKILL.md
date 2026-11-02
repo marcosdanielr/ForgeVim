@@ -1,6 +1,6 @@
 ---
 name: forge-web
-description: Maintain Forge.nvim landing page, brand assets, and documentation in Astro with strict TypeScript and accessible interactions.
+description: Maintain ForgeVim landing page, brand assets, and documentation in Astro with strict TypeScript and accessible interactions.
 ---
 
 Read `AGENTS.md` and `docs/design.md`. Keep the site under `apps/web`; keep shared

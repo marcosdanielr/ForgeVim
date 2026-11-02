@@ -191,3 +191,5 @@ Owners: `scripts/installer`, `install.sh`, `features/terminal`,
 `features/search/preview`, and the named action registry.
 
 - **BR-ED-29**: Forge Mint is an explicit `forge-mint` theme selection. Its graphite surfaces and mint folder colors must not change Tokyo Night configuration or survive switching to another theme. Tokyo Night remains the default.
+
+- **BR-IN-04**: ForgeVim branding and repository URLs do not rename the `forge` command, `forge.nvim` profile, installer ownership marker, manifest product ID, or existing source directories. Previous canonical repository URLs remain compatible with installer reuse.

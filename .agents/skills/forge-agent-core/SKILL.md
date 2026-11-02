@@ -1,6 +1,6 @@
 ---
 name: forge-agent-core
-description: Change Forge.nvim agent lifecycle, providers, worktrees, persistence, or review protocol with regression proof for patch acceptance.
+description: Change ForgeVim agent lifecycle, providers, worktrees, persistence, or review protocol with regression proof for patch acceptance.
 ---
 
 Read `AGENTS.md`, `docs/architecture.md`, and `packages/protocol/README.md`.
