@@ -5,16 +5,20 @@ import subprocess
 import sys
 import threading
 import time
-import uuid
 from pathlib import Path
 
-from . import git, policy, providers
+from . import git, policy, providers, tasks
 from .errors import ForgeError
 from .store import Store
 
 
 class AgentService:
-    def __init__(self, root):
+    def __init__(self, root, initialize=True):
+        existing = Path(root).resolve()
+        if not initialize and (existing / ".forge/state.sqlite3").is_file():
+            self.root = existing
+            self.store = Store(existing / ".forge", initialize=False)
+            return
         self.root = git.repository(root)
         git.prepare_state(self.root)
         self.store = Store(self.root / ".forge")
@@ -23,20 +27,9 @@ class AgentService:
         policy.require_prompt(prompt)
         arguments = providers.command(provider, custom)
         with self.store.locked():
-            git.ensure_clean(self.root)
-            task_id = uuid.uuid4().hex[:12]
-            directory = self.store.directory / "tasks" / task_id
-            directory.mkdir(parents=True)
-            task = {
-                "id": task_id, "prompt": prompt, "provider": provider,
-                "command": arguments, "root": str(self.root), "base": git.head(self.root),
-                "branch": "forge/" + task_id,
-                "worktree": str(self.store.directory / "worktrees" / task_id),
-                "directory": str(directory), "status": "queued", "created_at": time.time(),
-                "heartbeat": time.time(), "review_hash": None,
-            }
-            git.create_worktree(self.root, task["worktree"], task["branch"], task["base"])
-            self.store.save(task, "created")
+            task = tasks.create(self.store, self.root, prompt, provider, arguments)
+            directory = Path(task["directory"])
+            task_id = task["id"]
             environment = dict(os.environ)
             package = str(Path(__file__).resolve().parent.parent)
             environment["PYTHONPATH"] = package + os.pathsep + environment.get("PYTHONPATH", "")
@@ -53,6 +46,11 @@ class AgentService:
                 self.store.save(task, "failed")
                 raise ForgeError(str(error)) from error
             return task
+
+    def create_chat(self, prompt, provider="codex", custom=None):
+        arguments = providers.interactive_command(provider, custom)
+        with self.store.locked():
+            return tasks.create(self.store, self.root, prompt, provider, arguments, "interactive")
 
     def tasks(self):
         with self.store.locked():
@@ -100,6 +98,9 @@ class AgentService:
         with self.store.locked():
             task = self.store.get(task_id)
             policy.require_cancellable(task["status"])
+            if task.get("mode") == "interactive" and task["status"] == "queued":
+                task.update(status="cancelled", finished_at=time.time())
+                return self.store.save(task, "cancelled")
             (Path(task["directory"]) / "cancel").touch()
             task.update(status="cancelling")
             return self.store.save(task, "cancel_requested")

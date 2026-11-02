@@ -9,10 +9,12 @@ from .errors import ForgeError
 
 
 class Store:
-    def __init__(self, directory):
+    def __init__(self, directory, initialize=True):
         self.directory = directory
-        directory.mkdir(parents=True, exist_ok=True)
         self.database = directory / "state.sqlite3"
+        if not initialize:
+            return
+        directory.mkdir(parents=True, exist_ok=True)
         with self.connection() as connection:
             connection.executescript("""
                 CREATE TABLE IF NOT EXISTS tasks (
@@ -50,6 +52,12 @@ class Store:
                     "INSERT INTO events(task_id,kind,timestamp,data) VALUES(?,?,?,?)",
                     (task["id"], kind, time.time(), json.dumps({"status": task["status"]})),
                 )
+        if kind:
+            # Best-effort wakeup after commit; UI polling remains the fallback.
+            try:
+                (self.directory / "events.signal").touch()
+            except OSError:
+                pass
         return task
 
     def get(self, task_id):

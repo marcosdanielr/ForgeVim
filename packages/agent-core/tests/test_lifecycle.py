@@ -52,6 +52,17 @@ class LifecycleTests(unittest.TestCase):
         self.assertEqual(self.wait(task)["status"], "ready")
         return task
 
+    def test_existing_status_read_does_not_require_git_startup(self):
+        task = self.ready()
+        environment = dict(os.environ, PATH="", PYTHONPATH=str(Path(__file__).resolve().parents[1]))
+        result = subprocess.run([sys.executable, "-m", "forge_agents", "--root", str(self.root), "list"],
+                                env=environment, capture_output=True, text=True, timeout=5)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertIn(task["id"], [row["id"] for row in json.loads(result.stdout)["data"]])
+        result = subprocess.run([sys.executable, "-m", "forge_agents", "--root", str(self.root), "review", task["id"]],
+                                env=environment, capture_output=True, text=True, timeout=5)
+        self.assertNotEqual(result.returncode, 0, "Write/review path bypassed Git validation")
+
     def test_review_accept_new_binary_and_committed_changes(self):
         task = self.ready("from pathlib import Path; import subprocess; "
                           "Path('new.bin').write_bytes(bytes(range(256))); "

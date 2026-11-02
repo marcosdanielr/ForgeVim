@@ -39,3 +39,9 @@ def require_cancellable(status: str) -> None:
     """BR-AG-08: only the task's active worker receives a cancellation request."""
     if status not in ACTIVE_STATUSES:
         raise ForgeError("Task is not running.")
+
+
+def require_interactive_start(mode: str, status: str) -> None:
+    """BR-AG-14: only one terminal may claim a queued interactive task."""
+    if mode != "interactive" or status != "queued":
+        raise ForgeError("Only a queued interactive task can own this terminal.")

@@ -16,6 +16,10 @@ def parser():
     start.add_argument("--prompt", required=True)
     start.add_argument("--provider", choices=["codex", "claude", "gemini", "command"], default="codex")
     start.add_argument("--command-json", help="Trusted local executable argument array; prompt is stdin")
+    chat = commands.add_parser("chat")
+    chat.add_argument("--prompt", required=True, help="Human-readable conversation title")
+    chat.add_argument("--provider", choices=["codex", "claude", "gemini", "command"], default="codex")
+    chat.add_argument("--command-json", help="Trusted local interactive executable array")
     commands.add_parser("list")
     for action in ("review", "reject", "cancel", "logs"):
         commands.add_parser(action).add_argument("id")
@@ -32,6 +36,9 @@ def dispatch(service, arguments):
     if action == "start":
         custom = json.loads(arguments.command_json) if arguments.command_json else None
         return service.start(arguments.prompt, arguments.provider, custom)
+    if action == "chat":
+        custom = json.loads(arguments.command_json) if arguments.command_json else None
+        return service.create_chat(arguments.prompt, arguments.provider, custom)
     if action == "list":
         return service.tasks()
     if action == "events":
@@ -44,7 +51,8 @@ def dispatch(service, arguments):
 def main():
     arguments = parser().parse_args()
     try:
-        data = dispatch(AgentService(arguments.root), arguments)
+        initialize = arguments.action not in {"list", "logs", "events"}
+        data = dispatch(AgentService(arguments.root, initialize=initialize), arguments)
         print(json.dumps({"version": 1, "ok": True, "data": data}))
     except (ForgeError, OSError, ValueError, sqlite3.Error) as error:
         print(json.dumps({"version": 1, "ok": False, "error": str(error)}))

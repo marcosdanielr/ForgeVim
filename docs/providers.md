@@ -23,8 +23,7 @@ bypass-permissions, or danger-full-access flag is used. Provider project/user
 settings still apply. Only use trusted repositories and CLI configuration.
 
 All providers use the same worktree, persistence, cancellation, and review rules.
-This release supports one-shot tasks and raw JSONL logs, not continuous chat or
-normalized cross-provider permission prompts. CLI adapters are tested using local
+Batch tasks use one-shot execution and raw JSONL logs. Interactive chat uses a native CLI PTY in its own worktree, with normal provider permission prompts. A normalized cross-provider message/approval interface is not implemented. CLI adapters are tested using local
 fixtures and command contracts. Real model authentication/inference must be
 verified by the account owner; tests do not spend model tokens.
 
@@ -32,9 +31,9 @@ verified by the account owner; tests do not spend model tokens.
 
 `:ForgeNotifications` toggles editor notifications and persists the choice.
 `notifications = true` is the default in user.lua. The menu preference overrides
-that default. Start a task or open `:ForgeAgents` to watch active work. A lightweight
-Neovim timer polls while watched tasks run, and stops after they finish. It never
-launches Python on startup or sends unchanged-status notifications. Disabling
+that default. Start a task or open `:ForgeAgents` to watch active work. Panels and notifications share native event wakeups and a five-second active-task
+fallback; polling stops after tasks finish. It never
+starts providers on startup or sends unchanged-status notifications. An open Agents panel can separately read existing task status. Disabling
 notifications stops watchers immediately; reopen the agent menu after re-enabling.
 
 Notify once on ready, failed, cancelled, or interrupted states. Messages contain
@@ -49,3 +48,20 @@ notifications while it is closed and mobile push are future gateway capabilities
 - [Claude authentication](https://code.claude.com/docs/en/authentication)
 - [Gemini headless](https://geminicli.com/docs/cli/headless/)
 - [Gemini authentication](https://geminicli.com/docs/get-started/authentication/)
+
+
+## Interactive terminal lifecycle
+
+`:ForgeChatNew` prepares a queued interactive task without executing a provider.
+The attached terminal runner claims that task once, owns the provider PTY, relays
+input/output and resize events, and updates heartbeat state. Normal exit makes the
+result reviewable; provider errors retain partial changes as failed output.
+Cancellation signals only the PTY process group created by that runner. A queued
+chat can be cancelled before a terminal exists. No recovered PID is signalled.
+
+Codex uses `-a on-request --sandbox workspace-write`; Claude and Gemini keep their
+normal interactive controls. No bypass-permissions or YOLO option is introduced.
+Hiding a split preserves the terminal. Closing the editor closes its attached PTY;
+batch workers retain their independent lifecycle. Provider-native resume features
+are not a Forge PTY reattachment guarantee. Tests exercise real local PTYs with
+fixture executables, not authenticated model calls.

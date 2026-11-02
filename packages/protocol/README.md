@@ -18,6 +18,7 @@ never shell strings. Stdout contains one JSON envelope; exit code 0 means succes
 | --- | --- | --- |
 | start | `--prompt text [--provider codex|claude|gemini]` | Task |
 | start | `--prompt text --provider command --command-json '["executable"]'` | Task |
+| chat | `--prompt title [--provider codex|claude|gemini]` | Queued interactive Task; no provider executes yet |
 | list | none | Task[] |
 | review | id | `{task, hash, patch}` |
 | accept | id `--hash sha256` | Task |
@@ -31,7 +32,7 @@ trusted local configuration, not a remotely supplied executable or a shell.
 Each bundled provider uses its own CLI authentication and model settings. Forge explicitly
 requests workspace-write sandbox and non-interactive approval behavior.
 
-Tasks contain id, prompt, provider, root, worktree, branch, base, directory,
+Tasks contain id, prompt, provider, root, worktree, branch, base, directory, optional mode (`batch` or `interactive`),
 status, created_at, heartbeat, and optional review_hash, review_head, exit_code, finished_at,
 and error. Internal executable arguments are local-only metadata. Future remote
 transports must project a safe public task view and must not expose local paths,
@@ -50,3 +51,14 @@ normalized into these lifecycle events. No network transport is implemented.
 `review_head` binds acceptance to the target HEAD observed during review. A new
 review may target a later clean commit without rebasing the agent worktree, but
 the unchanged patch must still pass Git conflict checks.
+
+
+## Raw interactive attachment
+
+After `chat` returns a task, the local editor starts
+`python3 -m forge_agents.chat --root <checkout> <id>` with the agent package on
+PYTHONPATH and a real terminal. This command relays raw terminal I/O; it is not a
+JSON protocol command. It rejects duplicate ownership and any non-queued task.
+Input, resize, normal provider prompts, and final lifecycle state share the same
+worktree and review invariants as batch tasks. A queued interactive cancellation
+may immediately return cancelled; running cancellation remains worker-owned.
