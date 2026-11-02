@@ -53,8 +53,9 @@ function M.preview(form)
   require("forge.features.panels.windows").hide("search")
   require("forge.features.panels.windows").focus_editor()
   require("grug-far").open({ engine = "ripgrep", prefills = prefills })
+  vim.b.forge_root = form.root
   vim.cmd.lcd(vim.fn.fnameescape(form.root))
-  vim.notify("Preview first. grug-far: g? shows keys; local leader then r applies replacements.")
+  vim.notify("Review matches first. Click Apply all in the header or use Leader f A to replace.")
 end
 
 function M.open(project)

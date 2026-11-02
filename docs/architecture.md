@@ -143,3 +143,16 @@ saves one printable key. Startup resolves that preference before registering any
 mapping or loading plugins; live sessions keep their current Leader until restart.
 Buffer Tab aliases explicitly exclude terminal mode. No new backend process is
 introduced for these controls.
+
+## Installer boundary
+
+`install.sh` is a small local/downloaded bootstrap. `scripts/installer` separates
+CLI arguments, XDG/ownership metadata, dependencies, Git source lifecycle, and
+installation orchestration. It reuses the existing launcher and lazy.nvim lock.
+Management commands invoke Python only when explicitly requested; ordinary editor
+launch remains a direct Neovim process. Installer fixtures use temporary Git
+repositories and prefixes rather than the user's global installation.
+
+`features/terminal/toolbar` renders keyboard/mouse controls using actual sessions.
+`features/search/preview` adapts the public grug-far instance API for explicit
+application. Both reuse native window headers and cached shortcut labels.

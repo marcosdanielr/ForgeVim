@@ -59,8 +59,16 @@ function M.logs()
   if require("forge.features.panels.windows").hide("logs") then
     return
   end
-  require("forge.features.agents.panel").open(true)
-  vim.notify("Select an agent, then press L to open its logs")
+  local windows = require("forge.features.panels.windows")
+  local previous = windows.state().panels.logs
+  if previous and vim.api.nvim_buf_is_valid(previous.buffer) then
+    windows.show("logs", previous.buffer, { position = "below", title = "Agent logs" })
+  else
+    require("forge.features.workbench.empty").open(
+      "logs",
+      { position = "below", size = 10, focus = true }
+    )
+  end
 end
 
 return M

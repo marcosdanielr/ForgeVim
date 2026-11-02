@@ -7,6 +7,17 @@ local function state()
   return workspaces[tab]
 end
 
+local function refresh_titles(current)
+  for index, session in ipairs(current.sessions) do
+    session.title = string.format("Terminal %d/%d", index, #current.sessions)
+    local window = vim.fn.bufwinid(session.buffer)
+    if window > 0 then
+      vim.w[window].forge_panel_title = session.title
+    end
+  end
+  vim.cmd("redrawstatus")
+end
+
 function M.new(split)
   local windows = require("forge.features.panels.windows")
   local current = state()
@@ -15,7 +26,7 @@ function M.new(split)
   local slot = "terminal"
   local anchor, position = nil, "below"
   if split then
-    local panel = windows.get("terminal")
+    local panel = windows.get(vim.b.forge_terminal_slot or "terminal") or windows.get("terminal")
     if not panel then
       return M.new(false)
     end
@@ -36,6 +47,7 @@ function M.new(split)
   })
   current.sessions[#current.sessions + 1] = session
   current.active = #current.sessions
+  refresh_titles(current)
   if split then
     current.splits[#current.splits + 1] = slot
   end
@@ -46,6 +58,9 @@ function M.toggle()
   local windows = require("forge.features.panels.windows")
   local current = state()
   if #current.sessions == 0 then
+    if windows.hide("terminal") then
+      return
+    end
     return M.new(false)
   end
   local visible = windows.get("terminal") ~= nil

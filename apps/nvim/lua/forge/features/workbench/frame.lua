@@ -48,12 +48,23 @@ end
 function M.top()
   local window, buffer = context()
   local width = vim.api.nvim_win_get_width(window)
+  if vim.bo[buffer].filetype == "grug-far" then
+    return require("forge.features.search.preview").header(window, width)
+  end
   local title = vim.w[window].forge_panel_title
   if vim.bo[buffer].filetype == "forge-workspace" then
     title = "Welcome to Forge"
   end
   if not title and vim.bo[buffer].filetype == "NvimTree" then
     title = "Explorer"
+  end
+  if
+    title
+    and vim.w[window].forge_panel_id
+    and vim.w[window].forge_panel_id:find("^terminal")
+    and vim.bo[buffer].buftype == "terminal"
+  then
+    return require("forge.features.terminal.toolbar").render(window, title, width)
   end
   if title then
     local id = vim.bo[buffer].filetype == "NvimTree" and "files" or vim.w[window].forge_panel_id

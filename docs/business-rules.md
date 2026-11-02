@@ -164,3 +164,28 @@ Owners: `features/diagnostics`, `features/leader`, `features/panels/resize`,
 `features/workbench/hints`, and the named action registry. Verification includes
 native split/diagnostic tests, fresh-process Leader transitions, and the optional
 real Dart language-server test.
+
+## Installation and terminal usability
+
+- **BR-IN-01**: Installation is per-user, preserves existing config and commands,
+  and never edits shell profiles or installs system dependencies automatically.
+  Managed runtime checkout is sparse; the web app is excluded. SSD development
+  mode points to the existing checkout and never updates it automatically.
+- **BR-IN-02**: Ownership metadata and launcher hashes gate reinstall/removal.
+  Partial plugin preparation uses owned staging. A changed launcher or unrelated
+  runtime is never overwritten. Uninstall removes the launcher while retaining
+  source, settings, logs, worktrees, and metadata for recovery.
+- **BR-IN-03**: Managed updates require clean, fast-forward history. Plugin setup
+  failure restores previous distribution source. Setup is bounded and only its
+  owned process group may be terminated. Runtime editor startup gains no Python
+  process from installer support.
+- **BR-ED-27**: Pane toggles work in normal and Forge terminal modes. New terminals
+  are distinct from hide/show. Ctrl Space/Ctrl @ provides a legacy NUL fallback
+  outside insert mode; insert completion remains unchanged. Terminal headers expose
+  New/Split/List with real session counts. Shell jobs survive hiding and switching.
+- **BR-ED-28**: Search preview exposes a separate Apply all action. Opening preview
+  never changes files; application calls the existing pinned engine only after
+  an explicit click or named command. Scope and search flags remain authoritative.
+
+Owners: `scripts/installer`, `install.sh`, `features/terminal`,
+`features/search/preview`, and the named action registry.

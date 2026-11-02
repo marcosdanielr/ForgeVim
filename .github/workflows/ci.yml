@@ -29,7 +29,7 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           version: v2.3.1
-          args: --check apps/nvim tests
+          args: --check apps/nvim tests scripts/installer/plugins.lua
   website:
     runs-on: ubuntu-latest
     steps:

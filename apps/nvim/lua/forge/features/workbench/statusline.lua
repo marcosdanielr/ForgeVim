@@ -46,7 +46,8 @@ end
 
 function M.render()
   local window, buffer = document()
-  local mode = modes[vim.api.nvim_get_mode().mode] or modes.n
+  local current_mode = vim.api.nvim_get_mode().mode
+  local mode = modes[current_mode] or modes[current_mode:sub(1, 1)] or modes.n
   local counts = diagnostics[buffer] or { 0, 0, 0, 0 }
   local icons = require("forge.features.workbench.icons")
   local branch = vim.t.forge_chrome_branch or ""
@@ -60,7 +61,7 @@ function M.render()
   local encoding = vim.bo[buffer].fileencoding ~= "" and vim.bo[buffer].fileencoding
     or vim.o.encoding
   local formats = { unix = "LF", dos = "CRLF", mac = "CR" }
-  local left = "%#" .. mode[2] .. "# " .. mode[1] .. " %#ForgeSurface# "
+  local left = "%#" .. mode[2] .. "# " .. icons.symbol(" ", "") .. mode[1] .. " %#ForgeSurface# "
   if branch ~= "" then
     left = left .. "%#ForgeAccent# " .. icons.symbol("", "Git") .. " " .. escape(branch) .. "  "
   end

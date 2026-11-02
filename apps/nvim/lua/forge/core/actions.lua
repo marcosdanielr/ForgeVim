@@ -13,6 +13,12 @@ end
 
 return {
   {
+    command = "ForgeApplyReplacement",
+    label = "Apply previewed text replacements",
+    keys = { "<leader>fA" },
+    run = feature("features.search.preview", "apply"),
+  },
+  {
     command = "ForgeLeader",
     label = "Configure Leader key",
     keys = { "<leader>uK" },
@@ -20,6 +26,7 @@ return {
   },
   {
     command = "ForgePalette",
+    terminal = true,
     label = "Command palette",
     keys = { "<leader><leader>", "<C-S-p>" },
     run = feature("core.commands", "palette"),
@@ -73,6 +80,7 @@ return {
   },
   {
     command = "ForgeNavigation",
+    terminal = true,
     label = "Toggle workspace navigation",
     keys = { "<leader>pn" },
     run = feature("features.workbench.activity", "toggle"),
@@ -105,14 +113,14 @@ return {
   {
     command = "ForgeTerminal",
     label = "Toggle integrated terminal",
-    keys = { "<C-`>", "<leader>ot", "<leader>pt" },
+    keys = { "<C-`>", "<C-Space>", "<C-@>", "<leader>ot", "<leader>pt" },
     terminal = true,
     run = feature("features.terminal", "toggle"),
   },
   {
     command = "ForgeTerminalNew",
     label = "New integrated terminal",
-    keys = { "<C-S-`>", "<leader>oT" },
+    keys = { "<M-CR>", "<C-S-`>", "<leader>oT" },
     terminal = true,
     run = feature("features.terminal", "new"),
   },
@@ -147,18 +155,21 @@ return {
   },
   {
     command = "ForgePanelReview",
+    terminal = true,
     label = "Toggle changes review",
     keys = { "<leader>pr" },
     run = feature("features.layout", "review"),
   },
   {
     command = "ForgePanelDebug",
+    terminal = true,
     label = "Toggle debug panels",
     keys = { "<leader>pd" },
     run = feature("features.layout", "debug"),
   },
   {
     command = "ForgePanelLogs",
+    terminal = true,
     label = "Toggle agent logs",
     keys = { "<leader>pl" },
     run = feature("features.layout", "logs"),
@@ -171,12 +182,14 @@ return {
   },
   {
     command = "ForgeSettings",
+    terminal = true,
     label = "Open settings",
     keys = { "<leader>us" },
     run = feature("features.settings", "open"),
   },
   {
     command = "ForgeHelp",
+    terminal = true,
     label = "Getting started and shortcuts",
     keys = { "<F1>" },
     run = feature("features.help", "open"),
@@ -196,6 +209,7 @@ return {
   },
   {
     command = "ForgeProblems",
+    terminal = true,
     label = "Show project diagnostics",
     keys = { "<C-S-m>", "<leader>pp" },
     run = function()
@@ -366,6 +380,7 @@ return {
   },
   {
     command = "ForgeTree",
+    terminal = true,
     label = "Toggle file tree",
     keys = { "<C-b>", "<leader>fe", "<leader>pe" },
     run = feature("features.git", "tree"),
@@ -480,6 +495,7 @@ return {
   },
   {
     command = "ForgeAgents",
+    terminal = true,
     label = "List and review agents",
     keys = { "<leader>aa", "<leader>pa" },
     run = feature("features.agents", "choose"),

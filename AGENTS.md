@@ -12,6 +12,7 @@ motions, buffers, windows, registers, command-line editing, and user configurati
 - `packages/agent-core/forge_agents`: transport-independent agent lifecycle.
 - `apps/web`: Astro presentation and docs with strict TypeScript, Tailwind, and accessible UI.
 - `packages/protocol`: versioned CLI contract for editor and future mobile gateway.
+- `scripts/installer`: per-user bootstrap, source ownership, dependency checks, and recovery.
 
 Keep functions cohesive. Put behavior in its owning module; avoid utility dumping
 grounds, globals, speculative abstractions, shell command interpolation, or new

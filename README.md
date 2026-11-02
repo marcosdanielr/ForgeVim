@@ -13,10 +13,16 @@ Node.js 22+ is needed for Copilot and JavaScript tooling. Language runtimes are
 installed separately. The repository is private during initial development.
 
 ```sh
-git clone https://github.com/marcosdanielr/forge.nvim.git
+gh repo clone marcosdanielr/forge.nvim
 cd forge.nvim
-./bin/forge
+bash install.sh
+forge .
 ```
+
+The installer creates `~/.local/bin/forge` and prepares selected plugins. Add
+`~/.local/bin` to PATH if needed. Use `bash install.sh --local` to point directly
+at a development checkout on an external SSD. See [installation](docs/installation.md)
+for authenticated bootstrap, custom paths, updates, and uninstall.
 
 The launcher uses `NVIM_APPNAME=forge.nvim`, keeping your existing Neovim config
 separate. First launch installs lazy.nvim and the selected plugins. It does not
@@ -306,3 +312,21 @@ f f for files, Leader f g for project text, and Leader f b for the current buffe
 Use :ForgeLeader or Settings to save a different Leader key, then restart Forge.
 The default is Space. `leader` and `localleader` can also be set in user.lua;
 localleader defaults to comma for plugin-local actions such as replacement.
+
+## Terminal controls
+
+Leader o t toggles the terminal; it does not create a new shell each time. Alt Enter
+or Leader o T creates another shell. Leader o s splits the focused terminal and
+Leader o o lists sessions. The terminal header shows a session count and clickable
+New, Split, and List controls. Hiding preserves every owned job and output buffer.
+
+Ctrl backtick depends on the host terminal's key encoding. Normal and terminal
+modes also accept Ctrl Space / Ctrl @ for legacy NUL input; insert-mode Ctrl Space
+continues to open completion. Every panel toggle works from Forge terminals.
+For a transport-independent fallback, use Leader o t. In terminal mode, Tab still
+belongs to the shell. A real-PTY test verifies NUL and Alt Enter input plus multiple
+live shells and Agents hide/show.
+
+Replacement previews now expose an Apply all button and Leader f A. Nothing is
+changed by opening preview; applying remains a separate explicit action. Existing
+localleader replacement keys and grug-far help remain available.

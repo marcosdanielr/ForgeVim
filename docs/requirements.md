@@ -102,3 +102,16 @@ because the underlying protocol could eventually support it.
 - **FR-37**: Tab/Shift Tab restores VIMarcos normal-mode buffer cycling while
   terminal completion and insert-mode indentation remain intact. Existing Ctrl
   Tab and Leader b n/b p alternatives remain available.
+
+- **FR-38**: An installer validates requirements, prepares selected pinned plugins,
+  preserves personal config, and creates a command available through PATH. A local
+  mode launches directly from the external-SSD checkout without copying it.
+- **FR-39**: Doctor, clean managed updates, uninstall, repeat installation, and
+  recoverable partial failures are supported. Existing commands and unrelated
+  runtime paths are never overwritten. Private-repository installation documents
+  authenticated access rather than promising anonymous curl downloads.
+- **FR-40**: New/split/list terminal controls are visible; legacy NUL input and
+  Alt Enter work in a real TUI. Pane toggles operate while terminal mode is focused.
+- **FR-41**: Replacement preview has a visible Apply all action backed by the
+  pinned engine. Tests prove preview preserves files and explicit application
+  changes only the requested fixture.

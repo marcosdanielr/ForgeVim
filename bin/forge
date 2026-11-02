@@ -2,6 +2,13 @@
 # Launch Neovim directly; Python is reserved for agent orchestration.
 set -eu
 forge_directory=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
+case "${1:-}" in
+  --doctor|--update|--uninstall)
+    forge_operation="${1#--}"
+    shift
+    exec python3 "$forge_directory/scripts/install.py" "$forge_operation" "$@"
+    ;;
+esac
 forge_nvim=${FORGE_NVIM:-nvim}
 if ! command -v "$forge_nvim" >/dev/null 2>&1; then
   echo "Neovim >= 0.11 is required. Install it or set FORGE_NVIM." >&2

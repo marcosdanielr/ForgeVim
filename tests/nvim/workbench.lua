@@ -37,6 +37,13 @@ return function(source)
     vim.fn.maparg("<S-Tab>", "n", false, true).desc == "Previous buffer / terminal",
     "VIMarcos Shift Tab alias missing"
   )
+  require("forge.features.layout").logs()
+  assert(not windows.get("logs"), "Logs did not hide")
+  require("forge.features.layout").logs()
+  assert(windows.get("logs"), "Logs toggle opened a different panel")
+  require("forge.features.terminal").toggle()
+  assert(not windows.get("terminal"), "Terminal welcome did not hide")
+  require("forge.features.workbench.empty").open("terminal", { position = "below", size = 10 })
   local chat = windows.get("chat")
   local navigation = windows.get("activity")
   local editor = windows.editor()
@@ -94,6 +101,21 @@ return function(source)
   local diagnostics_config = vim.diagnostic.config()
   assert(type(diagnostics_config.virtual_text) == "table", "Inline diagnostic messages disabled")
   assert(diagnostics_config.underline, "Diagnostic underlines disabled")
+  for _, command in ipairs({ "ForgeAgents", "ForgeTree", "ForgePanelLogs", "ForgeNavigation" }) do
+    local found = false
+    for _, action in ipairs(require("forge.core.actions")) do
+      if action.command == command then
+        assert(action.terminal, "Panel toggle unavailable inside terminal: " .. command)
+        local key = require("forge.features.shortcuts").keys(action)[1]
+        assert(
+          vim.fn.maparg(key, "t"):find(command, 1, true),
+          "Terminal toggle did not bind: " .. command
+        )
+        found = true
+      end
+    end
+    assert(found)
+  end
   assert(vim.o.laststatus == 3, "Global bottom statusbar missing")
   local config = require("forge.core.config").options
   local original_icons, original_branch = config.nerd_fonts, vim.t.forge_chrome_branch

@@ -128,6 +128,34 @@ local function exercise()
   require("telescope").load_extension("ui-select")
   require("grug-far").open({ prefills = { search = "fixture" } })
   vim.wait(200)
+  local fixture = vim.fn.tempname() .. ".txt"
+  vim.fn.writefile({ "before needle after" }, fixture)
+  require("grug-far").open({
+    prefills = {
+      search = "needle",
+      replacement = "replacement",
+      paths = fixture,
+      flags = "--fixed-strings --case-sensitive",
+    },
+  })
+  local preview_buffer = vim.api.nvim_get_current_buf()
+  assert(
+    vim.wait(5000, function()
+      return table
+        .concat(vim.api.nvim_buf_get_lines(preview_buffer, 0, -1, false), "\n")
+        :find("before needle after", 1, true)
+    end),
+    "Replacement preview did not show matches"
+  )
+  assert(vim.fn.readfile(fixture)[1] == "before needle after", "Opening preview changed the file")
+  require("forge.features.search.preview").apply()
+  assert(
+    vim.wait(5000, function()
+      return vim.fn.readfile(fixture)[1] == "before replacement after"
+    end),
+    "Explicit apply action did not replace text"
+  )
+  vim.fn.delete(fixture)
   assert(#errors == 0, table.concat(errors, "\n"))
 end
 

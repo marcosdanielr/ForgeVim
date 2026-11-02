@@ -15,6 +15,14 @@ function M.refresh()
   for _, action in ipairs(require("forge.core.actions")) do
     local configured = saved[action.command] or action.keys
     local key = configured[1] or "Unbound"
+    if action.command == "ForgeTerminal" then
+      for _, candidate in ipairs(configured) do
+        if candidate:find("<leader>", 1, true) then
+          key = candidate
+          break
+        end
+      end
+    end
     if action.command == "ForgeAgents" then
       key = configured[#configured] or key
     end
@@ -22,7 +30,9 @@ function M.refresh()
       :gsub("<leader>", "Leader ")
       :gsub("<C%-S%-([^>]+)>", "Ctrl Shift %1")
       :gsub("<C%-([^>]+)>", "Ctrl %1")
+      :gsub("<M%-([^>]+)>", "Alt %1")
       :gsub("<([^>]+)>", "%1")
+      :gsub("CR", "Enter")
   end
   vim.cmd("redrawstatus")
 end
@@ -35,6 +45,10 @@ function M.get(id)
     id = "terminal"
   end
   return keys[commands[id]] or "q hide"
+end
+
+function M.command(command)
+  return keys[command] or "Unbound"
 end
 
 function M.setup()

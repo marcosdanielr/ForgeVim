@@ -36,7 +36,7 @@ local content = {
       "",
       "  Hidden terminals keep running.",
     },
-    actions = { ["<CR>"] = "ForgeTerminal", n = "ForgeTerminalNew" },
+    actions = { ["<CR>"] = "ForgeTerminalNew", n = "ForgeTerminalNew" },
   },
   logs = {
     title = "Agent logs",
