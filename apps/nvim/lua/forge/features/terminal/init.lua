@@ -45,6 +45,9 @@ end
 function M.toggle()
   local windows = require("forge.features.panels.windows")
   local current = state()
+  if #current.sessions == 0 then
+    return M.new(false)
+  end
   local visible = windows.get("terminal") ~= nil
   for _, slot in ipairs(current.splits) do
     visible = windows.get(slot) ~= nil or visible

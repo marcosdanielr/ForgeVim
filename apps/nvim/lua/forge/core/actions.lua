@@ -13,6 +13,12 @@ end
 
 return {
   {
+    command = "ForgeNavigation",
+    label = "Toggle workspace navigation",
+    keys = { "<leader>pn" },
+    run = feature("features.workbench.activity", "toggle"),
+  },
+  {
     command = "ForgeNewFile",
     label = "Create a file",
     keys = { "<C-n>", "<leader>fn" },

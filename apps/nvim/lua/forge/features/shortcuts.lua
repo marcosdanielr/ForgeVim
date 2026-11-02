@@ -37,6 +37,7 @@ function M.save(action, keys)
   end
   state.keymaps[action.command] = keys
   require("forge.core.state").write(state)
+  vim.api.nvim_exec_autocmds("User", { pattern = "ForgeShortcutsChanged" })
   vim.notify("Shortcuts saved and applied")
 end
 

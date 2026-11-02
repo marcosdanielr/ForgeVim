@@ -16,23 +16,39 @@ function M.render(state, message)
   local window = vim.fn.bufwinid(state.buffer)
   local previous_row = window > 0 and vim.api.nvim_win_get_cursor(window)[1] or 1
   local previous = (vim.b[state.buffer].forge_agent_rows or {})[tostring(previous_row)]
-  local lines =
-    { "", "  AGENTS", "", "  [n] New task    [c] CLI chat", "  [r] Refresh    [Enter] Actions", "" }
+  local width = window > 0 and vim.api.nvim_win_get_width(window) or 36
+  local inner = math.max(10, width - 6)
+  local lines = { "", "  [n] New task", "  [c] New CLI chat", "  [r] Refresh", "" }
   local rows, highlights = {}, {}
+  local function card_line(text, task, group)
+    text = vim.fn.strcharpart(text, 0, inner)
+    lines[#lines + 1] = "  │ "
+      .. text
+      .. string.rep(" ", math.max(0, inner - vim.fn.strdisplaywidth(text)))
+      .. " │"
+    rows[tostring(#lines)] = task
+    highlights[#lines] = group
+  end
   if message then
     lines[#lines + 1] = "  " .. message
   elseif #state.tasks == 0 then
-    lines[#lines + 1] = "  No tasks in this project."
-    lines[#lines + 1] = "  Start a task or open a CLI chat."
+    lines[#lines + 1] = "  No agents yet."
+    lines[#lines + 1] = ""
+    lines[#lines + 1] = "  Start a task"
+    lines[#lines + 1] = "  or CLI chat."
+    lines[#lines + 1] = ""
+    lines[#lines + 1] = "  Review changes"
+    lines[#lines + 1] = "  before applying."
   else
     for _, task in ipairs(state.tasks) do
-      lines[#lines + 1] = "  " .. task.provider .. "  [" .. task.status .. "]"
-      highlights[#lines] = groups[task.status] or "Comment"
-      rows[tostring(#lines)] = task
-      lines[#lines + 1] = "  " .. task.prompt:gsub("[\r\n]", " "):sub(1, 80)
-      rows[tostring(#lines)] = task
-      lines[#lines + 1] = "  " .. task.id
-      rows[tostring(#lines)] = task
+      local group = groups[task.status] or "Comment"
+      lines[#lines + 1] = "  ╭" .. string.rep("─", inner + 2) .. "╮"
+      highlights[#lines] = group
+      card_line(task.provider .. " · " .. task.status, task, group)
+      card_line(task.prompt:gsub("[\r\n]", " "), task, "ForgeSurface")
+      card_line(task.id, task, "ForgeMuted")
+      lines[#lines + 1] = "  ╰" .. string.rep("─", inner + 2) .. "╯"
+      highlights[#lines] = group
       lines[#lines + 1] = ""
     end
   end

@@ -117,3 +117,15 @@ tasks are active, preserving lost-worker detection and older state compatibility
 No model logs or editor keystrokes trigger status reads. Existing status/log/event
 queries reuse the store without bootstrapping Git; mutating and review operations
 retain full Git validation.
+
+## Workbench composition
+
+`features/workbench` owns palette, native window frames, cached buffer tabs,
+activity navigation, and actionable empty states. `features/layout` composes these
+with Explorer and the existing agent/terminal panels according to available screen
+space and saved startup preferences. Every pane is a native split; there is no
+second renderer or GUI runtime. Winbars and local statuslines provide framing.
+User-selected themes remain authoritative; the default Tokyo Night palette adds
+contrasting editor and panel surfaces. The chat pane hosts the official CLI after
+an explicit conversation action; its welcome state does not imply a custom
+orchestrator or model connection. No plan or progress is invented for presentation.

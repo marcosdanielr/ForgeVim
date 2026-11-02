@@ -52,6 +52,24 @@ local function exercise()
   )
   vim.fn.maparg("l", "n", false, true).callback()
   assert(vim.api.nvim_get_current_buf() == document, "Explorer l did not open file in editor")
+  vim.o.columns, vim.o.lines = 190, 58
+  require("forge.features.layout").open()
+  require("forge.features.git").tree()
+  assert(not require("nvim-tree.api").tree.is_visible(), "Tree did not hide")
+  require("forge.features.git").tree()
+  local tree_window = require("nvim-tree.api").tree.winid()
+  local panels = require("forge.features.panels.windows")
+  local navigation = assert(panels.get("activity"))
+  assert(
+    vim.api.nvim_win_get_position(navigation.window)[2]
+      < vim.api.nvim_win_get_position(tree_window)[2],
+    "Reopening explorer reordered navigation"
+  )
+  panels.focus_editor()
+  assert(vim.api.nvim_get_current_buf() == document, "Reopening explorer replaced source")
+  for _, id in ipairs({ "activity", "agents", "chat", "logs", "terminal" }) do
+    panels.hide(id)
+  end
   require("nvim-tree.api").tree.close()
   require("forge.features.git").history()
   assert(

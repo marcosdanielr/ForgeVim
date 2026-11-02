@@ -19,6 +19,17 @@ function M.layout()
       enabled = require("forge.features.layout").enabled("agents"),
     },
   }
+  for _, panel in ipairs({
+    { "Navigation rail", "navigation" },
+    { "CLI chat", "chat" },
+    { "Output dock", "output" },
+  }) do
+    choices[#choices + 1] = {
+      label = panel[1],
+      key = panel[2],
+      enabled = require("forge.features.layout").enabled(panel[2]),
+    }
+  end
   require("forge.features.picker").select(choices, {
     prompt = "Startup layout (saved for next launch)",
     format_item = function(item)

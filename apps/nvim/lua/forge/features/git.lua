@@ -73,7 +73,12 @@ function M.conflicts()
 end
 
 function M.tree()
-  require("nvim-tree.api").tree.toggle({ path = require("forge.core.project").root() })
+  local tree = require("nvim-tree.api").tree
+  if tree.is_visible() then
+    return tree.close()
+  end
+  tree.open({ path = require("forge.core.project").root() })
+  require("forge.features.workbench.activity").reanchor(tree.winid())
 end
 
 function M.lazygit()

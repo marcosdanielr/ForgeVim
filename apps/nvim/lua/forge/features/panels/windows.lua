@@ -82,7 +82,8 @@ function M.show(id, buffer, options)
     vim.api.nvim_win_set_buf(visible.window, buffer)
     visible.buffer = buffer
     visible.on_hide = options.on_hide
-    vim.wo[visible.window].winbar = "  " .. (options.title or id):gsub("%%", "%%%%")
+    vim.w[visible.window].forge_panel_title = options.title or id
+    require("forge.features.workbench.frame").apply(visible.window)
     if options.focus ~= false then
       vim.api.nvim_set_current_win(visible.window)
     end
@@ -93,7 +94,7 @@ function M.show(id, buffer, options)
   if configuration.split == "above" or configuration.split == "below" then
     configuration.height = math.max(5, math.min(options.size or 12, math.floor(vim.o.lines / 2)))
   else
-    configuration.width = math.max(24, math.min(options.size or 38, math.floor(vim.o.columns / 3)))
+    configuration.width = math.max(18, math.min(options.size or 38, math.floor(vim.o.columns / 3)))
   end
   local window = vim.api.nvim_open_win(buffer, options.focus ~= false, configuration)
   state.panels[id] = { window = window, buffer = buffer, on_hide = options.on_hide }
@@ -110,10 +111,13 @@ function M.show(id, buffer, options)
       end
     end,
   })
+  vim.wo[window].wrap = true
+  vim.wo[window].linebreak = true
   vim.wo[window].number = false
   vim.wo[window].relativenumber = false
   vim.wo[window].signcolumn = "no"
-  vim.wo[window].winbar = "  " .. (options.title or id):gsub("%%", "%%%%")
+  vim.w[window].forge_panel_title = options.title or id
+  require("forge.features.workbench.frame").apply(window)
   vim.wo[window].winfixwidth = configuration.width ~= nil
   vim.wo[window].winfixheight = configuration.height ~= nil
   return window

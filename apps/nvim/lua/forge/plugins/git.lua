@@ -52,6 +52,7 @@ return {
         on_attach = require("forge.features.explorer").attach,
         update_focused_file = { enable = true },
         renderer = {
+          root_folder_label = ":t",
           indent_markers = { enable = true },
           icons = {
             show = { file = icons, folder = icons, folder_arrow = true, git = icons },

@@ -2,6 +2,16 @@ local M = {}
 
 function M.open()
   local root = require("forge.core.project").root()
+  local previous_buffer = vim.api.nvim_get_current_buf()
+  if
+    vim.bo[previous_buffer].buftype == ""
+    and vim.api.nvim_buf_get_name(previous_buffer) == ""
+    and not vim.bo[previous_buffer].modified
+    and vim.api.nvim_buf_line_count(previous_buffer) == 1
+    and vim.api.nvim_buf_get_lines(previous_buffer, 0, 1, false)[1] == ""
+  then
+    vim.bo[previous_buffer].buflisted = false
+  end
   local buffer = vim.api.nvim_create_buf(false, true)
   vim.api.nvim_set_current_buf(buffer)
   vim.api.nvim_buf_set_name(buffer, "Forge Workspace " .. buffer)

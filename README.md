@@ -31,7 +31,7 @@ the checkout is `/Volumes/DEV_SSD/Projects/forge.nvim`.
 
 An empty interactive launch opens a Tokyo Night workspace with the project tree,
 Git status, visible actions, and keyboard hints. Press `f` to find a file, `g` for
-source control, `r` to review changes, or `a` for agents. Press the displayed letter
+source control, `v` to review changes, or `a` for agents. Press the displayed letter
 or move with `j`/`k` and press Enter. Existing files and piped input open normally.
 Return with `:ForgeWorkspace` (Space u w). Set `workspace = false` to disable the
 welcome screen. Themes and saved user preferences remain customizable.
@@ -226,12 +226,14 @@ skill directories are symlinks for discovery, not duplicate files.
 Use F1 for a beginner guide with your actual configured shortcuts. The top bar
 shows common actions. `:ForgeSettings` (Space u s) groups theme, keys, languages,
 plugins, provider login, notifications, and startup layout. The default wide
-layout shows files, the editor, and Agents. Narrow terminals keep side panels
+layout shows a navigation rail, separate Explorer, editor buffer tabs, Agents,
+chat welcome, and an output dock. These empty panes start no shell or model.
+Use Startup layout in Settings to choose which panes appear. Narrow terminals keep side panels
 available by shortcut. Mouse focus, split resizing, and panel double-clicks work.
 
 | Action | Default keys |
 | --- | --- |
-| Toggle files | Ctrl B / Space p e |
+| Toggle navigation / files | Space p n / Ctrl B; Space p e |
 | Toggle Agents | Space p a |
 | Toggle CLI chat / create conversation | Space p c / Space a C |
 | Toggle terminal / new terminal | Ctrl backtick / Ctrl Shift backtick; Space o t / Space o T |

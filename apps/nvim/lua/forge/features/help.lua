@@ -14,6 +14,7 @@ function M.open()
     "",
   }
   local wanted = {
+    ForgeNavigation = true,
     ForgeTree = true,
     ForgeAgents = true,
     ForgeChat = true,

@@ -20,6 +20,8 @@ local function exercise()
   require("forge.features.buffers").cycle_next()
   assert(vim.api.nvim_get_current_buf() == second_file, "Buffer next did not restore source file")
   assert(vim.o.mouse == "a", "Mouse support disabled")
+  dofile(require("forge").root .. "/tests/nvim/workbench.lua")(first_file)
+  vim.api.nvim_win_set_buf(windows.editor(), second_file)
   vim.o.shell = "/bin/sh"
   local terminal = require("forge.features.terminal")
   local first = terminal.new(false)

@@ -66,3 +66,17 @@ because the underlying protocol could eventually support it.
 - **FR-26**: Search/replacement exposes file/project scope, case matching, whole words, and regex; preview is non-mutating.
 - **FR-27**: Settings expose theme, keymaps, providers, languages, plugins, notifications, and persisted startup-panel choices without requiring Lua edits.
 - **NFR-12 Interactive transport**: PTY ownership, input/output draining, resize forwarding, cancellation, heartbeat, and source isolation have fixture coverage. Real provider account interoperability is verified separately.
+
+## Workbench presentation acceptance
+
+- **FR-28**: At 150 or more columns, startup can show a navigation rail, separate
+  Explorer, central editor, Agents, and right-side chat. At 40 or more rows, the
+  wide layout can include an output dock. At 120–149 columns, chat and Agents share
+  one right column; below 120 columns, these panes remain available on demand.
+- **FR-29**: Source buffers appear as clickable tabs. Native line numbers, signs,
+  modes, keyboard window navigation, and mouse support remain available.
+- **FR-30**: Chat presents provider connection and new-conversation actions. Output
+  presents terminal actions. Empty startup panes create no shell or model process.
+- **NFR-13 Presentation cost**: Project context and buffer lists are cached outside
+  redraw functions. Tests verify source preservation, native pane geometry,
+  mouse activation, visibility toggles, and Explorer reopening order.

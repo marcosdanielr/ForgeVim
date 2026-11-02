@@ -69,7 +69,7 @@ function M.refresh()
   end
 end
 
-function M.open(focus)
+function M.open(focus, placement)
   local tab = vim.api.nvim_get_current_tabpage()
   local root = require("forge.core.project").root()
   local state = states[tab]
@@ -105,6 +105,16 @@ function M.open(focus)
     vim.keymap.set("n", "q", M.toggle, vim.tbl_extend("force", options, { desc = "Hide agents" }))
     for _, key in ipairs({ "<CR>", "<2-LeftMouse>" }) do
       vim.keymap.set("n", key, function()
+        local row = vim.api.nvim_win_get_cursor(0)[1]
+        if row == 2 then
+          return vim.cmd("ForgeAgentStart")
+        end
+        if row == 3 then
+          return vim.cmd("ForgeChatNew")
+        end
+        if row == 4 then
+          return M.refresh()
+        end
         local task = selected()
         if task then
           require("forge.features.agents.actions").open(task)
@@ -131,14 +141,23 @@ function M.open(focus)
     })
   end
   require("forge.features.agents.panel_view").render(state)
-  require("forge.features.panels.windows").show("agents", state.buffer, {
-    title = "Agents  /  n task  c chat  Enter actions",
-    focus = focus,
-    size = 36,
-    on_hide = function()
-      stop(state)
-    end,
-  })
+  local windows = require("forge.features.panels.windows")
+  local neighbor = windows.get("activity") or windows.get("chat")
+  placement = placement
+    or (neighbor and { anchor = neighbor.window, position = "below", size = 18 })
+    or {}
+  windows.show(
+    "agents",
+    state.buffer,
+    vim.tbl_extend("force", {
+      title = "Agents  /  n new  Enter actions",
+      focus = focus,
+      size = 36,
+      on_hide = function()
+        stop(state)
+      end,
+    }, placement)
+  )
   M.refresh()
 end
 

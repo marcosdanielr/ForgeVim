@@ -4,7 +4,12 @@ local selected = {}
 local collapsed_agents = {}
 
 local function make_room()
-  if vim.o.columns < 170 and require("forge.features.panels.windows").get("agents") then
+  if
+    vim.o.columns < 170
+    and not require("forge.features.panels.windows").get("chat")
+    and not require("forge.features.panels.windows").get("activity")
+    and require("forge.features.panels.windows").get("agents")
+  then
     collapsed_agents[vim.api.nvim_get_current_tabpage()] = true
     require("forge.features.panels.windows").hide("agents")
   end
@@ -103,7 +108,10 @@ function M.toggle()
     make_room()
     require("forge.features.terminal.session").show(session, { position = "right", size = 44 })
   else
-    M.new()
+    require("forge.features.workbench.empty").open(
+      "chat",
+      { position = "right", size = 40, focus = true }
+    )
   end
 end
 

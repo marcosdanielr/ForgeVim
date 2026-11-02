@@ -121,3 +121,18 @@ plugin integration, machine setup record, and docs/languages.md.
 
 - **BR-AG-17**: Existing task/status/log/event reads do not bootstrap Git or recreate the schema. Task creation, review, and application retain repository validation.
 - **BR-AG-18**: UI wakeups follow committed lifecycle events, never heartbeats or token output. The marker is a hint, not authoritative state. A shared active-task fallback preserves visibility if file events are unavailable.
+
+## Workbench presentation
+
+- **BR-ED-19**: Wide startup layouts add native navigation, Explorer, editor,
+  Agents, chat, and output panes. Chat and output start as actionable empty states;
+  they must never launch a shell, model, or provider authentication automatically.
+- **BR-ED-20**: Startup layout choices persist independently of the welcome screen.
+  Width and height thresholds preserve editing space; hidden panes remain available
+  through named actions. Decorations must preserve native window navigation,
+  source buffers, signs, line numbers, and user-selected themes.
+- **BR-ED-21**: Window decoration reads cached buffer/project metadata. It must not
+  launch Git or Python from statusline, winbar, or tabline redraw functions.
+
+Owners: `features/workbench`, `features/chrome`, `features/layout`,
+`features/panels/windows`. Verification: native workbench and plugin integration tests.
