@@ -94,7 +94,7 @@ BR-LANG-02: installing tools requires an explicit profile action. SDK/runtime
 installation is separate, visible, and never applied to every distribution user.
 BR-LANG-03: disabling preserves downloaded tools and project files. Restart
 refreshes active language/plugin state.
-BR-LANG-04: FlutterTools alone owns Dart LSP and DAP integration; never start a
+BR-LANG-04: FlutterTools is declared only in personal plugin configuration; the distribution contains no bundled FlutterTools plugin spec. When explicitly configured, FlutterTools alone owns Dart LSP and DAP integration; never start a
 second dartls for the same profile. DevTools and widget guides stay opt-in.
 BR-LANG-05: personal SDK paths affect Forge and its children only. Never rewrite
 global shell profiles from language selection. Evidence: native profile smoke,

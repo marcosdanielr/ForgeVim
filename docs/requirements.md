@@ -117,3 +117,5 @@ because the underlying protocol could eventually support it.
   changes only the requested fixture.
 
 - **FR-42**: CLI chats and terminals receive spaces and printable text unchanged. Leader shortcuts require terminal-normal mode; modified window/terminal keys remain available while typing.
+
+- **FR-43**: Personal lazy.nvim plugin specifications are supported without editing distribution files. FlutterTools requires an explicit personal declaration; selecting the Dart profile alone never installs it.

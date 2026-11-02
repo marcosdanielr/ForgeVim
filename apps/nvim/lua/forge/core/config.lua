@@ -13,6 +13,7 @@ function M.setup()
     notifications = true,
     nerd_fonts = true,
     languages = {},
+    plugin_specs = {},
     tool_paths = {},
   }
   local path = vim.fn.stdpath("config") .. "/lua/user.lua"

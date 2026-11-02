@@ -156,3 +156,5 @@ repositories and prefixes rather than the user's global installation.
 `features/terminal/toolbar` renders keyboard/mouse controls using actual sessions.
 `features/search/preview` adapts the public grug-far instance API for explicit
 application. Both reuse native window headers and cached shortcut labels.
+
+Personal `plugin_specs` are merged into the lazy.nvim specification by the plugin feature. FlutterTools declarations belong to personal configuration; the distribution documents a recipe and retains optional Dart profile/action metadata without installing FlutterTools.

@@ -47,6 +47,18 @@ local function exercise()
   local state = require("forge.core.state")
   state.write({ plugins = {}, theme = "habamax" })
   assert(state.read().theme == "habamax")
+  local plugin_options = require("forge.core.config").options
+  assert(#plugin_options.plugin_specs == 0, "Personal plugins enabled by default")
+  plugin_options.plugin_specs = { { import = "personal.plugins", opts = { fixture = true } } }
+  local specifications = require("forge.features.plugins").spec()
+  assert(specifications[1].import == "personal.plugins", "Personal plugin import was lost")
+  specifications[1].opts.fixture = false
+  assert(plugin_options.plugin_specs[1].opts.fixture, "Plugin resolution mutated personal config")
+  plugin_options.plugin_specs = {}
+  assert(
+    not vim.uv.fs_stat(require("forge").directory .. "/lua/forge/plugins/flutter.lua"),
+    "Flutter plugin is still bundled"
+  )
   local selection = require("forge.languages.selection")
   assert(not selection.enabled("python"), "Language profile enabled without opt-in")
   selection.set("python", true)

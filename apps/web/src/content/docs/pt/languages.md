@@ -47,6 +47,74 @@ Instale Flutter estável; Dart já vem incluído. Ative o perfil **Flutter / Dar
 FlutterTools gerencia dartls; Forge não ativa outro dartls pelo nvim-lspconfig,
 evitando dois servidores para o mesmo projeto.
 
+### Instalação opcional do FlutterTools
+
+O Forge não inclui uma declaração padrão do FlutterTools. Ativar o perfil Dart
+sozinho não instala o plugin. A configuração fica nos arquivos pessoais de quem
+escolher Flutter.
+
+Em `~/.config/forge.nvim/lua/user.lua`, adicione este campo sem apagar suas outras
+preferências:
+
+```lua
+return {
+  plugin_specs = { { import = "plugins" } },
+}
+```
+
+Crie `~/.config/forge.nvim/lua/plugins/flutter.lua`:
+
+```lua
+return {
+  {
+    "nvim-flutter/flutter-tools.nvim",
+    enabled = require("forge.languages.selection").enabled("dart"),
+    ft = { "dart" },
+    cmd = { "FlutterCommands", "FlutterRun", "FlutterDevices", "FlutterOutlineToggle" },
+    dependencies = { "nvim-lua/plenary.nvim", "saghen/blink.cmp", "mfussenegger/nvim-dap" },
+    opts = function()
+      return {
+        debugger = { enabled = true, evaluate_to_string_in_debug_views = false },
+        outline = { icons = require("forge.core.config").options.nerd_fonts },
+        dev_tools = { autostart = false, auto_open_browser = false },
+        widget_guides = { enabled = false },
+        lsp = {
+          capabilities = require("blink.cmp").get_lsp_capabilities(),
+          settings = { completeFunctionCalls = true, updateImportsOnRename = true },
+        },
+      }
+    end,
+  },
+}
+```
+
+Ative Dart em `:ForgeLanguages`, reinicie e confira a instalação em `:Lazy`.
+Quem usava a configuração Flutter anterior precisa adicionar essa declaração.
+Os arquivos pessoais são preservados nas atualizações. Para deixar de carregar o
+plugin, remova sua declaração e reinicie; SDKs e projetos permanecem intactos.
+Com `XDG_CONFIG_HOME` personalizado, use sua pasta `forge.nvim` correspondente.
+
+### Menus visuais opcionais
+
+Crie `~/.config/forge.nvim/after/ftplugin/dart.lua`:
+
+```lua
+if not require("forge.languages.selection").enabled("dart") then
+  return
+end
+require("telescope").load_extension("flutter")
+require("telescope").load_extension("ui-select")
+```
+
+Reinicie e abra Dart. `Leader D m` abre comandos Flutter; `Leader c a`, com o
+cursor no widget, mostra ações disponíveis como envolver ou extrair widgets.
+`Leader D o` mostra/oculta a árvore do arquivo. Nela, `j`/`k` navegam, Enter vai ao
+código e `q` fecha. A árvore não insere widgets diretamente.
+
+A extensão `ui-select` também apresenta outros menus do editor com Telescope após
+abrir Dart, até encerrar a sessão. Ela não inicia app, emulador, DevTools ou outro
+servidor Dart. Para desfazer, remova esse arquivo e reinicie.
+
 | Comando              | Atalho          | Ação                 |
 | -------------------- | --------------- | -------------------- |
 | :ForgeFlutterDevices | Leader D d      | Escolher dispositivo |

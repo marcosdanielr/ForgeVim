@@ -16,6 +16,12 @@ function M.command(name)
       vim.log.levels.INFO
     )
   end
+  if not require("lazy.core.config").plugins["flutter-tools.nvim"] then
+    return vim.notify(
+      "Configure the optional FlutterTools plugin in your personal config; see docs/languages.md",
+      vim.log.levels.WARN
+    )
+  end
   vim.cmd(name)
 end
 

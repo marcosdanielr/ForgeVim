@@ -14,7 +14,7 @@ function M.enabled(repository, default)
 end
 
 function M.spec()
-  local result = {}
+  local result = vim.deepcopy(require("forge.core.config").options.plugin_specs or {})
   for repository, enabled in pairs(require("forge.core.state").read().plugins) do
     local known = false
     for _, item in ipairs(catalog) do

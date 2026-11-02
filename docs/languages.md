@@ -2,7 +2,7 @@
 
 All language profiles start disabled for a new user. Installing a binary alone
 never enables its server. Profiles start servers only for matching files, and
-Flutter tooling loads only for Dart files or explicit Flutter commands.
+personal Flutter tooling loads only for its configured file events or commands.
 
 ## Guided setup
 
@@ -50,6 +50,54 @@ Use a stable Flutter SDK. It already includes Dart; do not install competing Dar
 SDK paths ahead of it. Enable the **Flutter / Dart** profile after the SDK is on
 Forge's PATH. flutter-tools owns the Dart language server: Forge deliberately does
 not also enable nvim-lspconfig's dartls, preventing duplicate analysis processes.
+
+### Install the optional Flutter plugin
+
+The distribution does not declare FlutterTools as a bundled plugin. Enabling the
+Dart profile alone does not install FlutterTools. Declare it in your personal
+configuration; other users do not receive it.
+
+In `~/.config/forge.nvim/lua/user.lua`, merge this field with existing settings:
+
+```lua
+return {
+  plugin_specs = { { import = "plugins" } },
+}
+```
+
+Create `~/.config/forge.nvim/lua/plugins/flutter.lua`:
+
+```lua
+return {
+  {
+    "nvim-flutter/flutter-tools.nvim",
+    enabled = require("forge.languages.selection").enabled("dart"),
+    ft = { "dart" },
+    cmd = { "FlutterCommands", "FlutterRun", "FlutterDevices", "FlutterOutlineToggle" },
+    dependencies = { "nvim-lua/plenary.nvim", "saghen/blink.cmp", "mfussenegger/nvim-dap" },
+    opts = function()
+      return {
+        debugger = { enabled = true, evaluate_to_string_in_debug_views = false },
+        outline = { icons = require("forge.core.config").options.nerd_fonts },
+        dev_tools = { autostart = false, auto_open_browser = false },
+        widget_guides = { enabled = false },
+        lsp = {
+          capabilities = require("blink.cmp").get_lsp_capabilities(),
+          settings = { completeFunctionCalls = true, updateImportsOnRename = true },
+        },
+      }
+    end,
+  },
+}
+```
+
+Enable the Dart profile in `:ForgeLanguages`, restart, and use `:Lazy` to check
+installation. These personal files survive distribution updates. Users upgrading
+from bundled Flutter support must add this declaration to retain their setup.
+Delete the personal plugin declaration and restart to remove it from the active
+plugin configuration; this does not delete SDKs, projects, or installed plugin
+files. `plugin_specs` accepts native lazy.nvim declarations for other optional
+integrations too. Use `$XDG_CONFIG_HOME/forge.nvim` instead if configured.
 
 | Command | Default shortcut | Purpose |
 | --- | --- | --- |
