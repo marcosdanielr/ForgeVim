@@ -1,5 +1,19 @@
 local M = {}
 
+-- Some lspconfig servers define cmd as a function; name their executable explicitly.
+local function_command_binaries = {
+  ts_ls = "typescript-language-server",
+  astro = "astro-ls",
+  html = "vscode-html-language-server",
+  cssls = "vscode-css-language-server",
+}
+
+local function executable(name)
+  local command = vim.lsp.config[name].cmd
+  local binary = type(command) == "table" and command[1] or function_command_binaries[name]
+  return binary ~= nil and vim.fn.executable(binary) == 1
+end
+
 function M.setup()
   local capabilities = require("blink.cmp").get_lsp_capabilities()
   local servers = {
@@ -33,12 +47,7 @@ function M.setup()
   for name, options in pairs(servers) do
     options.capabilities = capabilities
     vim.lsp.config(name, options)
-    local command = vim.lsp.config[name].cmd
-    if
-      require("forge.languages.selection").server_enabled(name)
-      and type(command) == "table"
-      and vim.fn.executable(command[1]) == 1
-    then
+    if require("forge.languages.selection").server_enabled(name) and executable(name) then
       vim.lsp.enable(name)
     end
   end
