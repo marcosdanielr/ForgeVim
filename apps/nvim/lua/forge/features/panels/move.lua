@@ -69,21 +69,12 @@ local function buffer(choice)
   return value
 end
 
-local function open_picker(id, title, editor)
-  local width = vim.api.nvim_win_get_width(editor)
-  local height = vim.api.nvim_win_get_height(editor)
-  if width < 70 or height < 18 then
-    return vim.ui.select(M.choices, {
-      prompt = "Move " .. title,
-      format_item = function(choice)
-        return choice.key .. "  " .. choice.title
-      end,
-    }, function(choice)
-      if choice then
-        require("forge.features.panels.windows").move(id, choice.position)
-      end
-    end)
-  end
+local function open_picker(id, title)
+  -- The picker must not shrink with its source panel. Once a panel moves to a
+  -- side, its editor window can be too narrow for a useful four-zone layout.
+  -- The global editor surface keeps the same visual picker on every invocation.
+  local width = vim.o.columns
+  local height = vim.o.lines - vim.o.cmdheight
   local windows = {}
   local function select(choice)
     close(windows)
@@ -93,8 +84,7 @@ local function open_picker(id, title, editor)
     local area = zone(choice, width, height)
     local value = buffer(choice)
     local window = vim.api.nvim_open_win(value, false, {
-      relative = "win",
-      win = editor,
+      relative = "editor",
       row = area.row,
       col = area.col,
       width = area.width,
@@ -128,8 +118,7 @@ local function open_picker(id, title, editor)
   })
   local prompt_width = math.min(width - 8, 54)
   local prompt_window = vim.api.nvim_open_win(prompt, true, {
-    relative = "win",
-    win = editor,
+    relative = "editor",
     row = math.floor((height - 5) / 2),
     col = math.floor((width - prompt_width) / 2),
     width = prompt_width,
@@ -172,8 +161,7 @@ function M.choose()
   if not id then
     return vim.notify("Focus a Forge panel before moving it", vim.log.levels.WARN)
   end
-  local editor = require("forge.features.panels.windows").editor()
-  open_picker(id, vim.w[window].forge_panel_title or id, editor)
+  open_picker(id, vim.w[window].forge_panel_title or id)
 end
 
 return M
