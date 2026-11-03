@@ -101,7 +101,7 @@ local function exercise()
   assert(state.read().keymaps.ForgeFiles[1] == "<F6>")
   shortcuts.save(selected, nil)
   assert(vim.fn.maparg("<F6>", "n") == "")
-  assert(vim.fn.maparg("<C-p>", "n", false, true).desc == selected.label)
+  assert(vim.fn.maparg(" ff", "n", false, true).desc == selected.label)
   local done, task = false, nil
   require("forge.features.agents.client").request({ "list" }, function(tasks)
     for _, candidate in ipairs(tasks) do

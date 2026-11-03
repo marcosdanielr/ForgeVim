@@ -152,6 +152,24 @@ return {
     run = feature("features.buffers", "choose"),
   },
   {
+    command = "ForgeBufferSplitVertical",
+    label = "Split current buffer vertically",
+    keys = { "<leader>sv" },
+    run = function()
+      require("forge.features.panels.windows").focus_editor()
+      vim.cmd("vsplit")
+    end,
+  },
+  {
+    command = "ForgeBufferSplitHorizontal",
+    label = "Split current buffer horizontally",
+    keys = { "<leader>sh" },
+    run = function()
+      require("forge.features.panels.windows").focus_editor()
+      vim.cmd("split")
+    end,
+  },
+  {
     command = "ForgePanelReview",
     terminal = true,
     label = "Toggle changes review",
@@ -171,6 +189,12 @@ return {
     label = "Toggle agent logs",
     keys = { "<leader>pl" },
     run = feature("features.layout", "logs"),
+  },
+  {
+    command = "ForgePanelMove",
+    label = "Move focused panel",
+    keys = { "<leader>pm" },
+    run = feature("features.panels.move", "choose"),
   },
   {
     command = "ForgeLayout",

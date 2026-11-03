@@ -98,7 +98,10 @@ function M.toggle()
       if panel then
         for _, session in ipairs(current.sessions) do
           if session.buffer == panel.buffer then
-            current.restore[#current.restore + 1] = session
+            current.restore[#current.restore + 1] = {
+              session = session,
+              layout = windows.layout(slot),
+            }
           end
         end
       end
@@ -110,18 +113,16 @@ function M.toggle()
     return
   end
   if current.restore and #current.restore > 0 then
-    local anchor
-    for index, session in ipairs(current.restore) do
-      local options = index == 1 and { position = "below" }
-        or {
-          position = "right",
-          anchor = anchor,
-          size = math.floor((vim.api.nvim_win_get_width(anchor) - 1) / 2),
-        }
-      require("forge.features.terminal.session").show(session, options)
-      if index == 1 then
-        anchor = windows.get(session.slot).window
-      end
+    for _, restored in ipairs(current.restore) do
+      local layout = restored.layout or {}
+      local anchor = layout.anchor_id
+        and layout.anchor_id ~= "editor"
+        and windows.get(layout.anchor_id)
+      require("forge.features.terminal.session").show(restored.session, {
+        position = layout.position or "below",
+        anchor = anchor and anchor.window or windows.editor(),
+        size = layout.size,
+      })
     end
     require("forge.features.terminal.tree").open(current, false)
     return

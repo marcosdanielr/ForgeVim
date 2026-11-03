@@ -141,7 +141,7 @@ resize commands. `workbench/hints` rebuilds displayed shortcuts on preference
 changes and keeps redraw free of settings reads. `features/leader` validates and
 saves one printable key. Startup resolves that preference before registering any
 mapping or loading plugins; live sessions keep their current Leader until restart.
-Buffer Tab aliases explicitly exclude terminal mode. No new backend process is
+Buffer navigation uses Leader ] / Leader [ and never intercepts terminal Tab completion. No new backend process is
 introduced for these controls.
 
 ## Installer boundary

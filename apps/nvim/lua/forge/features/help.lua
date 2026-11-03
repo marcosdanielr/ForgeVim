@@ -42,6 +42,8 @@ function M.open()
     ForgeBufferNext = true,
     ForgeBufferPrevious = true,
     ForgeBuffers = true,
+    ForgeBufferSplitVertical = true,
+    ForgeBufferSplitHorizontal = true,
     ForgeReplace = true,
     ForgeBufferReplace = true,
     ForgeGit = true,
@@ -50,6 +52,7 @@ function M.open()
     ForgeConflicts = true,
     ForgePanelDebug = true,
     ForgePanelReview = true,
+    ForgePanelMove = true,
     ForgeProblems = true,
     ForgeSettings = true,
   }

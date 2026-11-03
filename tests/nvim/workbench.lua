@@ -57,12 +57,12 @@ return function(source)
   assert(vim.fn.maparg("<Tab>", "t") == "", "Buffer aliases intercepted shell Tab completion")
   assert(vim.fn.maparg("<S-Tab>", "t") == "", "Buffer aliases intercepted shell Shift Tab")
   assert(
-    vim.fn.maparg("<Tab>", "n", false, true).desc == "Next buffer / terminal",
-    "VIMarcos Tab alias missing"
+    vim.fn.maparg(" ]", "n", false, true).desc == "Next buffer / terminal",
+    "Leader next-buffer mapping missing"
   )
   assert(
-    vim.fn.maparg("<S-Tab>", "n", false, true).desc == "Previous buffer / terminal",
-    "VIMarcos Shift Tab alias missing"
+    vim.fn.maparg(" [", "n", false, true).desc == "Previous buffer / terminal",
+    "Leader previous-buffer mapping missing"
   )
   require("forge.features.layout").logs()
   assert(not windows.get("logs"), "Logs did not hide")

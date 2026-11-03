@@ -257,7 +257,9 @@ available by shortcut. Mouse focus, split resizing, and panel double-clicks work
 | Split terminal / choose terminal | Leader o s / Leader o o |
 | Next / previous buffer | Leader ] / Leader [ |
 | Choose open buffer | Leader f B |
+| Split current buffer | Leader s v / Leader s h |
 | Toggle review / debug / logs | Leader p r / Leader p d / Leader p l |
+| Move focused panel | Leader p m, then 1 left / 2 right / 3 below / 4 above |
 | Problems / restore panels | Leader p p / Leader p w |
 
 Ctrl H/J/K/L works in normal mode and Forge-owned terminals. Insert-mode editing
@@ -304,6 +306,11 @@ The terminal list opens beside running shells when space permits. Leader o o
 focuses it; j/k selects a row and Enter opens that terminal. n creates, s splits,
 and q hides only the list. Leader o t hides/restores the whole terminal group
 without stopping jobs. Leader o T creates and Leader o s splits from any pane.
+
+Leader s v splits the current source buffer vertically; Leader s h splits it
+horizontally. If a panel comes back in an unwanted location, focus it and use
+Leader p m. Choose 1 left, 2 right, 3 below, or 4 above. Forge keeps that position
+when the panel is hidden and shown again.
 
 ## Performance checks
 

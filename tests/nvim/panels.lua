@@ -13,6 +13,37 @@ local function exercise()
   local windows = require("forge.features.panels.windows")
   vim.cmd.edit(root .. "/sample.txt")
   local first_file = vim.api.nvim_get_current_buf()
+  local fixture = vim.api.nvim_create_buf(false, true)
+  windows.show("layout-fixture", fixture, { position = "below", size = 8 })
+  assert(windows.move("layout-fixture", "left"), "Panel move failed")
+  assert(windows.layout("layout-fixture").position == "left", "Panel position did not save")
+  windows.hide("layout-fixture")
+  windows.show("layout-fixture", fixture, { position = "below", size = 8 })
+  assert(
+    windows.layout("layout-fixture").position == "left",
+    "Hidden panel did not restore its saved position"
+  )
+  windows.hide("layout-fixture")
+  vim.cmd("only")
+  local action
+  for _, candidate in ipairs(require("forge.core.actions")) do
+    if candidate.command == "ForgeBufferSplitVertical" then
+      action = candidate
+    end
+  end
+  require("forge.core.commands").execute(assert(action))
+  assert(#vim.api.nvim_tabpage_list_wins(0) == 2, "Vertical buffer split did not open")
+  assert(vim.api.nvim_get_current_buf() == first_file, "Vertical split changed the source buffer")
+  vim.cmd("only")
+  for _, candidate in ipairs(require("forge.core.actions")) do
+    if candidate.command == "ForgeBufferSplitHorizontal" then
+      action = candidate
+    end
+  end
+  require("forge.core.commands").execute(assert(action))
+  assert(#vim.api.nvim_tabpage_list_wins(0) == 2, "Horizontal buffer split did not open")
+  assert(vim.api.nvim_get_current_buf() == first_file, "Horizontal split changed the source buffer")
+  vim.cmd("only")
   vim.cmd.edit(root .. "/second.txt")
   local second_file = vim.api.nvim_get_current_buf()
   require("forge.features.buffers").cycle_previous()
