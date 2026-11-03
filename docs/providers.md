@@ -13,8 +13,9 @@ This follows Orca's bring-your-own-agent workflow without depending on Orca's ap
 
 Use `:ForgeAgentConnect` to open the official login flow in a Neovim terminal.
 Complete authentication yourself. Gemini opens its CLI; select the account login
-flow and exit when done. `:ForgeAgentStart` asks which provider to use, then starts
-an isolated task. A missing CLI is reported without silently installing anything.
+flow and exit when done. `:ForgeAgentStart` asks which provider to use, then opens
+that provider's interactive conversation in an isolated worktree. A missing CLI is
+reported without silently installing anything.
 
 Claude acceptEdits and Gemini auto_edit permit file edits while preserving other
 provider permission checks. They do not grant blanket shell approval. Operations
@@ -52,7 +53,10 @@ notifications while it is closed and mobile push are future gateway capabilities
 
 ## Interactive terminal lifecycle
 
-`:ForgeChatNew` prepares a queued interactive task without executing a provider.
+`:ForgeAgentStart` and `:ForgeChatNew` prepare a queued interactive task without
+executing a provider. The first is the default agent workflow; the second remains
+available for a direct named conversation. A completed background task can also
+start a fresh interactive provider conversation in its existing worktree.
 The attached terminal runner claims that task once, owns the provider PTY, relays
 input/output and resize events, and updates heartbeat state. Normal exit makes the
 result reviewable; provider errors retain partial changes as failed output.

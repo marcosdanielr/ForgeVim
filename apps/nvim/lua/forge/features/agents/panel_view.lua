@@ -18,7 +18,8 @@ function M.render(state, message)
   local previous = (vim.b[state.buffer].forge_agent_rows or {})[tostring(previous_row)]
   local width = window > 0 and vim.api.nvim_win_get_width(window) or 36
   local inner = math.max(10, width - 6)
-  local lines = { "", "  [n] New task", "  [c] New CLI chat", "  [r] Refresh", "" }
+  local lines =
+    { "", "  [n] New agent conversation", "  [b] Run background task", "  [r] Refresh", "" }
   local rows, highlights = {}, {}
   local function card_line(text, task, group)
     text = vim.fn.strcharpart(text, 0, inner)
@@ -44,7 +45,7 @@ function M.render(state, message)
       local group = groups[task.status] or "Comment"
       lines[#lines + 1] = "  ╭" .. string.rep("─", inner + 2) .. "╮"
       highlights[#lines] = group
-      card_line(task.provider .. " · " .. task.status, task, group)
+      card_line(task.provider .. " · " .. task.mode .. " · " .. task.status, task, group)
       card_line(task.prompt:gsub("[\r\n]", " "), task, "ForgeSurface")
       card_line(task.id, task, "ForgeMuted")
       lines[#lines + 1] = "  ╰" .. string.rep("─", inner + 2) .. "╯"

@@ -511,7 +511,7 @@ return {
   },
   {
     command = "ForgeAgentStart",
-    label = "Start agent task",
+    label = "Start agent conversation",
     keys = { "<leader>an" },
     run = feature("features.agents", "start"),
   },

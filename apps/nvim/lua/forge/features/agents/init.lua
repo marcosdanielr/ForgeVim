@@ -1,16 +1,46 @@
 local M = {}
 local client = require("forge.features.agents.client")
 
-function M.start()
-  local root = require("forge.core.project").root()
+local function clean_workspace(message)
   for _, buffer in ipairs(vim.api.nvim_list_bufs()) do
     if vim.bo[buffer].modified then
-      return vim.notify(
-        "Save buffers and commit or stash changes before starting an agent",
-        vim.log.levels.WARN
-      )
+      vim.notify(message, vim.log.levels.WARN)
+      return false
     end
   end
+  return true
+end
+
+function M.start()
+  if
+    not clean_workspace(
+      "Save buffers and commit or stash changes before starting an agent conversation"
+    )
+  then
+    return
+  end
+  local root = require("forge.core.project").root()
+  require("forge.features.agents.providers").choose(function(provider)
+    vim.ui.input({ prompt = provider.label .. " conversation: " }, function(prompt)
+      if prompt and prompt:match("%S") then
+        client.request({ "chat", "--provider", provider.id, "--prompt=" .. prompt }, function(task)
+          require("forge.features.agents.chat").launch(task)
+          vim.notify(provider.label .. " conversation started in an isolated worktree")
+        end, root)
+      end
+    end)
+  end)
+end
+
+function M.background()
+  if
+    not clean_workspace(
+      "Save buffers and commit or stash changes before starting a background task"
+    )
+  then
+    return
+  end
+  local root = require("forge.core.project").root()
   require("forge.features.agents.providers").choose(function(provider)
     vim.ui.input({ prompt = provider.label .. " task: " }, function(prompt)
       if prompt and prompt:match("%S") then

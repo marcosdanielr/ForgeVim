@@ -52,6 +52,19 @@ class AgentService:
         with self.store.locked():
             return tasks.create(self.store, self.root, prompt, provider, arguments, "interactive")
 
+    def resume(self, task_id):
+        with self.store.locked():
+            task = self.store.get(task_id)
+            policy.require_chat_resume(task["status"])
+            task.update(
+                mode="interactive",
+                command=providers.interactive_command(task["provider"]),
+                status="queued",
+                heartbeat=time.time(),
+                review_hash=None,
+            )
+            return self.store.save(task, "chat_resumed")
+
     def tasks(self):
         with self.store.locked():
             tasks = self.store.tasks()

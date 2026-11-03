@@ -20,6 +20,8 @@ function M.open(task)
     else
       choices[2] = "View saved conversation output"
     end
+  elseif task.status == "ready" or task.status == "failed" then
+    table.insert(choices, 1, "Continue in " .. task.provider .. " conversation")
   end
   require("forge.features.picker").select(
     choices,
@@ -27,6 +29,10 @@ function M.open(task)
     function(action)
       if action == "Show interactive chat" then
         require("forge.features.agents.chat").show(task)
+      elseif action == "Continue in " .. task.provider .. " conversation" then
+        require("forge.features.agents.client").request({ "resume", task.id }, function(resumed)
+          require("forge.features.agents.chat").launch(resumed)
+        end, task.root)
       elseif action == "Review changes" then
         require("forge.features.agents.review").open(task)
       elseif action == "View logs" or action == "View saved conversation output" then

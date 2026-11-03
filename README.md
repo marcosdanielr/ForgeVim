@@ -116,11 +116,15 @@ DAP virtual text is disabled by default to avoid putting variable values inline.
 Install and authenticate Codex, Claude Code, or Gemini CLI separately.
 `:ForgeAgentConnect` opens the official login flow in a Neovim terminal.
 See [provider connections](docs/providers.md). Save all buffers
-and commit or stash project changes first. `:ForgeAgentStart` starts a one-shot
-task with the selected provider in its own worktree. Multiple independent tasks can run concurrently.
-Closing the editor does not stop workers.
+and commit or stash project changes first. `:ForgeAgentStart` opens an interactive
+conversation with the selected provider in its own worktree. The provider shown in
+Agents is the CLI receiving your messages. Use **Run background task** from Agents
+when you want an independent one-shot task. Closing the editor does not stop workers.
 
-Use `:ForgeAgents` to toggle the live task sidebar. Enter opens task actions; n starts a task, c opens chat, v reviews, and L shows logs. Review opens a native diff buffer: `a` accepts with a final
+Use `:ForgeAgents` to toggle the live task sidebar. `n` starts an agent conversation,
+`b` runs a background task, Enter opens the selected agent, `v` reviews, and L shows logs.
+Completed background tasks can continue in their provider's interactive conversation.
+Review opens a native diff buffer: `a` accepts with a final
 confirmation, `r` rejects, and `q` closes without deciding. Acceptance applies the
 entire reviewed patch and never commits it. Rejection preserves worktree/logs.
 

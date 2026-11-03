@@ -20,6 +20,7 @@ def parser():
     chat.add_argument("--prompt", required=True, help="Human-readable conversation title")
     chat.add_argument("--provider", choices=["codex", "claude", "gemini", "command"], default="codex")
     chat.add_argument("--command-json", help="Trusted local interactive executable array")
+    commands.add_parser("resume").add_argument("id")
     commands.add_parser("list")
     for action in ("review", "reject", "cancel", "logs"):
         commands.add_parser(action).add_argument("id")

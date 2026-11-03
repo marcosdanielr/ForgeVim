@@ -92,10 +92,10 @@ function M.open(focus, placement)
     end
     vim.keymap.set("n", "n", function()
       require("forge.features.agents").start()
-    end, vim.tbl_extend("force", options, { desc = "New agent task" }))
-    vim.keymap.set("n", "c", function()
-      require("forge.features.agents.chat").new()
-    end, vim.tbl_extend("force", options, { desc = "New CLI chat" }))
+    end, vim.tbl_extend("force", options, { desc = "New agent conversation" }))
+    vim.keymap.set("n", "b", function()
+      require("forge.features.agents").background()
+    end, vim.tbl_extend("force", options, { desc = "New background task" }))
     vim.keymap.set(
       "n",
       "r",
@@ -110,7 +110,7 @@ function M.open(focus, placement)
           return vim.cmd("ForgeAgentStart")
         end
         if row == 3 then
-          return vim.cmd("ForgeChatNew")
+          return require("forge.features.agents").background()
         end
         if row == 4 then
           return M.refresh()
@@ -150,7 +150,7 @@ function M.open(focus, placement)
     "agents",
     state.buffer,
     vim.tbl_extend("force", {
-      title = "Agents  /  n new  Enter actions",
+      title = "Agents  /  n conversation  Enter open",
       focus = focus,
       size = 36,
       on_hide = function()

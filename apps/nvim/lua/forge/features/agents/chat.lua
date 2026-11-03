@@ -26,7 +26,7 @@ function M.launch(task)
       slot = "chat",
       position = "right",
       size = 44,
-      title = task.provider .. " chat / " .. task.id,
+      title = task.provider:upper() .. " · " .. task.prompt,
       root = task.root,
       cwd = task.worktree,
       env = {

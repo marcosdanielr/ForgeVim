@@ -45,3 +45,9 @@ def require_interactive_start(mode: str, status: str) -> None:
     """BR-AG-14: only one terminal may claim a queued interactive task."""
     if mode != "interactive" or status != "queued":
         raise ForgeError("Only a queued interactive task can own this terminal.")
+
+
+def require_chat_resume(status: str) -> None:
+    """BR-AG-19: only completed, unreviewed work can become a live conversation."""
+    if status not in {"ready", "failed"}:
+        raise ForgeError("Only a completed, unreviewed task can continue in chat.")

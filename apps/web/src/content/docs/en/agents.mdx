@@ -15,7 +15,8 @@ import ProductShot from '@/components/ui/ProductShot.astro';
 An agent can read code, edit files, and run tools such as tests, within its CLI permissions.
 ForgeVim gives each task a **separate Git copy** of your project. You review its changes before applying them.
 
-**Chat** is an ongoing conversation. **Task** is one request that can run while you code.
+An **agent conversation** is an ongoing conversation in Codex, Claude Code, or Gemini.
+ForgeVim shows that provider and keeps its isolated worktree attached to the conversation.
 **Autocomplete** suggests code while typing; it is separate from agents.
 
 ## 1. Install one AI CLI
@@ -44,9 +45,9 @@ Use `:wa` to save all files, then **commit or stash** pending Git changes.
 Open `:ForgeGit` if you need to stage and commit.
 The agent starts from the latest commit; unsaved or uncommitted work is not included.
 
-## 4. Open a new chat
+## 4. Start an agent conversation
 
-<CodeBlock code=":ForgeChatNew" label="Inside ForgeVim · shortcut: Leader a C" />
+<CodeBlock code=":ForgeAgentStart" label="Inside ForgeVim · shortcut: Leader a n" />
 
 1. Choose Codex, Claude Code, or Gemini.
 2. Give the conversation a name.
@@ -61,18 +62,22 @@ Run the relevant tests and explain the changes.`}
   label="Example request"
 />
 
-Continue the conversation in that panel. The provider may ask for permission to run tools.
+Continue the conversation in that panel. Its title names the selected provider, so a
+Claude conversation opens Claude Code, not Codex. The provider may ask for permission to run tools.
 To use editor shortcuts, press **Esc twice** first. Press **i** to return to typing.
 **Leader p c** hides or shows the chat; hiding it keeps the conversation running while ForgeVim is open.
 
-## 5. Run independent tasks in parallel
+## 5. Run background tasks in parallel
 
-Use `:ForgeAgentStart` for a one-shot request in another project copy. Repeat for independent work.
+Open `:ForgeAgents`, then press `b` for a one-shot request in another project copy.
+Repeat for independent work.
 For example, one task can investigate a failing test while another documents a separate module.
 
 <CodeBlock code=":ForgeAgents" label="Track tasks and choose actions" />
 
-These are independent agents. ForgeVim does not automatically invent a team or coordinate their plans.
+These are independent agents. Select a finished background task and choose
+**Continue in provider conversation** to discuss it in the same worktree.
+ForgeVim does not automatically invent a team or coordinate their plans.
 Review each result, and commit accepted changes before accepting the next task.
 
 ## 6. Review before applying
@@ -97,7 +102,7 @@ If the project or result changed after review, review again. Conflicting results
 | ------------------------------- | --------------------------------------------------------------------- |
 | CLI not installed               | Install the selected provider CLI and reopen your terminal.           |
 | Save buffers / Commit or stash  | Save files and handle pending Git changes.                            |
-| Process exited 0 after login    | Run :ForgeChatNew; login is already complete.                         |
+| Process exited 0 after login    | Run :ForgeAgentStart; login is already complete.                       |
 | Chat pane is hidden             | Esc twice, then Leader p c.                                           |
 | Space triggers editor shortcuts | Update and restart ForgeVim. In the CLI, press i to return to typing. |
 
@@ -115,5 +120,5 @@ CLI output persist under the project's ignored `.forge` directory. The output
 viewer loads the last 256 KiB; these logs are not a normalized chat transcript.
 
 Hiding chat keeps the process running while ForgeVim remains open. Closing the
-editor ends that terminal attachment. ForgeVim can show saved output afterward,
-but it does not yet resume a provider conversation or restore a live PTY.
+editor ends that terminal attachment. ForgeVim can show saved output afterward.
+Completed background tasks can open a new provider conversation in their existing worktree.

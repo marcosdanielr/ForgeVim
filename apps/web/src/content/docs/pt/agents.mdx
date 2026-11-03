@@ -15,7 +15,8 @@ import ProductShot from '@/components/ui/ProductShot.astro';
 Um agente pode ler código, editar arquivos e executar ferramentas, como testes, conforme as permissões da CLI.
 ForgeVim dá a cada tarefa uma **cópia Git separada** do projeto. Você revisa as mudanças antes de aplicar.
 
-**Chat** é uma conversa contínua. **Tarefa** é um pedido que pode executar enquanto você programa.
+Uma **conversa de agente** é uma conversa contínua em Codex, Claude Code ou Gemini.
+ForgeVim mostra o provedor e mantém a cópia Git isolada ligada à conversa.
 **Autocomplete** sugere código durante a digitação; é independente dos agentes.
 
 ## 1. Instale uma CLI de IA
@@ -44,9 +45,9 @@ Use `:wa` para salvar todos os arquivos. Depois faça **commit ou stash** das al
 Abra `:ForgeGit` se precisar selecionar arquivos e fazer commit.
 O agente começa no último commit; mudanças sem salvar ou sem commit não entram na cópia.
 
-## 4. Abra um chat novo
+## 4. Inicie uma conversa de agente
 
-<CodeBlock code=":ForgeChatNew" label="Dentro do ForgeVim · atalho: Leader a C" />
+<CodeBlock code=":ForgeAgentStart" label="Dentro do ForgeVim · atalho: Leader a n" />
 
 1. Escolha Codex, Claude Code ou Gemini.
 2. Dê um nome à conversa.
@@ -61,18 +62,22 @@ Execute os testes relevantes e explique as mudanças.`}
   label="Exemplo de pedido"
 />
 
-Continue a conversa no mesmo painel. O provedor pode pedir permissão para executar ferramentas.
+Continue a conversa no mesmo painel. O título mostra o provedor selecionado: uma
+conversa Claude abre Claude Code, não Codex. O provedor pode pedir permissão para executar ferramentas.
 Para usar atalhos do editor, pressione **Esc duas vezes** antes. **i** volta à digitação.
 **Leader p c** mostra ou oculta o chat; ocultar mantém a conversa ativa enquanto ForgeVim estiver aberto.
 
-## 5. Execute tarefas independentes em paralelo
+## 5. Execute tarefas em segundo plano
 
-Use `:ForgeAgentStart` para iniciar um pedido único em outra cópia do projeto. Repita para tarefas independentes.
+Abra `:ForgeAgents`, então pressione `b` para iniciar um pedido único em outra cópia do projeto.
+Repita para tarefas independentes.
 Por exemplo, uma pode investigar um teste falhando enquanto outra documenta um módulo separado.
 
 <CodeBlock code=":ForgeAgents" label="Acompanhar tarefas e escolher ações" />
 
-São agentes independentes. ForgeVim não inventa uma equipe nem coordena seus planos automaticamente.
+São agentes independentes. Selecione uma tarefa concluída e escolha
+**Continue in provider conversation** para conversar no mesmo worktree.
+ForgeVim não inventa uma equipe nem coordena seus planos automaticamente.
 Revise cada resultado e faça commit das alterações aceitas antes de aceitar a próxima tarefa.
 
 ## 6. Revise antes de aplicar
@@ -97,7 +102,7 @@ Se o projeto ou o resultado mudou após a revisão, revise novamente. Resultados
 | ------------------------------ | --------------------------------------------------------------- |
 | CLI not installed              | Instale a CLI escolhida e reabra o terminal.                    |
 | Save buffers / Commit or stash | Salve os arquivos e organize as alterações Git.                 |
-| Process exited 0 após login    | Execute :ForgeChatNew; o login já foi concluído.                |
+| Process exited 0 após login    | Execute :ForgeAgentStart; o login já foi concluído.              |
 | Chat está oculto               | Esc duas vezes, depois Leader p c.                              |
 | Espaço aciona atalhos          | Atualize e reinicie ForgeVim. Na CLI, pressione i para digitar. |
 
@@ -114,6 +119,6 @@ e pressione **L**, ou escolha **View saved conversation output**. Os registros e
 a saída bruta da CLI ficam no diretório ignorado `.forge` do projeto. O painel
 carrega os últimos 256 KiB; esses logs não são uma transcrição organizada do chat.
 
-Esconder o chat mantém o processo enquanto o ForgeVim está aberto. Fechar o editor
-encerra a conexão com aquele terminal. Depois é possível consultar a saída salva,
-mas o ForgeVim ainda não retoma a conversa no provedor nem restaura um PTY ativo.
+Ocultar o chat mantém o processo enquanto ForgeVim estiver aberto. Fechar o editor
+encerra a conexão com aquele terminal. Depois é possível consultar a saída salva.
+Tarefas em segundo plano concluídas podem abrir uma nova conversa do provedor no worktree existente.

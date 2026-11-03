@@ -151,6 +151,17 @@ class InteractiveTests(unittest.TestCase):
         self.assertFalse((self.root / "partial.txt").exists())
         self.assertIn("partial.txt", self.service.review(task["id"])["patch"])
 
+    def test_completed_task_can_continue_as_an_interactive_chat(self):
+        task = self.prepare("print('done')")
+        result = subprocess.run(self.command(task), stdin=subprocess.DEVNULL, capture_output=True,
+                                env=self.environment, timeout=8)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        with patch("forge_agents.service.providers.interactive_command", return_value=["claude"]):
+            resumed = self.service.resume(task["id"])
+        self.assertEqual(resumed["mode"], "interactive")
+        self.assertEqual(resumed["status"], "queued")
+        self.assertEqual(resumed["command"], ["claude"])
+
     def test_interactive_provider_contracts_preserve_permissions(self):
         with patch("shutil.which", side_effect=lambda name: "/bin/" + name):
             self.assertEqual(providers.interactive_command("codex"),

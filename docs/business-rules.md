@@ -121,6 +121,7 @@ plugin integration, machine setup record, and docs/languages.md.
 
 - **BR-AG-17**: Existing task/status/log/event reads do not bootstrap Git or recreate the schema. Task creation, review, and application retain repository validation.
 - **BR-AG-18**: UI wakeups follow committed lifecycle events, never heartbeats or token output. The marker is a hint, not authoritative state. A shared active-task fallback preserves visibility if file events are unavailable.
+- **BR-AG-19**: A ready or failed background task may become one interactive provider conversation in its existing worktree. Reviewing, accepted, rejected, cancelled, or active tasks cannot resume. Resuming clears an unaccepted review hash and still requires explicit final review before applying.
 
 ## Workbench presentation
 
