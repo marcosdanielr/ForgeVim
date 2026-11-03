@@ -222,8 +222,9 @@ See [Git workflow](docs/git-workflow.md) for keys and explicit decision rules.
 
 Use `gd`/F12 for definition (including another file), `grr`/Shift F12 for references,
 `gi` for implementation, `gy` for type definition, `K` for hover documentation,
-Leader c s for signature help, and `gl` for line diagnostics. `]d`/`[d` navigate
-diagnostics. Leader f s searches document symbols. All are named actions in
+Leader c s for signature help, and `gl` for line diagnostics. The details window
+focuses automatically: `y` or Ctrl C copies its complete message; `q` closes it.
+`]d`/`[d` navigate diagnostics. Leader f s searches document symbols. All are named actions in
 `:ForgeKeymaps`, so their normal-mode shortcuts can be replaced without Lua edits.
 These actions require an active server supporting the relevant LSP capability.
 

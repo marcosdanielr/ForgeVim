@@ -20,6 +20,28 @@ local function exercise()
   )
   vim.cmd.edit(root .. "/sample.txt")
   local first_file = vim.api.nvim_get_current_buf()
+  local diagnostic_namespace = vim.api.nvim_create_namespace("forge-panel-test")
+  vim.diagnostic.set(diagnostic_namespace, first_file, {
+    {
+      lnum = 0,
+      col = 0,
+      severity = vim.diagnostic.severity.ERROR,
+      message = "Complete diagnostic message",
+    },
+  })
+  local details_buffer, details_window = require("forge.features.diagnostics").open_line()
+  assert(details_buffer and details_window, "Diagnostic details did not open")
+  assert(
+    vim.tbl_contains(
+      vim.tbl_map(function(mapping)
+        return mapping.lhs
+      end, vim.api.nvim_buf_get_keymap(details_buffer, "n")),
+      "y"
+    ),
+    "Diagnostic copy key missing"
+  )
+  vim.api.nvim_win_close(details_window, true)
+  vim.diagnostic.reset(diagnostic_namespace, first_file)
   local fixture = vim.api.nvim_create_buf(false, true)
   windows.show("layout-fixture", fixture, { position = "below", size = 8 })
   assert(windows.move("layout-fixture", "left"), "Panel move failed")
