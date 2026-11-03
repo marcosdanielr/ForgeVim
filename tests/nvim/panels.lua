@@ -188,6 +188,21 @@ local function exercise()
   local session = require("forge.features.agents.chat").launch(task)
   assert(session and session.job > 0, "Chat terminal did not start")
   jobs[#jobs + 1] = session.job
+  -- BR-AG-20: the agent owns a tab rooted in its worktree; new agents still target the origin.
+  assert(vim.t.forge_agent == task.id, "Agent tab missing")
+  assert(
+    vim.uv.fs_realpath(vim.fn.getcwd()) == vim.uv.fs_realpath(task.worktree),
+    "Agent tab is not rooted in its worktree"
+  )
+  assert(
+    vim.uv.fs_realpath(require("forge.core.project").origin()) == root,
+    "Agent tab lost its origin project"
+  )
+  local agent_tab = vim.api.nvim_get_current_tabpage()
+  vim.cmd.tabfirst()
+  require("forge.features.agents.chat").focus(task)
+  assert(vim.api.nvim_get_current_tabpage() == agent_tab, "Agent switch did not reuse its tab")
+  vim.cmd("stopinsert")
   assert(
     vim.wait(5000, function()
       return text(session.buffer):find("CHAT_READY", 1, true)
@@ -195,6 +210,23 @@ local function exercise()
     "Interactive provider did not render"
   )
   vim.cmd("stopinsert")
+  -- BR-AG-21: naming uses a centered modal, and registered projects persist.
+  local named
+  require("forge.features.input").open({ prompt = "Name", default = "Draft" }, function(value)
+    named = value
+  end)
+  local modal = vim.api.nvim_get_current_win()
+  assert(vim.api.nvim_win_get_config(modal).relative == "editor", "Input is not a modal")
+  vim.api.nvim_feedkeys(vim.keycode("<Esc>"), "x", false)
+  assert(named == nil and not vim.api.nvim_win_is_valid(modal), "Escape did not cancel input")
+  require("forge.features.input").open({ prompt = "Name", default = "Draft" }, function(value)
+    named = value
+  end)
+  vim.api.nvim_feedkeys(vim.keycode("<CR>"), "x", false)
+  assert(named == "Draft", "Enter did not confirm input")
+  local projects = require("forge.features.agents.projects")
+  projects.add(root)
+  assert(vim.tbl_contains(projects.list(), root), "Project was not listed")
   require("forge.features.agents.chat").toggle()
   assert(not windows.get("chat"), "Chat did not hide")
   assert(vim.fn.jobwait({ session.job }, 0)[1] == -1, "Hiding stopped chat")

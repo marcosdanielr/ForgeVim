@@ -10,4 +10,9 @@ function M.root()
   return vim.fs.root(start, { ".git" }) or vim.fn.getcwd()
 end
 
+-- Agent tabs run inside a task worktree; new agents must target the original checkout.
+function M.origin()
+  return vim.t.forge_origin or M.root()
+end
+
 return M

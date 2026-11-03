@@ -34,9 +34,20 @@ function M.tabline()
   local branch = (vim.t.forge_chrome_branch or ""):gsub("%%", "%%%%")
   local pages = ""
   if #vim.api.nvim_list_tabpages() > 1 then
+    local current = vim.api.nvim_get_current_tabpage()
     for index, tab in ipairs(vim.api.nvim_list_tabpages()) do
-      pages = pages .. "%" .. index .. "T [" .. index .. "] %T"
+      local label = vim.fn.strcharpart(vim.t[tab].forge_tab_label or "", 0, 18)
+      label = index .. (label ~= "" and (":" .. label) or "")
+      pages = pages
+        .. "%"
+        .. index
+        .. "T"
+        .. (tab == current and "%#ForgeAccent#" or "%#ForgeMuted#")
+        .. " "
+        .. label:gsub("%%", "%%%%")
+        .. " %T"
     end
+    pages = pages .. "%#ForgeMuted#"
   end
   local count = vim.t.forge_active_agent_count or 0
   return "%#ForgeBadge#  FORGEVIM  %#ForgeSurface#   ◇ Workbench   %#ForgeBorder#│%#ForgeSurface#  "

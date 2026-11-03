@@ -121,3 +121,10 @@ because the underlying protocol could eventually support it.
   navigation, skip, and repeated individual replacement without closing.
 - **FR-44**: Leader b toggles Explorer immediately; terminal sessions are selectable
   from a keyboard-driven list beside the shell panel.
+
+- **FR-45**: Agent conversations open in their own worktree tab. Agents can be
+  grouped by registered project, and projects are added with `a` in the Agents panel.
+- **FR-46**: Naming a conversation or task uses a centered modal prompt.
+- **FR-47**: Tab accepts a visible Copilot suggestion; otherwise it keeps its normal behavior.
+- **FR-48**: Language servers whose lspconfig command is a function (TypeScript, Astro,
+  HTML, CSS) start when their Mason executable is installed and the profile is enabled.

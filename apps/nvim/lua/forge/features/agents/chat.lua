@@ -2,6 +2,7 @@ local M = {}
 local sessions = {}
 local selected = {}
 local collapsed_agents = {}
+local tabs = {}
 
 local function make_room()
   if
@@ -15,7 +16,31 @@ local function make_room()
   end
 end
 
+-- BR-AG-20: each agent owns one tab rooted in its worktree, so Explorer, files,
+-- and terminals show that agent's code. Returns true when the tab was created.
+local function agent_tab(task)
+  local tab = tabs[task.id]
+  if tab and vim.api.nvim_tabpage_is_valid(tab) then
+    vim.api.nvim_set_current_tabpage(tab)
+    return false
+  end
+  vim.cmd.tabnew()
+  vim.cmd.tcd(vim.fn.fnameescape(task.worktree))
+  tab = vim.api.nvim_get_current_tabpage()
+  tabs[task.id] = tab
+  vim.t.forge_agent = task.id
+  vim.t.forge_origin = task.root
+  vim.t.forge_tab_label = task.provider .. " · " .. task.prompt
+  require("forge.features.workspace").open()
+  return true
+end
+
+function M.tab(task)
+  return agent_tab(task)
+end
+
 function M.launch(task)
+  agent_tab(task)
   make_room()
   local tab = vim.api.nvim_get_current_tabpage()
   local package = require("forge").root .. "/packages/agent-core"
@@ -54,7 +79,7 @@ function M.launch(task)
   return session
 end
 
-function M.new()
+function M.new(root)
   for _, buffer in ipairs(vim.api.nvim_list_bufs()) do
     if vim.bo[buffer].modified then
       return vim.notify(
@@ -63,21 +88,18 @@ function M.new()
       )
     end
   end
-  local root = require("forge.core.project").root()
+  root = root or require("forge.core.project").origin()
   require("forge.features.agents.providers").choose(function(provider)
-    vim.ui.input(
-      { prompt = "Conversation title: ", default = provider.label .. " conversation" },
-      function(title)
-        if not title or not title:match("%S") then
-          return
-        end
-        require("forge.features.agents.client").request(
-          { "chat", "--provider", provider.id, "--prompt=" .. title },
-          M.launch,
-          root
-        )
-      end
-    )
+    require("forge.features.input").open({
+      prompt = provider.label .. " conversation name",
+      default = provider.label .. " conversation",
+    }, function(title)
+      require("forge.features.agents.client").request(
+        { "chat", "--provider", provider.id, "--prompt=" .. title },
+        M.launch,
+        root
+      )
+    end)
   end)
 end
 
@@ -94,6 +116,16 @@ function M.show(task)
   selected[vim.api.nvim_get_current_tabpage()] = task.id
   make_room()
   require("forge.features.terminal.session").show(session, { position = "right", size = 44 })
+end
+
+-- Switching agents moves to that agent's tab; the live session reattaches there.
+function M.focus(task)
+  agent_tab(task)
+  if M.live(task) then
+    M.show(task)
+  else
+    require("forge.features.agents.actions").logs(task)
+  end
 end
 
 function M.toggle()

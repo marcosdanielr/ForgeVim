@@ -10,7 +10,10 @@ vim.api.nvim_create_autocmd("TabEnter", {
 })
 
 local function stop(state)
-  require("forge.features.agents.watch").unsubscribe(state.root, "panel:" .. state.tab)
+  for root in pairs(state.watching) do
+    require("forge.features.agents.watch").unsubscribe(root, "panel:" .. state.tab)
+  end
+  state.watching = {}
 end
 
 vim.api.nvim_create_autocmd("TabLeave", {
@@ -31,56 +34,80 @@ local function visible(state)
     and panel.buffer == state.buffer
 end
 
-function M.refresh()
-  local state = states[vim.api.nvim_get_current_tabpage()]
-  if not state or not visible(state) then
-    return
-  end
-  if not vim.uv.fs_stat(state.root .. "/.forge/state.sqlite3") then
-    state.tasks = {}
-    vim.t.forge_active_agent_count = 0
-    require("forge.features.agents.panel_view").render(state)
-    return
-  end
-  local watch = require("forge.features.agents.watch")
-  local added = watch.subscribe(state.root, "panel:" .. state.tab, function(tasks)
-    if not visible(state) then
-      stop(state)
-      return
-    end
-    state.tasks = tasks
-    local count = 0
+local function summarize(state)
+  local count = 0
+  for _, tasks in pairs(state.tasks) do
     for _, task in ipairs(tasks) do
       if active[task.status] then
         count = count + 1
       end
     end
-    vim.t.forge_active_agent_count = count
-    vim.cmd("redrawtabline")
-    require("forge.features.agents.panel_view").render(state)
-  end, function(error)
-    stop(state)
-    if visible(state) then
-      require("forge.features.agents.panel_view").render(state, error)
-    end
-  end)
-  if not added then
-    watch.refresh(state.root)
   end
+  vim.t[state.tab].forge_active_agent_count = count
+  vim.cmd("redrawtabline")
+  require("forge.features.agents.panel_view").render(state)
+end
+
+-- One panel lists every registered project; each project has its own task store.
+function M.refresh()
+  local state = states[vim.api.nvim_get_current_tabpage()]
+  if not state or not visible(state) then
+    return
+  end
+  local watch = require("forge.features.agents.watch")
+  state.roots = require("forge.features.agents.projects").list()
+  local listed = {}
+  for _, root in ipairs(state.roots) do
+    listed[root] = true
+    if not vim.uv.fs_stat(root .. "/.forge/state.sqlite3") then
+      state.tasks[root] = {}
+    else
+      local added = watch.subscribe(root, "panel:" .. state.tab, function(tasks)
+        if not visible(state) then
+          stop(state)
+          return
+        end
+        state.tasks[root] = tasks
+        summarize(state)
+      end, function(error)
+        watch.unsubscribe(root, "panel:" .. state.tab)
+        state.watching[root] = nil
+        state.errors[root] = error
+        if visible(state) then
+          require("forge.features.agents.panel_view").render(state)
+        end
+      end)
+      state.watching[root] = true
+      if not added then
+        watch.refresh(root)
+      end
+    end
+  end
+  for root in pairs(state.watching) do
+    if not listed[root] then
+      watch.unsubscribe(root, "panel:" .. state.tab)
+      state.watching[root] = nil
+      state.tasks[root] = nil
+    end
+  end
+  summarize(state)
 end
 
 function M.open(focus, placement)
   local tab = vim.api.nvim_get_current_tabpage()
-  local root = require("forge.core.project").root()
   local state = states[tab]
-  if not state or state.root ~= root or not vim.api.nvim_buf_is_valid(state.buffer) then
+  if not state or not vim.api.nvim_buf_is_valid(state.buffer) then
     if state then
       stop(state)
     end
+    local root = require("forge.core.project").origin()
     state = {
       root = root,
       tab = tab,
+      roots = {},
       tasks = {},
+      errors = {},
+      watching = {},
       buffer = require("forge.features.panels.text").create("Agents", root, "forge-agents"),
     }
     states[tab] = state
@@ -90,49 +117,65 @@ function M.open(focus, placement)
         vim.api.nvim_win_get_cursor(0)[1]
       )]
     end
-    vim.keymap.set("n", "n", function()
-      require("forge.features.agents").start()
-    end, vim.tbl_extend("force", options, { desc = "New agent conversation" }))
-    vim.keymap.set("n", "b", function()
-      require("forge.features.agents").background()
-    end, vim.tbl_extend("force", options, { desc = "New background task" }))
-    vim.keymap.set(
-      "n",
-      "r",
-      M.refresh,
-      vim.tbl_extend("force", options, { desc = "Refresh agents" })
-    )
-    vim.keymap.set("n", "q", M.toggle, vim.tbl_extend("force", options, { desc = "Hide agents" }))
-    for _, key in ipairs({ "<CR>", "<2-LeftMouse>" }) do
-      vim.keymap.set("n", key, function()
-        local row = vim.api.nvim_win_get_cursor(0)[1]
-        if row == 2 then
-          return vim.cmd("ForgeAgentStart")
-        end
-        if row == 3 then
-          return require("forge.features.agents").background()
-        end
-        if row == 4 then
-          return M.refresh()
-        end
-        local task = selected()
-        if task then
-          require("forge.features.agents.actions").open(task)
-        end
-      end, vim.tbl_extend("force", options, { desc = "Agent actions" }))
+    -- New work targets the project under the cursor, else the current checkout.
+    local function target()
+      local entry = selected()
+      return entry and entry.root or nil
     end
-    vim.keymap.set("n", "v", function()
-      local task = selected()
-      if task then
-        require("forge.features.agents.review").open(task)
+    local function map(key, description, run)
+      vim.keymap.set("n", key, run, vim.tbl_extend("force", options, { desc = description }))
+    end
+    map("n", "New agent conversation", function()
+      require("forge.features.agents").start(target())
+    end)
+    map("b", "New background task", function()
+      require("forge.features.agents").background(target())
+    end)
+    map("a", "Add project", function()
+      require("forge.features.agents.projects").prompt_add()
+    end)
+    map("x", "Remove project from Forge", function()
+      local entry = selected()
+      if entry and entry.project then
+        require("forge.features.agents.projects").remove(entry.root)
       end
-    end, vim.tbl_extend("force", options, { desc = "Review selected task" }))
-    vim.keymap.set("n", "L", function()
-      local task = selected()
-      if task then
-        require("forge.features.agents.actions").logs(task)
+    end)
+    map("r", "Refresh agents", M.refresh)
+    map("q", "Hide agents", M.toggle)
+    local function activate()
+      local entry = selected()
+      if not entry then
+        return
       end
-    end, vim.tbl_extend("force", options, { desc = "Selected task logs" }))
+      if entry.action == "new" then
+        require("forge.features.agents").start(target())
+      elseif entry.action == "background" then
+        require("forge.features.agents").background(target())
+      elseif entry.action == "add" then
+        require("forge.features.agents.projects").prompt_add()
+      elseif entry.action == "refresh" then
+        M.refresh()
+      elseif entry.project then
+        require("forge.features.agents.projects").open(entry.root)
+      elseif entry.task then
+        require("forge.features.agents.actions").activate(entry.task)
+      end
+    end
+    for _, key in ipairs({ "<CR>", "<2-LeftMouse>" }) do
+      map(key, "Open agent or project", activate)
+    end
+    map("v", "Review selected task", function()
+      local entry = selected()
+      if entry and entry.task then
+        require("forge.features.agents.review").open(entry.task)
+      end
+    end)
+    map("L", "Selected task logs", function()
+      local entry = selected()
+      if entry and entry.task then
+        require("forge.features.agents.actions").logs(entry.task)
+      end
+    end)
     vim.api.nvim_create_autocmd("BufEnter", {
       buffer = state.buffer,
       callback = function()
@@ -150,7 +193,7 @@ function M.open(focus, placement)
     "agents",
     state.buffer,
     vim.tbl_extend("force", {
-      title = "Agents  /  n conversation  Enter open",
+      title = "Agents  /  n new  a project  Enter open",
       focus = focus,
       size = 36,
       on_hide = function()

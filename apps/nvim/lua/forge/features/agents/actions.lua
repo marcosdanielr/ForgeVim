@@ -12,6 +12,14 @@ function M.logs(task)
   end, task.root)
 end
 
+-- Enter on a live conversation switches to it; everything else offers choices.
+function M.activate(task)
+  if task.mode == "interactive" and require("forge.features.agents.chat").live(task) then
+    return require("forge.features.agents.chat").focus(task)
+  end
+  M.open(task)
+end
+
 function M.open(task)
   local choices = { "Review changes", "View logs", "Open worktree", "Cancel task", "Reject task" }
   if task.mode == "interactive" then
@@ -28,7 +36,7 @@ function M.open(task)
     { prompt = task.prompt .. " [" .. task.status .. "]" },
     function(action)
       if action == "Show interactive chat" then
-        require("forge.features.agents.chat").show(task)
+        require("forge.features.agents.chat").focus(task)
       elseif action == "Continue in " .. task.provider .. " conversation" then
         require("forge.features.agents.client").request({ "resume", task.id }, function(resumed)
           require("forge.features.agents.chat").launch(resumed)
@@ -38,9 +46,7 @@ function M.open(task)
       elseif action == "View logs" or action == "View saved conversation output" then
         M.logs(task)
       elseif action == "Open worktree" then
-        vim.cmd.tabnew()
-        vim.cmd.tcd(vim.fn.fnameescape(task.worktree))
-        require("forge.features.workspace").open()
+        require("forge.features.agents.chat").tab(task)
       else
         local command = action == "Cancel task" and "cancel" or "reject"
         require("forge.features.agents.client").request({ command, task.id }, function()

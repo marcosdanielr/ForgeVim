@@ -123,6 +123,10 @@ plugin integration, machine setup record, and docs/languages.md.
 - **BR-AG-18**: UI wakeups follow committed lifecycle events, never heartbeats or token output. The marker is a hint, not authoritative state. A shared active-task fallback preserves visibility if file events are unavailable.
 - **BR-AG-19**: A ready or failed background task may become one interactive provider conversation in its existing worktree. Reviewing, accepted, rejected, cancelled, or active tasks cannot resume. Resuming clears an unaccepted review hash and still requires explicit final review before applying.
 
+- **BR-AG-20**: Each interactive conversation owns one tab whose working directory is its task worktree, so Explorer, buffers, and terminals show that agent's code. Switching agents reuses the tab. New agents always target the original checkout, never a worktree.
+- **BR-AG-21**: The Agents panel lists every registered project, grouped by project, from each project's own task store. Registering or removing a project changes only Forge preferences; it never touches files, worktrees, or tasks. Only Git checkouts can be registered.
+- **BR-AG-22**: Conversation and task names are entered in a centered modal. Escape or losing focus cancels without starting an agent.
+
 ## Workbench presentation
 
 - **BR-ED-19**: Wide startup layouts add native navigation, Explorer, editor,
