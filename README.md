@@ -222,7 +222,7 @@ See [Git workflow](docs/git-workflow.md) for keys and explicit decision rules.
 
 Use `gd`/F12 for definition (including another file), `grr`/Shift F12 for references,
 `gi` for implementation, `gy` for type definition, `K` for hover documentation,
-Leader c s for signature help, and `gl` for line diagnostics. The details window
+Leader c s for signature help, and `gl` or Leader e for line diagnostics. The details window
 focuses automatically: `y` or Ctrl C copies its complete message; `q` closes it.
 `]d`/`[d` navigate diagnostics. Leader f s searches document symbols. All are named actions in
 `:ForgeKeymaps`, so their normal-mode shortcuts can be replaced without Lua edits.
@@ -330,7 +330,7 @@ provides the same controls. Leader w = balances resizable windows. Mouse draggin
 and native Ctrl W commands remain available. Pane headers display their configured
 hide shortcut, including when the navigation rail is hidden.
 
-K (Shift K) shows LSP symbol information. gl or Leader c e opens actual line errors
+K (Shift K) shows LSP symbol information. gl or Leader e opens actual line errors
 and warnings. ]d/[d moves between diagnostics. Inline messages are enabled by
 default; :ForgeDiagnosticDisplay selects inline, current-line expanded, or quiet
 presentation. This changes presentation only, not Dart analyzer policy or messages.

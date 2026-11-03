@@ -7,7 +7,7 @@ function M.open()
     "Leader defaults to Space. :ForgeLeader changes it after restart.",
     "Edit: i enters insert mode. Esc returns to normal. Ctrl S saves.",
     "Move: h left, j down, k up, l right. These stay native in files.",
-    "Diagnostic details: gl opens full message; y or Ctrl C copies it; q closes.",
+    "Diagnostic details: gl or Leader e opens full message; y or Ctrl C copies it; q closes.",
     "Windows: Ctrl H/J/K/L or Ctrl W then h/j/k/l focuses a panel.",
     "Explorer: j/k selects; l or Enter opens; h collapses the folder.",
     "Mouse: click to focus, drag split borders, double-click panel actions.",

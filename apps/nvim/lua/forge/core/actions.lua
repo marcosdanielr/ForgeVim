@@ -373,7 +373,7 @@ return {
   {
     command = "ForgeDiagnostics",
     label = "Show line diagnostics",
-    keys = { "gl", "<leader>ce" },
+    keys = { "gl", "<leader>e" },
     run = feature("features.diagnostics", "open_line"),
   },
   {
