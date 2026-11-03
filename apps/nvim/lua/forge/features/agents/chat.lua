@@ -4,6 +4,26 @@ local selected = {}
 local collapsed_agents = {}
 local tabs = {}
 
+-- Terminal navigation must win over provider input. In particular Ctrl J is a
+-- newline for a CLI, so a buffer-local, nowait mapping prevents it from sending
+-- an accidental prompt submission while the user changes panes.
+local function navigation(buffer)
+  local keys = {
+    ["<C-h>"] = "ForgeWindowLeft",
+    ["<C-j>"] = "ForgeWindowDown",
+    ["<C-k>"] = "ForgeWindowUp",
+    ["<C-l>"] = "ForgeWindowRight",
+  }
+  for key, command in pairs(keys) do
+    vim.keymap.set("t", key, "<C-\\><C-n><cmd>" .. command .. "<cr>", {
+      buffer = buffer,
+      desc = "Focus adjacent window",
+      nowait = true,
+      silent = true,
+    })
+  end
+end
+
 local function make_room()
   if
     vim.o.columns < 170
@@ -73,6 +93,7 @@ function M.launch(task)
     return vim.notify(tostring(session), vim.log.levels.ERROR)
   end
   sessions[task.id] = session
+  navigation(session.buffer)
   selected[tab] = task.id
   require("forge.features.agents.notifications").track(task)
   require("forge.features.agents.panel").refresh()

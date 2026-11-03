@@ -274,6 +274,10 @@ group. Cycling buffers from a terminal cycles integrated terminal sessions;
 cycling from source code selects source buffers. Legacy terminals cannot encode
 every VS Code key combination; leader alternatives remain available.
 
+Inside an agent conversation, Ctrl H/J/K/L immediately leaves terminal input and
+focuses the adjacent pane. Forge consumes these keys locally; it never forwards
+them to the provider or stops the agent process.
+
 ## Interactive chat
 
 Connect with `:ForgeAgentConnect`, then `:ForgeChatNew`. Choose Codex, Claude, or

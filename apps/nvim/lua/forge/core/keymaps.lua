@@ -34,7 +34,7 @@ function M.apply(action, keys)
           mode,
           key,
           "<C-\\><C-n><cmd>" .. action.command .. "<cr>",
-          { desc = action.label }
+          { desc = action.label, nowait = true, silent = true }
         )
       elseif mode == "n" then
         vim.keymap.set(mode, key, function()

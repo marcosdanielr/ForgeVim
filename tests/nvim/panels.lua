@@ -188,6 +188,14 @@ local function exercise()
   local session = require("forge.features.agents.chat").launch(task)
   assert(session and session.job > 0, "Chat terminal did not start")
   jobs[#jobs + 1] = session.job
+  local chat_navigation = vim.api.nvim_buf_call(session.buffer, function()
+    return vim.fn.maparg("<C-h>", "t", false, true)
+  end)
+  assert(
+    chat_navigation.desc == "Focus adjacent window"
+      and chat_navigation.rhs:find("ForgeWindowLeft", 1, true),
+    "Chat navigation can fall through to provider input"
+  )
   -- BR-AG-20: the agent owns a tab rooted in its worktree; new agents still target the origin.
   assert(vim.t.forge_agent == task.id, "Agent tab missing")
   assert(
