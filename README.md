@@ -309,8 +309,9 @@ without stopping jobs. Leader o T creates and Leader o s splits from any pane.
 
 Leader s v splits the current source buffer vertically; Leader s h splits it
 horizontally. If a panel comes back in an unwanted location, focus it and use
-Leader p m. Choose 1 left, 2 right, 3 below, or 4 above. Forge keeps that position
-when the panel is hidden and shown again.
+Leader p m. Four outlined, numbered zones appear over the editor; click a zone or
+press 1 left, 2 right, 3 below, or 4 above. Forge keeps that position when the panel
+is hidden and shown again.
 
 ## Performance checks
 

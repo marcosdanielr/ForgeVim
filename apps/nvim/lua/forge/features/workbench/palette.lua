@@ -29,6 +29,8 @@ function M.setup()
     ForgeBadge = { fg = background, bg = accent_color, bold = true },
     ForgeTab = { fg = 0x8993b4, bg = background },
     ForgeTabActive = { fg = foreground, bg = 0x292e42, bold = true },
+    ForgeMoveZone = { fg = foreground, bg = mint and 0x0b110e or 0x161826, bold = true },
+    ForgeMoveKey = { fg = background, bg = accent_color, bold = true },
   }
   for name, value in pairs(groups) do
     vim.api.nvim_set_hl(0, name, value)

@@ -11,6 +11,13 @@ local function exercise()
   end
   local root = assert(vim.uv.fs_realpath(vim.env.FORGE_PANEL_ROOT))
   local windows = require("forge.features.panels.windows")
+  local move = require("forge.features.panels.move")
+  assert(
+    #move.choices == 4
+      and move.choices[1].position == "left"
+      and move.choices[4].position == "above",
+    "Panel move destinations missing"
+  )
   vim.cmd.edit(root .. "/sample.txt")
   local first_file = vim.api.nvim_get_current_buf()
   local fixture = vim.api.nvim_create_buf(false, true)
