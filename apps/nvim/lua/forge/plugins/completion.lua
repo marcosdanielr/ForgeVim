@@ -1,3 +1,12 @@
+-- Tab accepts a visible Copilot suggestion before blink falls back to a literal Tab.
+local function accept_copilot()
+  local loaded, suggestion = pcall(require, "copilot.suggestion")
+  if loaded and suggestion.is_visible() then
+    suggestion.accept()
+    return true
+  end
+end
+
 return {
   {
     "saghen/blink.cmp",
@@ -8,7 +17,7 @@ return {
         preset = "default",
         ["<C-Space>"] = { "show", "show_documentation", "hide_documentation" },
         ["<CR>"] = { "accept", "fallback" },
-        ["<Tab>"] = { "snippet_forward", "fallback" },
+        ["<Tab>"] = { "snippet_forward", accept_copilot, "fallback" },
       },
       appearance = { use_nvim_cmp_as_default = false },
       completion = { documentation = { auto_show = true }, menu = { auto_show = true } },
