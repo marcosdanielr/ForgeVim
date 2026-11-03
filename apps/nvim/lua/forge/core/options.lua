@@ -20,6 +20,7 @@ function M.setup()
     updatetime = 250,
     timeoutlen = 400,
     completeopt = "menu,menuone,noselect",
+    clipboard = "unnamedplus",
     mouse = "a",
     hidden = true,
     exrc = false, -- Never execute project-local editor configuration automatically.

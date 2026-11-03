@@ -55,6 +55,17 @@ function M.setup()
   vim.keymap.set("n", "<M-Down>", "<cmd>move +1<cr>==", { desc = "Move line down" })
   vim.keymap.set("n", "<C-_>", "gcc", { remap = true, desc = "Toggle comment" })
   vim.keymap.set("x", "<C-_>", "gc", { remap = true, desc = "Toggle comment" })
+  -- `unnamedplus` makes native y/p use the system clipboard. These provide
+  -- familiar explicit shortcuts without requiring a GUI client.
+  for _, key in ipairs({ "<C-c>", "<C-S-c>", "<D-c>" }) do
+    vim.keymap.set("n", key, '"+yy', { desc = "Copy line to system clipboard" })
+    vim.keymap.set("x", key, '"+y', { desc = "Copy selection to system clipboard" })
+  end
+  for _, key in ipairs({ "<C-v>", "<C-S-v>", "<D-v>" }) do
+    vim.keymap.set("n", key, '"+p', { desc = "Paste from system clipboard" })
+    vim.keymap.set("x", key, '"_dP', { desc = "Paste without replacing clipboard" })
+    vim.keymap.set("i", key, "<C-r>+", { desc = "Paste from system clipboard" })
+  end
   vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-n>", { desc = "Leave terminal mode" })
 end
 

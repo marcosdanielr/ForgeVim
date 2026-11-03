@@ -30,7 +30,7 @@ local content = {
       "  Ready when you are.",
       "",
       "  [Enter] Open terminal",
-      "  Ctrl `   Toggle terminal",
+      "  Leader ot  Toggle terminal",
       "  Leader oT New terminal",
       "  Leader os Split terminal",
       "",

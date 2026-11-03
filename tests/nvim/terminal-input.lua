@@ -47,7 +47,6 @@ timer:start(
         record("hidden")
       elseif stage == 6 and panel then
         assert(panel.buffer == second, "Toggle lost the active terminal")
-        assert(vim.fn.maparg("<C-Space>", "i") == "", "Terminal key replaced insert completion")
         vim.fn.jobstop(vim.b[first].terminal_job_id)
         vim.fn.jobstop(vim.b[second].terminal_job_id)
         vim.cmd("stopinsert")

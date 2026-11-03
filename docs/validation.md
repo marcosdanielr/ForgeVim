@@ -129,7 +129,7 @@ provider session resumption or PTY reattachment.
 
 ## Sequential search and terminal list
 
-The real PTY regression opens Ctrl F, visits every option by Tab, toggles with
+The real PTY regression opens Leader f b, visits every option by Tab, toggles with
 Space, navigates Next/Previous, and repeats Replace one without closing. Source
 location is revealed without taking focus. Installed integration verifies search
 reads unsaved text while replacement protects it. Native panel fixtures cover

@@ -11,22 +11,22 @@ import CodeBlock from '@/components/ui/CodeBlock.astro';
 
 ## Navigation and editing
 
-| Shortcut     | Alternative         | Action                                         |
-| ------------ | ------------------- | ---------------------------------------------- |
-| Ctrl P       | Leader f f          | Find project files.                            |
-| Ctrl Shift F | Leader f g          | Search project text.                           |
-| Ctrl F       | Leader f b          | Search this buffer.                            |
-| Ctrl Shift H | Leader f r          | Replace project text.                          |
-| —            | Leader f R          | Replace current-file text.                     |
-| F2           | Leader c r          | Rename an LSP symbol.                          |
-| Ctrl S       | :write              | Save buffer.                                   |
-| Alt Shift F  | Leader c f          | Format code.                                   |
-| Ctrl Shift P | Leader Leader       | Open command palette.                          |
-| Ctrl Space   | —                   | Show code completion.                          |
-| Leader b     | Ctrl B / Leader f e | Toggle file tree.                              |
-| Ctrl H/J/K/L | Ctrl W then h/j/k/l | Focus an adjacent window.                      |
-| Leader u w   | :ForgeWorkspace     | Return to the workspace.                       |
-| Leader g h   | :ForgeGitHistory    | Open the commit graph; Enter reviews a commit. |
+| Shortcut       | Action                                         |
+| -------------- | ---------------------------------------------- |
+| Leader f f     | Find project files.                            |
+| Leader f g     | Search project text.                           |
+| Leader f b     | Search this buffer.                            |
+| Leader f r     | Replace project text.                          |
+| Leader f R     | Replace current-file text.                     |
+| F2 / Leader c r | Rename an LSP symbol.                        |
+| Ctrl S         | Save buffer.                                   |
+| Leader c f     | Format code.                                   |
+| Leader Leader  | Open command palette.                          |
+| Ctrl Space     | Show code completion.                          |
+| Leader b       | Toggle file tree.                              |
+| Ctrl H/J/K/L   | Focus an adjacent window.                      |
+| Leader u w     | Return to the workspace.                       |
+| Leader g h     | Open the commit graph; Enter reviews a commit. |
 
 ## Code understanding
 
@@ -63,9 +63,13 @@ The menu configures normal-mode actions. Conflicting mappings are reported. Nati
 
 <CodeBlock code={':ForgeKeymaps'} />
 
+## System clipboard
+
+`y` and `p` use your system clipboard by default. Visual **Ctrl C**, **Ctrl Shift C**, or **Cmd C** copies; **Ctrl V**, **Ctrl Shift V**, or **Cmd V** pastes. In Terminal.app, Cmd C/V may be handled by the terminal before Neovim receives them; Ctrl C/V is the reliable Forge mapping.
+
 ## Terminal limits
 
-Some terminals cannot distinguish Ctrl Shift F from Ctrl F, or capture Ctrl S. Use leader alternatives when necessary. Ctrl S also works in insert and visual modes.
+Forge commands use Leader. Ctrl S also works in insert and visual modes; Ctrl H/J/K/L stays available for pane focus.
 
 LSP navigation and hover require a server supporting the relevant capability. Text replacement opens a two-field dialog with visible one/all buttons; it is separate from LSP symbol renaming.
 
@@ -76,9 +80,9 @@ Press F1 for a guide that reflects your configured shortcuts. Ctrl H/J/K/L moves
 | Action                    | Keys                                                         |
 | ------------------------- | ------------------------------------------------------------ |
 | Files / Agents / Chat     | Leader b / Leader p a / Leader p c                           |
-| Next / previous buffer    | Ctrl Tab / Ctrl Shift Tab; Leader b n / Leader b p           |
-| Terminal / new terminal   | Ctrl backtick / Ctrl Shift backtick; Leader o t / Leader o T |
-| Split / choose terminal   | Ctrl Shift 5 / Leader o s; Leader o o                        |
+| Next / previous buffer    | Leader ] / Leader [                                           |
+| Terminal / new terminal   | Leader o t / Leader o T                                       |
+| Split / choose terminal   | Leader o s / Leader o o                                       |
 | Review / debug / logs     | Leader p r / Leader p d / Leader p l                         |
 | Settings / startup panels | Leader u s / Leader u L                                      |
 

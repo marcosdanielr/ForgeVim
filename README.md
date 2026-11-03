@@ -50,14 +50,14 @@ Insert-mode editing preserves its native controls. Forge terminal window shortcu
 
 | Action | Shortcut | Terminal fallback |
 | --- | --- | --- |
-| Command palette | Ctrl Shift P | Leader Leader / `:Forge` |
-| Find files | Ctrl P | Leader f f |
-| Search project | Ctrl Shift F | Leader f g |
-| Search buffer | Ctrl F | Leader f b |
-| Replace project text | Ctrl Shift H | Leader f r |
-| Replace current file text | — | Leader f R |
+| Command palette | Leader Leader | `:Forge` |
+| Find files | Leader f f | `:ForgeFiles` |
+| Search project | Leader f g | `:ForgeSearch` |
+| Search buffer | Leader f b | `:ForgeBufferSearch` |
+| Replace project text | Leader f r | `:ForgeReplace` |
+| Replace current file text | Leader f R | `:ForgeBufferReplace` |
 | Rename symbol with LSP | F2 | Leader c r |
-| Format | Alt Shift F | Leader c f |
+| Format | Leader c f | `:ForgeFormat` |
 | Commit graph | Leader g h | `:ForgeGitHistory` |
 | Commit staged changes | Leader g c | `:ForgeCommit` |
 | Review any changes | Leader g d | `:ForgeDiff` |
@@ -69,9 +69,13 @@ Insert-mode editing preserves its native controls. Forge terminal window shortcu
 | List/review agents | — | Leader a a |
 | Themes / plugins / tools | — | Leader u t / u p / u l |
 
-Leader defaults to Space; change it through `:ForgeLeader` (restart required). Ctrl/Shift combinations depend on the terminal's keyboard
-protocol; use leader alternatives when keys collide. Ctrl W remains native window
-control. Ctrl S also works in insert/visual mode. Ctrl Space opens completion.
+Leader defaults to Space; change it through `:ForgeLeader` (restart required).
+Forge actions use Leader consistently. Ctrl W remains native window control. Ctrl S
+also works in insert/visual mode. Ctrl Space opens completion.
+
+`y` and `p` use the system clipboard. In visual mode Ctrl C, Ctrl Shift C, and Cmd C
+copy; Ctrl V, Ctrl Shift V, and Cmd V paste. Terminal emulators can intercept Cmd
+shortcuts before Neovim receives them, so Ctrl C/V is the reliable terminal path.
 
 `:ForgePlugins` offers optional plugin toggles and GitHub owner/repository input.
 Restart to install or unload choices; `:Lazy` manages installed dependencies.
@@ -209,7 +213,7 @@ It stays visible when you focus the tree, chat, or terminal.
 
 ## Git and file tree
 
-`:ForgeTree` (Leader b / Ctrl B / Leader f e) opens nvim-tree. `:ForgeGit` (Leader g g) opens
+`:ForgeTree` (Leader b) opens nvim-tree. `:ForgeGit` (Leader g g) opens
 Neogit for staging hunks and committing. `:ForgeDiff` reviews current changes;
 `:ForgeConflicts` opens a three-way Diffview merge only when conflicts exist.
 See [Git workflow](docs/git-workflow.md) for keys and explicit decision rules.
@@ -246,15 +250,15 @@ available by shortcut. Mouse focus, split resizing, and panel double-clicks work
 
 | Action | Default keys |
 | --- | --- |
-| Toggle navigation / files | Leader p n / Leader b; Ctrl B / Leader p e |
+| Toggle navigation / files | Leader p n / Leader b |
 | Toggle Agents | Leader p a |
 | Toggle CLI chat / create conversation | Leader p c / Leader a C |
-| Toggle terminal / new terminal | Ctrl backtick / Ctrl Shift backtick; Leader o t / Leader o T |
-| Split terminal / choose terminal | Ctrl Shift 5 / Leader o s; Leader o o |
-| Next / previous buffer | Tab / Shift Tab; Ctrl Tab / Ctrl Shift Tab; Leader b n / Leader b p |
-| Choose open buffer | Leader b b |
+| Toggle terminal / new terminal | Leader o t / Leader o T |
+| Split terminal / choose terminal | Leader o s / Leader o o |
+| Next / previous buffer | Leader ] / Leader [ |
+| Choose open buffer | Leader f B |
 | Toggle review / debug / logs | Leader p r / Leader p d / Leader p l |
-| Problems / restore panels | Ctrl Shift M / Leader p p; Leader p w |
+| Problems / restore panels | Leader p p / Leader p w |
 
 Ctrl H/J/K/L works in normal mode and Forge-owned terminals. Insert-mode editing
 retains native controls. The explorer uses j/k, h to collapse, and l/Enter to open
@@ -280,7 +284,7 @@ message UI or an autonomous multi-agent plan/DAG.
 
 ## Search and replace
 
-Ctrl F or Leader f b opens file Find/Replace; Leader f r searches the project.
+Leader f b opens file Find/Replace; Leader f r searches the project.
 Type in Find and Replace with. Tab follows visual order and visits every option
 and button; Shift Tab goes backward. Space or Enter toggles the focused option.
 Enter/F3 goes to the next occurrence; Shift Enter/Shift F3 goes to the previous.
@@ -293,8 +297,8 @@ File search reads current buffer text, including unsaved edits. Save pending edi
 before replacement; project search reads disk. More than 2000 occurrences blocks
 Replace all. Escape leaves typing; another Escape closes.
 
-Leader b immediately toggles the tree; Ctrl B remains an alternative. Buffer
-cycling uses Tab / Shift Tab or Leader ] / Leader [; Leader f B lists buffers.
+Leader b immediately toggles the tree. Buffer cycling uses Leader ] / Leader [;
+Leader f B lists buffers.
 
 The terminal list opens beside running shells when space permits. Leader o o
 focuses it; j/k selects a row and Enter opens that terminal. n creates, s splits,
@@ -331,17 +335,15 @@ localleader defaults to comma for plugin-local actions such as replacement.
 
 ## Terminal controls
 
-Leader o t toggles the terminal; it does not create a new shell each time. Alt Enter
-or Leader o T creates another shell. Leader o s splits the focused terminal and
+Leader o t toggles the terminal; it does not create a new shell each time. Leader o T
+creates another shell. Leader o s splits the focused terminal and
 Leader o o lists sessions. The terminal header shows a session count and clickable
 New, Split, and List controls. Hiding preserves every owned job and output buffer.
 
-Ctrl backtick depends on the host terminal's key encoding. Normal and terminal
-modes also accept Ctrl Space / Ctrl @ for legacy NUL input; insert-mode Ctrl Space
-continues to open completion. Every panel toggle works from Forge terminals.
-For a transport-independent fallback, use Leader o t. In terminal mode, Tab still
-belongs to the shell. A real-PTY test verifies NUL and Alt Enter input plus multiple
-live shells and Agents hide/show.
+Inside a terminal, press Esc twice before using Leader o t. This keeps spaces and
+text owned by the shell while typing. Ctrl Space continues to open completion.
+A real-PTY test verifies Leader terminal input, multiple live shells, and Agents
+hide/show.
 
 The replacement dialog exposes visible one/all buttons with a preview. Direct grug-far commands remain available as an advanced alternative.
 

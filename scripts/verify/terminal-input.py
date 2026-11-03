@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Exercise actual legacy terminal bytes: Ctrl-backtick/NUL and Alt-Enter."""
+"""Exercise Leader terminal controls without intercepting shell text."""
 import argparse
 import errno
 import fcntl
@@ -32,7 +32,7 @@ with tempfile.TemporaryDirectory(prefix="forge-terminal-input-") as temporary:
         fcntl.ioctl(0, termios.TIOCSWINSZ, struct.pack("HHHH", 38, 120, 0, 0))
         os.chdir(project)
         os.execve(root / "bin/forge", [str(root / "bin/forge"), "-c", "lua dofile(vim.env.FORGE_INPUT_SCRIPT)"], environment)
-    inputs = {"ready": b"\x00", "opened": b"\x1b\r", "multiple": b"printf '%s' ' pa pc pl pn ot test spaces' > typed.txt\r", "text_preserved": b"\x00", "hidden": b"\x00", "resize_left": b"\x1b[1;6D", "resize_right": b"\x1b[1;6C", "resize_up": b"\x1b[1;6A", "resize_down": b"\x1b[1;6B"}
+    inputs = {"ready": b" ot", "opened": b"\x1b\x1b oT", "multiple": b"printf '%s' ' pa pc pl pn ot test spaces' > typed.txt\r", "text_preserved": b"\x1b\x1b ot", "hidden": b" ot", "resize_left": b"\x1b[1;6D", "resize_right": b"\x1b[1;6C", "resize_up": b"\x1b[1;6A", "resize_down": b"\x1b[1;6B"}
     sent, transcript, status = set(), bytearray(), None
     deadline = time.monotonic() + 20
     try:
@@ -60,4 +60,4 @@ with tempfile.TemporaryDirectory(prefix="forge-terminal-input-") as temporary:
             os.kill(pid, signal.SIGTERM)
             os.waitpid(pid, 0)
         os.close(master)
-print("Real TUI input, multiple live shells, hide/restore and directional resize passed")
+print("Real TUI Leader input, multiple live shells, hide/restore and directional resize passed")

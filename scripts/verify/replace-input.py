@@ -33,7 +33,7 @@ with tempfile.TemporaryDirectory(prefix="forge-replace-input-") as temporary:
         fcntl.ioctl(0, termios.TIOCSWINSZ, struct.pack("HHHH", 38, 120, 0, 0))
         os.chdir(project)
         os.execve(root / "bin/forge", [str(root / "bin/forge"), "-c", "lua dofile(vim.env.FORGE_INPUT_SCRIPT)"], environment)
-    inputs = {"open_find": b"\x06", "find": b"needle\t", "replacement": b"done\t",
+    inputs = {"open_find": b" fb", "find": b"needle\t", "replacement": b"done\t",
               "option_case": b" \t", "option_word": b" \t", "option_regex": b" \t", "option_scope": b" \t",
               "next_result": b"\r", "previous_result": b"\t\r", "next_button": b"\t\r",
               "previous_button": b"\x1b[Z\r", "replace_first": b"\x1b[Zy",
@@ -77,4 +77,4 @@ with tempfile.TemporaryDirectory(prefix="forge-replace-input-") as temporary:
             os.kill(pid, signal.SIGKILL)
             os.waitpid(pid, 0)
         os.close(master)
-print("Real find/replace: Ctrl F, Tab/Space options, next/previous, repeated replace, all/cancel, mouse and resize passed")
+print("Real find/replace: Leader f b, Tab/Space options, next/previous, repeated replace, all/cancel, mouse and resize passed")

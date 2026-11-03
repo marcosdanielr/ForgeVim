@@ -46,19 +46,19 @@ No modo normal, K (Shift K) mostra informações do símbolo. gl ou Leader c e m
 
 ## Tamanho das janelas e Leader
 
-O cabeçalho de cada painel mostra o atalho para ocultá-lo. Leader b (ou Ctrl B) alterna o Explorer; Leader p a alterna Agentes, Leader p c alterna o chat e Leader p l alterna os logs. Ctrl crase alterna os terminais.
+O cabeçalho de cada painel mostra o atalho para ocultá-lo. Leader b alterna o Explorer; Leader p a alterna Agentes, Leader p c alterna o chat e Leader p l alterna os logs. Leader o t alterna os terminais.
 
 Foque uma janela com Ctrl H/J/K/L. Ctrl Shift Esquerda/Direita altera a largura; Ctrl Shift Cima/Baixo altera a altura. Leader w h/l/k/j oferece as mesmas ações; Leader w = equilibra as janelas. O mouse continua disponível para redimensionar.
 
-Leader é Espaço por padrão. :ForgeLeader ou Configurações salva outra tecla; reiniciar aplica a troca. Leader Leader abre comandos. Tab/Shift Tab alterna buffers no modo normal, como no VIMarcos, preservando o Tab de autocomplete nos terminais.
+Leader é Espaço por padrão. :ForgeLeader ou Configurações salva outra tecla; reiniciar aplica a troca. Leader Leader abre comandos. Leader ] / Leader [ alterna buffers; Tab continua para autocomplete no terminal.
 
 Leader f f busca arquivos, Leader f g busca texto no projeto e Leader f b busca no buffer atual. :ForgeKeymaps altera essas teclas. :ForgeDiagnosticDisplay escolhe mensagens inline, expandidas na linha atual ou exibição discreta de erros.
 
 ## Novos terminais, painéis e substituição
 
-Leader o t mostra ou oculta o terminal atual. Alt Enter ou Leader o T cria outro shell; Leader o s divide e Leader o o lista as sessões. New, Split e List também ficam clicáveis no cabeçalho. Ctrl Space/Ctrl @ alterna o terminal fora do modo de inserção; o autocomplete em inserção é preservado.
+Leader o t mostra ou oculta o terminal atual. Leader o T cria outro shell; Leader o s divide e Leader o o lista as sessões. New, Split e List também ficam clicáveis no cabeçalho. Ctrl Space preserva o autocomplete.
 
-Leader p a alterna Agentes, Leader p c alterna chat, Leader p l alterna logs e Leader b (ou Ctrl B) alterna Explorer. Dentro do chat ou terminal, pressione Esc duas vezes antes de usar atalhos Leader. Durante a digitação, espaços e texto chegam intactos à CLI. Atalhos modificados de janela e terminal continuam disponíveis. Ocultar mantém o processo rodando.
+Leader p a alterna Agentes, Leader p c alterna chat, Leader p l alterna logs e Leader b alterna Explorer. Dentro do chat ou terminal, pressione Esc duas vezes antes de usar atalhos Leader. Durante a digitação, espaços e texto chegam intactos à CLI. Ocultar mantém o processo rodando.
 
 A substituição mantém Find e Replace with visíveis em uma janela flutuante. Tab alterna campos, resultados e botões individuais/completos, que também aceitam clique. Ctrl R aplica uma ocorrência; Ctrl A pede confirmação para todas.
 
@@ -89,8 +89,8 @@ cria um terminal, **s** abre split e **q** esconde somente a lista. Escolher um
 terminal visível foca o split existente. Sessões ocultas mantêm seus buffers.
 
 **Leader o t** esconde/restaura o grupo todo. **Leader o T** cria e **Leader o s**
-abre split. Dentro do shell, Esc Esc sai da digitação; então Tab/Shift Tab alterna
-as sessões e os atalhos Leader ficam disponíveis. Se faltar espaço, o split pode
+abre split. Dentro do shell, Esc Esc sai da digitação; então Leader ] / Leader [
+alterna as sessões e os atalhos Leader ficam disponíveis. Se faltar espaço, o split pode
 ocultar os logs dos agentes para preservar a largura dos terminais.
 
 <ProductShot

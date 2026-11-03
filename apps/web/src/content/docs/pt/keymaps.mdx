@@ -11,18 +11,18 @@ import CodeBlock from '@/components/ui/CodeBlock.astro';
 
 ## Navegação e edição
 
-| Atalho       | Alternativa   | Ação                             |
-| ------------ | ------------- | -------------------------------- |
-| Ctrl P       | Leader f f    | Buscar arquivos no projeto.      |
-| Ctrl Shift F | Leader f g    | Buscar texto no projeto.         |
-| Ctrl F       | Leader f b    | Buscar no buffer.                |
-| Ctrl Shift H | Leader f r    | Substituir texto no projeto.     |
-| —            | Leader f R    | Substituir texto no arquivo.     |
-| F2           | Leader c r    | Renomear símbolo usando LSP.     |
-| Ctrl S       | :write        | Salvar buffer.                   |
-| Alt Shift F  | Leader c f    | Formatar código.                 |
-| Ctrl Shift P | Leader Leader | Abrir paleta de comandos.        |
-| Ctrl Space   | —             | Abrir sugestões de autocomplete. |
+| Atalho         | Ação                             |
+| -------------- | -------------------------------- |
+| Leader f f     | Buscar arquivos no projeto.      |
+| Leader f g     | Buscar texto no projeto.         |
+| Leader f b     | Buscar no buffer.                |
+| Leader f r     | Substituir texto no projeto.     |
+| Leader f R     | Substituir texto no arquivo.     |
+| F2 / Leader c r | Renomear símbolo usando LSP.   |
+| Ctrl S         | Salvar buffer.                   |
+| Leader c f     | Formatar código.                 |
+| Leader Leader  | Abrir paleta de comandos.        |
+| Ctrl Space     | Abrir sugestões de autocomplete. |
 
 ## Entenda o código pelo teclado
 
@@ -58,9 +58,13 @@ O menu configura ações em modo normal. Conflitos com outros mapeamentos são s
 
 <CodeBlock code={':ForgeKeymaps'} />
 
+## Área de transferência do sistema
+
+`y` e `p` usam a área de transferência do sistema por padrão. No modo visual, **Ctrl C**, **Ctrl Shift C** ou **Cmd C** copia; **Ctrl V**, **Ctrl Shift V** ou **Cmd V** cola. No Terminal.app, Cmd C/V pode ser capturado pelo terminal antes de chegar ao Neovim; Ctrl C/V é o mapeamento confiável do Forge.
+
 ## Limites do terminal
 
-Alguns terminais não distinguem Ctrl Shift F de Ctrl F, ou capturam Ctrl S. Terminais com protocolo de teclado estendido oferecem melhor suporte. Use os atalhos com líder quando necessário.
+Comandos do Forge usam Leader. Ctrl S também funciona em inserção e visual; Ctrl H/J/K/L continua focando painéis.
 
 Para renomear símbolos, prefira F2 com um LSP ativo. Substituição textual abre uma janela com dois campos e botões para uma ou todas as ocorrências. Ela é independente da renomeação de símbolos pelo LSP.
 
@@ -73,9 +77,9 @@ F1 abre um guia com seus atalhos configurados. Ctrl H/J/K/L alterna os painéis 
 | Ação                            | Teclas                                                 |
 | ------------------------------- | ------------------------------------------------------ |
 | Arquivos / Agentes / Chat       | Leader b / Leader p a / Leader p c                     |
-| Próximo / anterior buffer       | Ctrl Tab / Ctrl Shift Tab; Leader b n / Leader b p     |
-| Terminal / novo terminal        | Ctrl crase / Ctrl Shift crase; Leader o t / Leader o T |
-| Dividir / escolher terminal     | Ctrl Shift 5 / Leader o s; Leader o o                  |
+| Próximo / anterior buffer       | Leader ] / Leader [                                    |
+| Terminal / novo terminal        | Leader o t / Leader o T                                |
+| Dividir / escolher terminal     | Leader o s / Leader o o                                |
 | Revisão / debug / logs          | Leader p r / Leader p d / Leader p l                   |
 | Configuração / painéis iniciais | Leader u s / Leader u L                                |
 

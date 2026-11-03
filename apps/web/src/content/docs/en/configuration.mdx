@@ -42,19 +42,19 @@ Press K (Shift K) in normal mode for symbol documentation. Press gl or Leader c 
 
 ## Window size and Leader
 
-Pane headers show the shortcut that hides them. Leader b (or Ctrl B) toggles Explorer; Leader p a toggles Agents, Leader p c toggles chat, and Leader p l toggles logs. Ctrl backtick toggles terminals.
+Pane headers show the shortcut that hides them. Leader b toggles Explorer; Leader p a toggles Agents, Leader p c toggles chat, and Leader p l toggles logs. Leader o t toggles terminals.
 
 Focus a split with Ctrl H/J/K/L. Ctrl Shift Left/Right changes its width; Ctrl Shift Up/Down changes its height. Leader w h/l/k/j provides the same actions; Leader w = balances windows. Mouse resizing remains available.
 
-Leader defaults to Space. :ForgeLeader or Settings saves a different key; restart applies it. Leader Leader opens commands. Tab/Shift Tab cycles buffers in normal mode, matching VIMarcos, while terminal Tab completion remains available.
+Leader defaults to Space. :ForgeLeader or Settings saves a different key; restart applies it. Leader Leader opens commands. Leader ] / Leader [ cycles buffers; terminal Tab completion remains available.
 
 Find files with Leader f f, search project text with Leader f g, and search the current buffer with Leader f b. :ForgeKeymaps changes these keys. :ForgeDiagnosticDisplay selects inline, expanded current-line, or quiet error messages.
 
 ## New terminals, pane toggles and replacement
 
-Leader o t toggles the active terminal. Alt Enter or Leader o T creates another shell; Leader o s splits and Leader o o lists sessions. New, Split and List are also clickable in the terminal header. Ctrl Space/Ctrl @ is a legacy-terminal toggle outside insert mode; insert completion is preserved.
+Leader o t toggles the active terminal. Leader o T creates another shell; Leader o s splits and Leader o o lists sessions. New, Split and List are also clickable in the terminal header. Ctrl Space keeps code completion available.
 
-Leader p a toggles Agents, Leader p c toggles chat, Leader p l toggles logs, and Leader b (or Ctrl B) toggles Explorer. Inside a CLI chat or terminal, press Esc twice before using Leader shortcuts. Spaces and text are sent to the CLI unchanged while typing. Modified window and terminal shortcuts remain available. Hiding a terminal keeps its process running.
+Leader p a toggles Agents, Leader p c toggles chat, Leader p l toggles logs, and Leader b toggles Explorer. Inside a CLI chat or terminal, press Esc twice before using Leader shortcuts. Spaces and text are sent to the CLI unchanged while typing. Hiding a terminal keeps its process running.
 
 Replacement keeps Find and Replace with visible in a floating dialog. Tab moves between fields, results, and clickable one/all buttons. Ctrl R applies one occurrence; Ctrl A asks to apply all.
 
@@ -86,7 +86,7 @@ a visible shell focuses its existing split. Hidden sessions retain their buffers
 
 **Leader o t** hides/restores the whole terminal group. **Leader o T** creates and
 **Leader o s** splits. Inside a shell, Esc Esc returns to terminal-normal mode;
-then Tab/Shift Tab cycles sessions, and Leader shortcuts are available.
+then Leader ] / Leader [ cycles sessions, and Leader shortcuts are available.
 When space is tight, splitting may hide Agent logs to preserve usable shell widths.
 
 <ProductShot

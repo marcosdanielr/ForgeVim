@@ -28,7 +28,7 @@ return {
     command = "ForgePalette",
     terminal = true,
     label = "Command palette",
-    keys = { "<leader><leader>", "<C-S-p>" },
+    keys = { "<leader><leader>" },
     run = feature("core.commands", "palette"),
   },
   {
@@ -88,7 +88,7 @@ return {
   {
     command = "ForgeNewFile",
     label = "Create a file",
-    keys = { "<C-n>", "<leader>fn" },
+    keys = { "<leader>fn" },
     run = feature("features.buffers", "new_file"),
   },
   {
@@ -113,14 +113,14 @@ return {
   {
     command = "ForgeTerminal",
     label = "Toggle integrated terminal",
-    keys = { "<C-`>", "<C-Space>", "<C-@>", "<leader>ot", "<leader>pt" },
+    keys = { "<leader>ot" },
     terminal = true,
     run = feature("features.terminal", "toggle"),
   },
   {
     command = "ForgeTerminalNew",
     label = "New integrated terminal",
-    keys = { "<M-CR>", "<C-S-`>", "<leader>oT" },
+    keys = { "<leader>oT" },
     terminal = true,
     run = feature("features.terminal", "new"),
   },
@@ -134,16 +134,14 @@ return {
   {
     command = "ForgeBufferNext",
     label = "Next buffer / terminal",
-    keys = { "<Tab>", "<C-Tab>", "<C-PageDown>", "<leader>]" },
-    terminal_exclude = { "<Tab>" },
+    keys = { "<leader>]" },
     terminal = true,
     run = feature("features.buffers", "cycle_next"),
   },
   {
     command = "ForgeBufferPrevious",
     label = "Previous buffer / terminal",
-    keys = { "<S-Tab>", "<C-S-Tab>", "<C-PageUp>", "<leader>[" },
-    terminal_exclude = { "<S-Tab>" },
+    keys = { "<leader>[" },
     terminal = true,
     run = feature("features.buffers", "cycle_previous"),
   },
@@ -203,7 +201,7 @@ return {
   {
     command = "ForgeTerminalSplit",
     label = "Split integrated terminal",
-    keys = { "<C-S-5>", "<leader>os" },
+    keys = { "<leader>os" },
     terminal = true,
     run = feature("features.terminal", "new", true),
   },
@@ -211,7 +209,7 @@ return {
     command = "ForgeProblems",
     terminal = true,
     label = "Show project diagnostics",
-    keys = { "<C-S-m>", "<leader>pp" },
+    keys = { "<leader>pp" },
     run = function()
       vim.diagnostic.setqflist({ open = true })
     end,
@@ -382,13 +380,13 @@ return {
     command = "ForgeTree",
     terminal = true,
     label = "Toggle file tree",
-    keys = { "<leader>b", "<C-b>", "<leader>fe", "<leader>pe" },
+    keys = { "<leader>b" },
     run = feature("features.git", "tree"),
   },
   {
     command = "ForgeGit",
     label = "Git status, stage and commit",
-    keys = { "<C-S-g>", "<leader>gg" },
+    keys = { "<leader>gg" },
     run = feature("features.git", "status"),
   },
   {
@@ -424,25 +422,25 @@ return {
   {
     command = "ForgeFiles",
     label = "Find files",
-    keys = { "<C-p>", "<leader>ff" },
+    keys = { "<leader>ff" },
     run = feature("features.search", "files"),
   },
   {
     command = "ForgeSearch",
     label = "Search project text",
-    keys = { "<C-S-f>", "<leader>fg" },
+    keys = { "<leader>fg" },
     run = feature("features.search", "project"),
   },
   {
     command = "ForgeBufferSearch",
     label = "Find and replace current file",
-    keys = { "<C-f>", "<leader>fb" },
+    keys = { "<leader>fb" },
     run = feature("features.search", "buffer"),
   },
   {
     command = "ForgeReplace",
     label = "Replace in project",
-    keys = { "<C-S-h>", "<leader>fr" },
+    keys = { "<leader>fr" },
     run = feature("features.search", "replace", true),
   },
   {
@@ -472,7 +470,7 @@ return {
   {
     command = "ForgeFormat",
     label = "Format code",
-    keys = { "<M-S-f>", "<leader>cf" },
+    keys = { "<leader>cf" },
     run = feature("languages.formatting", "format"),
   },
   {

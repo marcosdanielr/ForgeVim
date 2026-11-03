@@ -7,6 +7,22 @@ local function exercise()
   assert(#brand.lines(30) == 1, "Narrow dashboard did not use compact wordmark")
   assert(vim.fn.exists(":Forge") == 2)
   assert(vim.fn.exists(":ForgeAgents") == 2)
+  assert(vim.o.clipboard:find("unnamedplus", 1, true), "System clipboard is disabled")
+  assert(vim.fn.maparg("<C-c>", "x", false, true).desc == "Copy selection to system clipboard")
+  assert(vim.fn.maparg("<C-v>", "i", false, true).desc == "Paste from system clipboard")
+  for command, key in pairs({
+    ForgeGit = " gg",
+    ForgeFiles = " ff",
+    ForgeBufferSearch = " fb",
+    ForgeReplace = " fr",
+    ForgeTerminal = " ot",
+    ForgeTree = " b",
+  }) do
+    assert(vim.fn.maparg(key, "n", false, true).desc, command .. " is not a Leader mapping")
+  end
+  for _, key in ipairs({ "<C-S-g>", "<C-p>", "<C-f>", "<C-S-h>", "<C-b>" }) do
+    assert(vim.fn.maparg(key, "n") == "", "Legacy Forge shortcut remains: " .. key)
+  end
   vim.api.nvim_buf_set_lines(0, 0, -1, false, { "one two" })
   vim.cmd("normal! gg0diw")
   assert(vim.api.nvim_get_current_line() == " two", "Native operator changed")
