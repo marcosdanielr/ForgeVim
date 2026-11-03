@@ -30,6 +30,8 @@ local function exercise()
     windows.layout("layout-fixture").position == "left",
     "Hidden panel did not restore its saved position"
   )
+  local source_window = windows.editor()
+  assert(windows.move_window(source_window, "right"), "Regular editor window did not move")
   windows.hide("layout-fixture")
   vim.cmd("only")
   local action

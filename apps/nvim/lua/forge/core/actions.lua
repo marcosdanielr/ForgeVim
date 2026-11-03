@@ -192,8 +192,8 @@ return {
   },
   {
     command = "ForgePanelMove",
-    label = "Move focused panel",
-    keys = { "<leader>pm" },
+    label = "Move focused window",
+    keys = { "<leader>wm" },
     run = feature("features.panels.move", "choose"),
   },
   {

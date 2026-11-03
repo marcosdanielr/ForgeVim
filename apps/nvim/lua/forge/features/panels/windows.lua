@@ -86,29 +86,72 @@ function M.layout(id, tab)
   }
 end
 
+local function anchor(excluded)
+  local fallback
+  for _, window in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
+    if window ~= excluded and vim.api.nvim_win_get_config(window).relative == "" then
+      fallback = fallback or window
+      if
+        vim.bo[vim.api.nvim_win_get_buf(window)].buftype == "" and not vim.w[window].forge_panel_id
+      then
+        return window
+      end
+    end
+  end
+  return fallback
+end
+
+local function panel_for_window(window)
+  for _, panel in pairs(M.state().panels) do
+    if panel.window == window then
+      return panel
+    end
+  end
+end
+
+function M.move_window(window, placement)
+  if not window or not vim.api.nvim_win_is_valid(window) then
+    return false, "Window is no longer available"
+  end
+  if vim.api.nvim_win_get_config(window).relative ~= "" then
+    return false, "Floating windows cannot be moved"
+  end
+  local target = anchor(window)
+  if not target then
+    return false, "Open another window before moving this one"
+  end
+  local vertical = placement == "left" or placement == "right"
+  local rightbelow = placement == "right" or placement == "below"
+  local size = vertical and vim.api.nvim_win_get_width(window)
+    or vim.api.nvim_win_get_height(window)
+  local moved, error = pcall(vim.fn.win_splitmove, window, target, {
+    vertical = vertical,
+    rightbelow = rightbelow,
+  })
+  if not moved then
+    return false, error
+  end
+  if vertical then
+    vim.api.nvim_win_set_width(window, size)
+  else
+    vim.api.nvim_win_set_height(window, size)
+  end
+  local panel = panel_for_window(window)
+  if not panel then
+    return true
+  end
+  panel.position = placement
+  panel.size = size
+  panel.anchor_id = vim.w[target].forge_panel_id or "editor"
+  return true
+end
+
 function M.move(id, placement)
   local panel = M.get(id)
   if not panel then
     return false
   end
-  local editor = M.editor()
-  if panel.window == editor then
-    return false
-  end
-  local vertical = placement == "left" or placement == "right"
-  local rightbelow = placement == "right" or placement == "below"
-  local size = vertical and vim.api.nvim_win_get_width(panel.window)
-    or vim.api.nvim_win_get_height(panel.window)
-  vim.fn.win_splitmove(panel.window, editor, { vertical = vertical, rightbelow = rightbelow })
-  if vertical then
-    vim.api.nvim_win_set_width(panel.window, size)
-  else
-    vim.api.nvim_win_set_height(panel.window, size)
-  end
-  panel.position = placement
-  panel.size = size
-  panel.anchor_id = "editor"
-  return true
+  return M.move_window(panel.window, placement)
 end
 
 function M.show(id, buffer, options)

@@ -78,7 +78,10 @@ local function open_picker(id, title)
   local windows = {}
   local function select(choice)
     close(windows)
-    require("forge.features.panels.windows").move(id, choice.position)
+    local moved, error = require("forge.features.panels.windows").move_window(id, choice.position)
+    if not moved then
+      vim.notify(error or "Could not move this window", vim.log.levels.WARN)
+    end
   end
   for _, choice in ipairs(M.choices) do
     local area = zone(choice, width, height)
@@ -157,11 +160,11 @@ end
 
 function M.choose()
   local window = vim.api.nvim_get_current_win()
-  local id = vim.w[window].forge_panel_id
-  if not id then
-    return vim.notify("Focus a Forge panel before moving it", vim.log.levels.WARN)
-  end
-  open_picker(id, vim.w[window].forge_panel_title or id)
+  local buffer = vim.api.nvim_win_get_buf(window)
+  local title = vim.w[window].forge_panel_title
+    or vim.fn.fnamemodify(vim.api.nvim_buf_get_name(buffer), ":t")
+    or vim.bo[buffer].filetype
+  open_picker(window, title ~= "" and title or "window")
 end
 
 return M
