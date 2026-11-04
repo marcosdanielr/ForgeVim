@@ -5,6 +5,7 @@ NVIM ?= nvim
 test:
 	$(PYTHON) -m unittest discover -s packages/agent-core/tests -v
 	$(PYTHON) -m unittest discover -s tests/installer -v
+	$(PYTHON) -m unittest discover -s tests/session -v
 smoke:
 	$(PYTHON) scripts/verify/smoke.py --nvim $(NVIM)
 	$(PYTHON) scripts/verify/panels.py --nvim $(NVIM)
