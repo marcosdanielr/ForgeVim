@@ -9,6 +9,11 @@ case "${1:-}" in
     exec python3 "$forge_directory/scripts/install.py" "$forge_operation" "$@"
     ;;
 esac
+if [ "${1:-}" = "session" ]; then
+  shift
+  export FORGE_ROOT="$forge_directory"
+  exec python3 "$forge_directory/scripts/session.py" "$@"
+fi
 forge_nvim=${FORGE_NVIM:-nvim}
 if ! command -v "$forge_nvim" >/dev/null 2>&1; then
   echo "Neovim >= 0.11 is required. Install it or set FORGE_NVIM." >&2
